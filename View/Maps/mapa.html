@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Mapa de Puntos Ambientales</title>
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+	<style>
+		html, body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+		}
+
+		#map {
+			width: 100vw;
+			height: 100vh;
+			background-color: #d8e6f3;
+		}
+
+		#estado {
+			position: absolute;
+			top: 10px;
+			left: 10px;
+			z-index: 9999;
+			background: white;
+			padding: 8px 12px;
+			border-radius: 6px;
+			font-family: Arial, sans-serif;
+			font-size: 14px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="map"></div>
+	<div id="estado">HTML cargado...</div>
+
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+	<script>
+		var estado = document.getElementById("estado");
+
+		estado.innerHTML = "JavaScript ejecutándose...";
+
+		if (typeof L === "undefined") {
+			estado.innerHTML = "ERROR: Leaflet no cargó.";
+		}
+		else {
+			estado.innerHTML = "Leaflet cargó correctamente.";
+
+			// Mapa centrado inicialmente en Managua solo como referencia
+			var mapa = L.map("map").setView([12.1364, -86.2514], 12);
+
+			L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+				maxZoom: 19,
+				attribution: "&copy; OpenStreetMap"
+			}).addTo(mapa);
+
+			var marcadorUsuario = null;
+			var primeraUbicacion = true;
+
+			if (navigator.geolocation) {
+				estado.innerHTML = "Buscando tu ubicación actual...";
+
+				navigator.geolocation.watchPosition(
+					function (position) {
+						var lat = position.coords.latitude;
+						var lng = position.coords.longitude;
+
+						if (marcadorUsuario === null) {
+							marcadorUsuario = L.marker([lat, lng])
+								.addTo(mapa)
+								.bindPopup(
+									"<b>Tu ubicación actual</b><br>" +
+									"<b>Latitud:</b> " + lat + "<br>" +
+									"<b>Longitud:</b> " + lng
+								)
+								.openPopup();
+						}
+						else {
+							marcadorUsuario.setLatLng([lat, lng]);
+							marcadorUsuario.setPopupContent(
+								"<b>Tu ubicación actual</b><br>" +
+								"<b>Latitud:</b> " + lat + "<br>" +
+								"<b>Longitud:</b> " + lng
+							);
+						}
+
+						if (primeraUbicacion) {
+							mapa.setView([lat, lng], 16);
+							primeraUbicacion = false;
+						}
+
+						estado.innerHTML = "Ubicación actual cargada correctamente.";
+
+						setTimeout(function () {
+							mapa.invalidateSize();
+						}, 500);
+					},
+					function (error) {
+						if (error.code === 1) {
+							estado.innerHTML = "Permiso de ubicación denegado.";
+						}
+						else if (error.code === 2) {
+							estado.innerHTML = "Ubicación no disponible en este equipo.";
+						}
+						else if (error.code === 3) {
+							estado.innerHTML = "La ubicación tardó demasiado.";
+						}
+						else {
+							estado.innerHTML = "No se pudo obtener tu ubicación actual.";
+						}
+
+						console.log("Error de ubicación:", error);
+					},
+					{
+						enableHighAccuracy: true,
+						timeout: 20000,
+						maximumAge: 0
+					}
+				);
+			}
+			else {
+				estado.innerHTML = "Geolocalización no disponible.";
+			}
+
+			setTimeout(function () {
+				mapa.invalidateSize();
+			}, 500);
+		}
+	</script>
+</body>
+</html>
