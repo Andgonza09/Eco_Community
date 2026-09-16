@@ -74,7 +74,7 @@
             button2.FlatAppearance.BorderSize = 0;
             button2.FlatStyle = FlatStyle.Flat;
             button2.Image = (Image)resources.GetObject("button2.Image");
-            button2.Location = new Point(31, 39);
+            button2.Location = new Point(34, 29);
             button2.Name = "button2";
             button2.Size = new Size(48, 48);
             button2.TabIndex = 41;
