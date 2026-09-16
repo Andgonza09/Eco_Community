@@ -88,7 +88,7 @@ namespace View
                 if (result == DialogResult.OK)
                 {
                     this.Hide();
-                    frmContainer containerForm = new frmContainer(userRegister, txtUsername.Text.Trim(), txtPassword.Text.Trim());
+                    frmContainer containerForm = new frmContainer(userRegister, userRegister.id_Usuario, txtUsername.Text.Trim(), txtPassword.Text.Trim());
                     // Acá le pasamos el objeto a otros formularios
                     frmArchivoCriterios GuideForm = new frmArchivoCriterios(userRegister);
                     frmMenúPrincipal userStartView = new frmMenúPrincipal(userRegister, txtUsername.Text.Trim(), txtPassword.Text.Trim());
@@ -128,7 +128,7 @@ namespace View
             UsuarioEntidad userRegister = new UsuarioEntidad();
             //   userRegister.GetUserbyRegister();
             UsuarioController usuario = new UsuarioController();
-            usuario.BuscarUsuario(txtUsername.Text.Trim(), txtEmail.Text.Trim(), txtPassword.Text.Trim());
+            usuario.BuscarUsuario(txtEmail.Text.Trim(), txtPassword.Text.Trim());
 
             this.Hide();
             frmLoginUsuario loginForm = new frmLoginUsuario(userRegister, txtEmail.Text.Trim(), txtPassword.Text.Trim());

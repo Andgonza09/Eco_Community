@@ -113,6 +113,26 @@ namespace View.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Calendario {
+            get {
+                object obj = ResourceManager.GetObject("Calendario", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CalendarioSinFecha {
+            get {
+                object obj = ResourceManager.GetObject("CalendarioSinFecha", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cancel {
             get {
                 object obj = ResourceManager.GetObject("cancel", resourceCulture);
@@ -173,9 +193,9 @@ namespace View.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap DepositoBasuraGreen {
+        internal static System.Drawing.Bitmap DepositoBasuraGreenRemove {
             get {
-                object obj = ResourceManager.GetObject("DepositoBasuraGreen", resourceCulture);
+                object obj = ResourceManager.GetObject("DepositoBasuraGreenRemove", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,9 +203,9 @@ namespace View.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap DepositoBasuraRed {
+        internal static System.Drawing.Bitmap DepositoBasuraRedRemove {
             get {
-                object obj = ResourceManager.GetObject("DepositoBasuraRed", resourceCulture);
+                object obj = ResourceManager.GetObject("DepositoBasuraRedRemove", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -193,9 +213,9 @@ namespace View.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap DepositoBasuraYellow {
+        internal static System.Drawing.Bitmap DepositoBasuraYellowRemove {
             get {
-                object obj = ResourceManager.GetObject("DepositoBasuraYellow", resourceCulture);
+                object obj = ResourceManager.GetObject("DepositoBasuraYellowRemove", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -216,6 +236,36 @@ namespace View.Properties {
         internal static System.Drawing.Bitmap editUser {
             get {
                 object obj = ResourceManager.GetObject("editUser", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EstadoAprobadoRemove {
+            get {
+                object obj = ResourceManager.GetObject("EstadoAprobadoRemove", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EstadoPendienteRemove {
+            get {
+                object obj = ResourceManager.GetObject("EstadoPendienteRemove", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EstadoRechazadoRemove {
+            get {
+                object obj = ResourceManager.GetObject("EstadoRechazadoRemove", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -483,9 +533,9 @@ namespace View.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PuntoReciclaje {
+        internal static System.Drawing.Bitmap PuntoReciclajeGreenRemove {
             get {
-                object obj = ResourceManager.GetObject("PuntoReciclaje", resourceCulture);
+                object obj = ResourceManager.GetObject("PuntoReciclajeGreenRemove", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -493,9 +543,9 @@ namespace View.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PuntoReciclajeRed {
+        internal static System.Drawing.Bitmap PuntoReciclajeRedRemove {
             get {
-                object obj = ResourceManager.GetObject("PuntoReciclajeRed", resourceCulture);
+                object obj = ResourceManager.GetObject("PuntoReciclajeRedRemove", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -503,9 +553,9 @@ namespace View.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PuntoReciclajeYellow {
+        internal static System.Drawing.Bitmap PuntoReciclajeYelloRemove {
             get {
-                object obj = ResourceManager.GetObject("PuntoReciclajeYellow", resourceCulture);
+                object obj = ResourceManager.GetObject("PuntoReciclajeYelloRemove", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -573,9 +623,29 @@ namespace View.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap TipoSitioIcon {
+            get {
+                object obj = ResourceManager.GetObject("TipoSitioIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap trash {
             get {
                 object obj = ResourceManager.GetObject("trash", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ubicacionPro {
+            get {
+                object obj = ResourceManager.GetObject("ubicacionPro", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

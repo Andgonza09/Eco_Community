@@ -16,62 +16,59 @@ namespace View
     public partial class frmSolicitudes : Form
     {
         private UsuarioEntidad _currentUser;
+        private long _id_Usuario;
         private SolicitudesEntidad _currentRequest;
         private MultimediaEntidad _currentFile;
-        public frmSolicitudes(UsuarioEntidad currentUser)
-        {          
+        public frmSolicitudes(long id_Usuario)
+        {
             InitializeComponent();
-            _currentUser = currentUser;
+            this._id_Usuario = id_Usuario;
+            flowLayoutPanel1.AutoScroll = true;
+            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel1.WrapContents = false;
 
-            var solicitudes = new SolicitudesController().ViewRequestByUser(_currentUser.id_Usuario);
+            MessageBox.Show($"ID recibido en solicitudes: {this._id_Usuario}");
 
-            var datos = solicitudes.Select(x => new
-            {
-                x.Item1.id_Solicitud,
-                x.Item1.fecha_Solicitud,
-                x.Item1.fecha_Resolucion,
-                x.Item1.estado_Solicitud,
-                
-                tipoSitio = x.Item2,
-                direccion = x.Item3
-            }).ToList();
-
-            dgListRequestUser.DataSource = null;
-            dgListRequestUser.Columns.Clear();
-            dgListRequestUser.AutoGenerateColumns = true;
-            dgListRequestUser.DataSource = datos;
-
-            dgListRequestUser.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgListRequestUser.Columns["id_Solicitud"].Visible = false;
-
-            // dgListRequestUser.Columns["id_UsuarioEstandar"].Visible = false;
-            // dgListRequestUser.Columns["nombre_Usuario"].Visible = false;
-            // dgListRequestUser.Columns["id_InformacionSitio"].Visible = false;
-            
-            dgListRequestUser.AutoGenerateColumns = false;
-            dgListRequestUser.Columns[1].HeaderText = "Fecha de solicitud";
-            dgListRequestUser.Columns[2].HeaderText = "Fecha de resolución";
-            dgListRequestUser.Columns[3].HeaderText = "Estado";
-            dgListRequestUser.Columns[4].HeaderText = "Tipo de sitio";
-            dgListRequestUser.Columns[5].HeaderText = "Dirección";
-
-            var cantidad = new SolicitudesController().ViewRequestByUser(_currentUser.id_Usuario);
-            MessageBox.Show("Cantidad de solicitudes de usuarios: " + cantidad.Count);
         }
 
-        private void dgListRequest_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void CargarSolicitudes(long idUsuario)
         {
+            flowLayoutPanel1.Controls.Clear();
 
+            var solicitudes =
+                new SolicitudesController().ViewRequestByUser(idUsuario);
+
+            MessageBox.Show(
+            $"Usuario: {idUsuario}\n" +
+            $"Solicitudes encontradas: {solicitudes.Count}"
+        );
+
+            foreach (var solicitud in solicitudes)
+            {
+                frmSolicitudesCard_Design card = new frmSolicitudesCard_Design();
+
+                card.IdSolicitud = solicitud.Item1.id_Solicitud;
+                card.Estado = solicitud.Item1.estado_Solicitud;
+                card.TipoSitio = solicitud.Item2;
+                card.Direccion = solicitud.Item3;
+                card.FechaSolicitud = solicitud.Item1.fecha_Solicitud;
+                card.FechaResolucion = solicitud.Item1.fecha_Resolucion;
+
+                card.Width = flowLayoutPanel1.ClientSize.Width - 30;
+                card.Margin = new Padding(5, 5, 5, 15);
+
+                flowLayoutPanel1.Controls.Add(card);
+            }
         }
 
         private void RequestUserView_Load(object sender, EventArgs e)
         {
-            
+            CargarSolicitudes(_id_Usuario);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (dgListRequestUser.SelectedRows.Count == 0)
+           /* if (dgListRequestUser.SelectedRows.Count == 0)
                 return;
 
             try
@@ -91,10 +88,10 @@ namespace View
                         MessageBox.Show("ID seleccionado: " + selectedRequest.id_Solicitud);
 
                         MultimediaEntidad multimediaFile = new MultimediaEntidad();
-                     //   multimediaFile.DeleteMultimedia(selectedRequest.id_Solicitud);
+                        //   multimediaFile.DeleteMultimedia(selectedRequest.id_Solicitud);
 
                         _currentRequest = selectedRequest;
-                     //   _currentRequest.DeleteRequest(selectedRequest.id_Solicitud);
+                        //   _currentRequest.DeleteRequest(selectedRequest.id_Solicitud);
                         new SolicitudesController().DeleteRequest(selectedRequest.id_Solicitud);
 
                         RefreshTable();
@@ -106,14 +103,19 @@ namespace View
             catch (Exception ex)
             {
                 throw new Exception("Error al eliminar la información de la solicitud: " + ex.Message);
-            }
+            }*/
         }
         private void RefreshTable()
         {
-            dgListRequestUser.DataSource = new SolicitudesController().ViewAllRequest(); 
+           // dgListRequestUser.DataSource = new SolicitudesController().ViewAllRequest();
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
     }
-        
+
 }
 

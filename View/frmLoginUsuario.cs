@@ -93,15 +93,29 @@ namespace View
             // Inicializamos el objeto user con los valores del formulario 
             UsuarioEntidad userLogin = new UsuarioEntidad()
             {
-                nombre_Usuario = "",
-                correo_Usuario = txtEmail.Text.Trim(),
-                contraseña_Usuario = txtPassword.Text.Trim()
+                correo_Usuario = txtEmail.Text,
+                contraseña_Usuario = txtPassword.Text
             };
 
-            // Hacemos la consulta a la base de datos si los elementos ya existen
             try
             {
-                new UsuarioController().BuscarUsuario(userLogin.nombre_Usuario, userLogin.correo_Usuario, userLogin.contraseña_Usuario);
+                MessageBox.Show($"{userLogin.correo_Usuario}, {userLogin.contraseña_Usuario}");
+                userLogin = new UsuarioController().BuscarUsuario(userLogin.correo_Usuario, userLogin.contraseña_Usuario);
+
+                if (userLogin == null)
+                {
+                    MessageBox.Show("Credenciales incorrectas");
+                    return;
+                }
+
+                MessageBox.Show(
+                    "Usuario encontrado:\n" +
+                    "ID: " + userLogin.id_Usuario + "\n" +
+                    "Nombre: " + userLogin.nombre_Usuario + "\n" +
+                    "Correo: " + userLogin.correo_Usuario
+                );
+
+                frmSolicitudes solicitudesFrm = new frmSolicitudes(userLogin.id_Usuario);
             }
             catch (Exception ex)
             {
@@ -124,7 +138,7 @@ namespace View
             }
             try
             {
-                if ((txtEmail.Text == "administrador123_andres@gmail.com" && txtPassword.Text == "Admin123Andres") || 
+                if ((txtEmail.Text == "administrador123_andres@gmail.com" && txtPassword.Text == "Admin123Andres") ||
                     (txtEmail.Text == "administrador456_joshua@gmail.com" && txtPassword.Text == "Admin456Joshua") ||
                     (txtEmail.Text == "administrador789_bryan@gmail.com" && txtPassword.Text == "Admin789Bryan"))
                 {
@@ -137,17 +151,18 @@ namespace View
                 // Validar si las crendicales del formulario coinciden con los de la base de datos
                 if (txtPassword.Text != passwordUser || txtEmail.Text.Trim() != emailUser)
                 {
-                    MessageBox.Show("Credenciales incorrectas","Error de autentificación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Credenciales incorrectas", "Error de autentificación", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
                     MessageBox.Show("Login exitoso", "Verificación de información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
+
                     // Si el login es exitoso, ocultamos este formulario y así mismo, mandar los valores obtenidos del usuario a formularios que
                     // necesiten dicha información (Mostrar label el nombre, o bien poner tener contenedores con dichos valores
                     this.Hide();
-                    frmContainer containerForm = new frmContainer(userLogin, username, txtPassword.Text);
+                    frmContainer containerForm = new frmContainer(userLogin, userLogin.id_Usuario, username, txtPassword.Text);
                     frmPerfilUsuario profileView = new frmPerfilUsuario(userLogin, containerForm, username, txtPassword.Text);
+                    frmSolicitudes frmSolicitudes = new frmSolicitudes(userLogin.id_Usuario);
 
                     // Mostramos el formulario principal
                     containerForm.Show();
@@ -161,6 +176,11 @@ namespace View
         }
 
         private void panel4_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
         {
 
         }

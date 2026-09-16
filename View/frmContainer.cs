@@ -19,13 +19,15 @@ namespace View
 
         // Uso único del objeto User
         private readonly UsuarioEntidad _currentUser;
+        private long _id_Usuario;
 
-        public frmContainer(UsuarioEntidad currentUser, string username, string password)
+        public frmContainer(UsuarioEntidad currentUser, long id_usuario, string username, string password)
         {
             InitializeComponent();
 
             // Captura del objeto del usuario actual
             _currentUser = currentUser;
+            this._id_Usuario = id_usuario;
 
             this._username = username;
             this._password = password;
@@ -227,7 +229,7 @@ namespace View
             lblItems.Text = "Mis solicitudes";
             lblItems.SendToBack();
             lblItems.Padding = new Padding(15, 0, 0, 0);
-            OpenForm(new frmSolicitudes(_currentUser));
+            OpenForm(new frmSolicitudes(_id_Usuario));
         }
 
         private void btnHistoryRequests_Click(object sender, EventArgs e)

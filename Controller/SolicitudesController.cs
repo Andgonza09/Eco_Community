@@ -74,7 +74,7 @@ namespace Controller
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al actualizar la solicitud");
+                throw new Exception("Error al actualizar la solicitud" + ex.Message);
 
             }
             return rowAffected > 0;

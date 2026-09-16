@@ -34,28 +34,30 @@ namespace View
             {
                 estadoActual = value;
 
-                lbEstado.Text = value;
+                switch (value.Trim().ToLower())
+                {
+                    case "aprobada":
+                        pbEstado.Image = Properties.Resources.EstadoAprobadoRemove;
+                        break;
 
-                if (value == "Aprobada")
-                {
-                    lbEstado.BackColor = Color.FromArgb(220, 245, 228);
-                    lbEstado.ForeColor = Color.FromArgb(30, 120, 60);
+                    case "pendiente":
+                        pbEstado.Image = Properties.Resources.EstadoPendienteRemove;
+                        break;
+
+                    case "rechazada":
+                        pbEstado.Image = Properties.Resources.EstadoRechazadoRemove;
+                        break;
+
+                    default:
+                        pbEstado.Image = null;
+                        break;
                 }
-                else if (value == "Pendiente")
-                {
-                    lbEstado.BackColor = Color.FromArgb(255, 243, 205);
-                    lbEstado.ForeColor = Color.FromArgb(150, 100, 0);
-                }
-                else if (value == "Rechazada")
-                {
-                    lbEstado.BackColor = Color.FromArgb(255, 220, 220);
-                    lbEstado.ForeColor = Color.FromArgb(180, 40, 40);
-                }
+
+                pbEstado.SizeMode = PictureBoxSizeMode.Zoom;
 
                 ActualizarImagen();
             }
         }
-
         public string TipoSitio
         {
             set
@@ -89,7 +91,7 @@ namespace View
             set
             {
                 lbFechaResolución.Text =
-                    value.HasValue
+                    value.HasValue && value.Value != DateOnly.MinValue
                     ? value.Value.ToString("dd/MM/yyyy")
                     : "Sin resolver";
             }
@@ -108,30 +110,30 @@ namespace View
             {
                 if (estado == "aprobada")
                     pictureBox1.Image =
-                        Properties.Resources.PuntoReciclaje;
+                        Properties.Resources.PuntoReciclajeGreenRemove;
 
                 else if (estado == "pendiente")
                     pictureBox1.Image =
-                        Properties.Resources.PuntoReciclajeYellow;
+                        Properties.Resources.PuntoReciclajeYelloRemove;
 
                 else if (estado == "rechazada")
                     pictureBox1.Image =
-                        Properties.Resources.PuntoReciclajeRed;
+                        Properties.Resources.PuntoReciclajeRedRemove;
             }
             else if (tipo == "depósito de basura" ||
                      tipo == "deposito de basura")
             {
                 if (estado == "aprobada")
                     pictureBox1.Image =
-                        Properties.Resources.DepositoBasuraGreen;
+                        Properties.Resources.DepositoBasuraGreenRemove;
 
                 else if (estado == "pendiente")
                     pictureBox1.Image =
-                        Properties.Resources.DepositoBasuraYellow;
+                        Properties.Resources.DepositoBasuraYellowRemove;
 
                 else if (estado == "rechazada")
                     pictureBox1.Image =
-                        Properties.Resources.DepositoBasuraRed;
+                        Properties.Resources.DepositoBasuraRedRemove;
             }
 
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -149,6 +151,41 @@ namespace View
         }
 
         private void lbFechaSolicitud_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbEstado_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void lbFechaResolución_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel5_Paint(object sender, PaintEventArgs e)
         {
 
         }

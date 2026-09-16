@@ -198,7 +198,7 @@
             // pictureBox21
             // 
             pictureBox21.Anchor = AnchorStyles.None;
-            pictureBox21.Image = View.Properties.Resources.logo_final;
+            pictureBox21.Image = Properties.Resources.logo_final;
             pictureBox21.Location = new Point(477, 116);
             pictureBox21.Name = "pictureBox21";
             pictureBox21.Size = new Size(215, 132);
@@ -221,6 +221,7 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(250, 766);
             panel3.TabIndex = 26;
+            panel3.Paint += panel3_Paint;
             // 
             // panel4
             // 
@@ -231,7 +232,7 @@
             panel4.TabIndex = 27;
             panel4.Paint += panel4_Paint;
             // 
-            // LoginView
+            // frmLoginUsuario
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
@@ -247,7 +248,7 @@
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "LoginView";
+            Name = "frmLoginUsuario";
             WindowState = FormWindowState.Maximized;
             Load += LoginView_Load;
             panel1.ResumeLayout(false);
