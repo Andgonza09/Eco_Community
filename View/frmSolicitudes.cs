@@ -31,7 +31,7 @@ namespace View
 
         }
 
-        private void CargarSolicitudes(long idUsuario)
+        public void CargarSolicitudes(long idUsuario)
         {
             flowLayoutPanel1.Controls.Clear();
 
@@ -45,7 +45,7 @@ namespace View
 
             foreach (var solicitud in solicitudes)
             {
-                frmSolicitudesCard_Design card = new frmSolicitudesCard_Design();
+                frmSolicitudesCard_Design card = new frmSolicitudesCard_Design(_id_Usuario);
 
                 card.IdSolicitud = solicitud.Item1.id_Solicitud;
                 card.Estado = solicitud.Item1.estado_Solicitud;
@@ -57,6 +57,12 @@ namespace View
                 card.Width = flowLayoutPanel1.ClientSize.Width - 30;
                 card.Margin = new Padding(5, 5, 5, 15);
 
+                // Escuchar cuando una tarjeta sea eliminada
+                card.SolicitudEliminada += () =>
+                {
+                    CargarSolicitudes(_id_Usuario);
+                };
+
                 flowLayoutPanel1.Controls.Add(card);
             }
         }
@@ -64,50 +70,13 @@ namespace View
         private void RequestUserView_Load(object sender, EventArgs e)
         {
             CargarSolicitudes(_id_Usuario);
+            frmSolicitudesCard_Design frmCard = new frmSolicitudesCard_Design(_id_Usuario);
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-           /* if (dgListRequestUser.SelectedRows.Count == 0)
-                return;
-
-            try
-            {
-                if (dgListRequestUser.CurrentRow != null)
-                {
-                    var result = MessageBox.Show("¿Estás seguro que deseas  eliminar la solicitud del sistema?", "Validación de información",
-                        MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-
-                    if (result == DialogResult.OK)
-                    {
-                        if (dgListRequestUser.CurrentRow.DataBoundItem is not SolicitudesEntidad selectedRequest)
-                        {
-                            MessageBox.Show("No se pudo obtener la solicitud seleccionada.");
-                            return;
-                        }
-                        MessageBox.Show("ID seleccionado: " + selectedRequest.id_Solicitud);
-
-                        MultimediaEntidad multimediaFile = new MultimediaEntidad();
-                        //   multimediaFile.DeleteMultimedia(selectedRequest.id_Solicitud);
-
-                        _currentRequest = selectedRequest;
-                        //   _currentRequest.DeleteRequest(selectedRequest.id_Solicitud);
-                        new SolicitudesController().DeleteRequest(selectedRequest.id_Solicitud);
-
-                        RefreshTable();
-                    }
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al eliminar la información de la solicitud: " + ex.Message);
-            }*/
-        }
-        private void RefreshTable()
-        {
-           // dgListRequestUser.DataSource = new SolicitudesController().ViewAllRequest();
+           
         }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)

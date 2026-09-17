@@ -13,20 +13,18 @@ namespace Controller
     {
         Conexion conexion = new Conexion();
 
-        public void Insert(DetalleSitiosEntidad detallesitios)
+        public void Insert(DetalleSitiosEntidad detallesitios, long id_InformacionSitio, long id_Usuario)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             string sql = @"INSERT INTO DetalleSitios(id_InformacionSitio,id_Usuario) VALUES (@id_InformacionSitio,@id_Usuario)";
 
             SqlCommand cmd = new SqlCommand(sql, cx);
-            cmd.Parameters.AddWithValue(@"id_InformacionSitio", detallesitios.id_InformacionSitio);
-            cmd.Parameters.AddWithValue(@"id_Usuario", detallesitios.id_Usuario);
+            cmd.Parameters.AddWithValue(@"id_InformacionSitio", id_InformacionSitio);
+            cmd.Parameters.AddWithValue(@"id_Usuario", id_Usuario);
 
 
             cx.Open();
-
             cmd.ExecuteNonQuery();
-
             cx.Close();
 
 

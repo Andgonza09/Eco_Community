@@ -13,24 +13,24 @@ namespace Controller
     {
         Conexion conexion = new Conexion();
 
-        public void Insert(InformacionSitioEntidad informacionsitio)
+        public long Insert(InformacionSitioEntidad informacionsitio, int id_Barrio)
         {
             SqlConnection cx = conexion.ObtenerConexion();
-            string sql = @"INSERT INTO InformacionSitio(tipoSitio,direccion,id_Barrio,latitud,length) VALUES (@tipoSitio,@direccion,@id_Barrio,@latitud,@length)";
+            string sql = @"INSERT INTO InformacionSitio(tipoSitio, direccion, id_Barrio, latitud, length) OUTPUT INSERTED.id_InformacionSitio VALUES (@tipoSitio, @direccion, @id_Barrio, @latitud, @length)";
 
             SqlCommand cmd = new SqlCommand(sql, cx);
             cmd.Parameters.AddWithValue(@"tipoSitio", informacionsitio.tipoSitio);
             cmd.Parameters.AddWithValue(@"direccion", informacionsitio.direccion);
-            cmd.Parameters.AddWithValue(@"id_Barrio", informacionsitio.id_Barrio);
+            cmd.Parameters.AddWithValue(@"id_Barrio", id_Barrio);
             cmd.Parameters.AddWithValue(@"latitud", informacionsitio.latitud);
             cmd.Parameters.AddWithValue(@"length", informacionsitio.length);
 
 
             cx.Open();
-
-            cmd.ExecuteNonQuery();
-
+            long id_InformacionSitio = Convert.ToInt64(cmd.ExecuteScalar());
             cx.Close();
+
+            return id_InformacionSitio;
 
         }
         public List<(InformacionSitioEntidad, string)> ViewAllPoints()

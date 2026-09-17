@@ -13,21 +13,48 @@ namespace Controller
     {
         Conexion conexion = new Conexion();
 
-        public void Insert(DetalleClasificacionSitioEntidad
-            detalleclasificacionsitio)
+        public void Insert(DetalleClasificacionSitioEntidad detalleclasificacionsitio, long id_InformacionSitio, List<int> idS_CatalogoResiduos)
         {
             SqlConnection cx = conexion.ObtenerConexion();
-            string sql = @"INSERT INTO DetalleClasificacionSitio(id_InformacionSitio,id_CatalogoResiduos) VALUES (@id_InformacionSitio,@id_CatalogoResiduos)";
 
-            SqlCommand cmd = new SqlCommand(sql, cx);
-            cmd.Parameters.AddWithValue(@"id_InformacionSitio", detalleclasificacionsitio.id_InformacionSitio);
-            cmd.Parameters.AddWithValue(@"id_CatalogoResiduos", detalleclasificacionsitio.id_CatalogoResiduos);
+            try
+            {
+                cx.Open();
 
-            cx.Open();
+                foreach (int idCatalogoResiduo in idS_CatalogoResiduos)
+                {
+                    string sql = @"
+                INSERT INTO DetalleClasificacionSitio
+                (
+                    id_InformacionSitio,
+                    id_CatalogoResiduos
+                )
+                VALUES
+                (
+                    @id_InformacionSitio,
+                    @id_CatalogoResiduos
+                )";
 
-            cmd.ExecuteNonQuery();
+                    SqlCommand cmd = new SqlCommand(sql, cx);
 
-            cx.Close();
+                    cmd.Parameters.AddWithValue(
+                        "@id_InformacionSitio",
+                        id_InformacionSitio
+                    );
+
+                    cmd.Parameters.AddWithValue(
+                        "@id_CatalogoResiduos",
+                        idCatalogoResiduo
+                    );
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            finally
+            {
+                cx.Close();
+            }
+
 
         }
     }

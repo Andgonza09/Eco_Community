@@ -89,6 +89,7 @@ namespace Controller
                 string sql = @"SELECT * FROM Usuario";
 
                 SqlCommand cmd = new SqlCommand(sql, cx);
+                cx.Open();
                 SqlDataReader result = cmd.ExecuteReader();
 
                 while (result.Read())

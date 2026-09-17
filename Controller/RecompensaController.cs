@@ -17,7 +17,7 @@ namespace Controller
         public int Insert(RecompensaEntidad recompensa)
         {
             SqlConnection cx = conexion.ObtenerConexion();
-            string sql = @"INSERT INTO Recompensa(descripcionRecompensa,id_Mision,id_TipoRecompensa) VALUES (@descripcionRecompensa,@id_Mision,@id_TipoRecompensa)";
+            string sql = @"INSERT INTO Recompensa(descripcionRecompensa,id_Mision,id_TipoRecompensa) OUTPUT INSERTED.id_Recompensa VALUES (@descripcionRecompensa,@id_Mision,@id_TipoRecompensa)";
 
             SqlCommand cmd = new SqlCommand(sql, cx);
             cmd.Parameters.AddWithValue(@"descripcionRecompensa", recompensa.descripcionRecompensa);

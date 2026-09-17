@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSolicitudesCard_Design));
             pictureBox1 = new PictureBox();
             panel2 = new Panel();
             panel1 = new Panel();
@@ -35,6 +36,7 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             panel3 = new Panel();
             panel5 = new Panel();
+            button2 = new Button();
             pbEstado = new PictureBox();
             lbDireccionTitulo = new Label();
             lbTipoSitioTitulo = new Label();
@@ -86,7 +88,7 @@
             panel1.Dock = DockStyle.Bottom;
             panel1.Location = new Point(18, 337);
             panel1.Name = "panel1";
-            panel1.Size = new Size(882, 13);
+            panel1.Size = new Size(981, 13);
             panel1.TabIndex = 18;
             // 
             // panel4
@@ -94,7 +96,7 @@
             panel4.Dock = DockStyle.Top;
             panel4.Location = new Point(18, 0);
             panel4.Name = "panel4";
-            panel4.Size = new Size(882, 10);
+            panel4.Size = new Size(981, 10);
             panel4.TabIndex = 20;
             // 
             // tableLayoutPanel1
@@ -111,7 +113,7 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 60F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 1F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 39F));
-            tableLayoutPanel1.Size = new Size(688, 327);
+            tableLayoutPanel1.Size = new Size(787, 327);
             tableLayoutPanel1.TabIndex = 31;
             // 
             // panel3
@@ -123,6 +125,7 @@
             // 
             // panel5
             // 
+            panel5.Controls.Add(button2);
             panel5.Controls.Add(pbEstado);
             panel5.Controls.Add(lbDireccionTitulo);
             panel5.Controls.Add(lbTipoSitioTitulo);
@@ -135,13 +138,25 @@
             panel5.Dock = DockStyle.Fill;
             panel5.Location = new Point(3, 3);
             panel5.Name = "panel5";
-            panel5.Size = new Size(682, 190);
+            panel5.Size = new Size(781, 190);
             panel5.TabIndex = 1;
             panel5.Paint += panel5_Paint;
             // 
+            // button2
+            // 
+            button2.FlatAppearance.BorderSize = 0;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.Image = (Image)resources.GetObject("button2.Image");
+            button2.Location = new Point(656, 9);
+            button2.Name = "button2";
+            button2.Size = new Size(48, 48);
+            button2.TabIndex = 42;
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // pbEstado
             // 
-            pbEstado.Location = new Point(458, 44);
+            pbEstado.Location = new Point(461, 71);
             pbEstado.Name = "pbEstado";
             pbEstado.Size = new Size(156, 31);
             pbEstado.TabIndex = 33;
@@ -211,7 +226,7 @@
             // 
             lbEstado.AutoSize = true;
             lbEstado.Font = new Font("Segoe UI Historic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbEstado.Location = new Point(496, 16);
+            lbEstado.Location = new Point(503, 43);
             lbEstado.Name = "lbEstado";
             lbEstado.Size = new Size(72, 25);
             lbEstado.TabIndex = 25;
@@ -238,8 +253,9 @@
             panel6.Dock = DockStyle.Fill;
             panel6.Location = new Point(3, 202);
             panel6.Name = "panel6";
-            panel6.Size = new Size(682, 122);
+            panel6.Size = new Size(781, 122);
             panel6.TabIndex = 2;
+            panel6.Paint += panel6_Paint;
             // 
             // pictureBox4
             // 
@@ -312,7 +328,7 @@
             Controls.Add(panel1);
             Controls.Add(panel2);
             Name = "frmSolicitudesCard_Design";
-            Size = new Size(900, 350);
+            Size = new Size(999, 350);
             Load += frmSolicitudesCard_Design_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             tableLayoutPanel1.ResumeLayout(false);
@@ -352,5 +368,6 @@
         private Label label2;
         private Label lbFechaResolución;
         private Label label1;
+        private Button button2;
     }
 }

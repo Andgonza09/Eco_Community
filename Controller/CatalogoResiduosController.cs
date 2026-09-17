@@ -37,8 +37,8 @@ namespace Controller
 
                 SqlCommand cmd = new SqlCommand(sql, cx);
 
-
-                using SqlDataReader result = cmd.ExecuteReader();
+                cx.Open();
+                SqlDataReader result = cmd.ExecuteReader();
                 if (!result.HasRows)
                 {
                     throw new Exception("No se han encontrado datos pertenecientes al catálogo de residuo");
@@ -53,6 +53,7 @@ namespace Controller
                         tipoResiduo = result.GetString(1)
                     });
                 }
+                cx.Close();
                 return listWaste;
             }
             catch (Exception ex)

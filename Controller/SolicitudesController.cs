@@ -15,21 +15,23 @@ namespace Controller
     {
         Conexion conexion = new Conexion();
 
-        public void Insert(SolicitudesEntidad solicitudes)
+        public long Insert(SolicitudesEntidad solicitudes)
         {
             SqlConnection cx = conexion.ObtenerConexion();
-            string sql = @"INSERT INTO Solicitudes(estado_Solicitud,fecha_Solicitud,fecha_Resolucion) VALUES (@estado_Solicitud,@fecha_Solicitud,@fecha_Resolucion)";
+            string sql = @"INSERT INTO Solicitudes(estado_Solicitud,fecha_Solicitud,fecha_Resolucion) OUTPUT INSERTED.id_Solicitud VALUES (@estado_solicitud), @fecha_Solicitud, @fecha_Resolucion)";
 
             SqlCommand cmd = new SqlCommand(sql, cx);
+
             cmd.Parameters.AddWithValue(@"estado_Solicitud", solicitudes.estado_Solicitud);
             cmd.Parameters.AddWithValue(@"fecha_Solicitud", solicitudes.fecha_Solicitud);
             cmd.Parameters.AddWithValue(@"fecha_Resolucion", solicitudes.fecha_Resolucion);
 
             cx.Open();
-
-            cmd.ExecuteNonQuery();
+            long id_Solicitud = Convert.ToInt64(cmd.ExecuteScalar());
 
             cx.Close();
+
+            return id_Solicitud;
         }
        
         public void DeleteRequest(long id_Solicitud)

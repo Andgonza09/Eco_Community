@@ -1,4 +1,6 @@
-﻿namespace View
+﻿using Model.Eco_Community;
+
+namespace View
 {
     internal static class Program
     {
@@ -11,7 +13,10 @@
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new frmRegistroUsuario());
+
+            UsuarioEntidad usuario = new UsuarioEntidad();
+
+            Application.Run(new frmLoginUsuario(usuario, usuario.nombre_Usuario, usuario.contraseña_Usuario));
         }
     }
 }

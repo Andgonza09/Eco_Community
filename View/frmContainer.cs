@@ -176,12 +176,6 @@ namespace View
 
             // Formulario de ubicación del punto
             frmInformacionSitio view = new frmInformacionSitio(_currentUser);
-
-            view.NextClicked += (s, e) =>
-            {
-                // ShowAttachMultimedia();
-            };
-
             OpenForm(view);
         }
         /*

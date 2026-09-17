@@ -30,6 +30,42 @@ namespace Controller
 
             cx.Close();
         }
+        public List<DistritoEntidad> ViewAllDistrict()
+        {
+            try
+            {
+                SqlConnection cx = conexion.ObtenerConexion();
+                string sql = @"SELECT * FROM Distrito";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cx.Open();
+                SqlDataReader result = cmd.ExecuteReader();
+
+                if (!result.HasRows)
+                {
+                    throw new Exception("Error al cargar los distritos");
+                }
+                List<DistritoEntidad> list_Districto = new List<DistritoEntidad>();
+
+                while (result.Read())
+                {
+                    DistritoEntidad distrito = new DistritoEntidad
+                    {
+                        id_Distrito = result.GetInt32(result.GetOrdinal("id_Distrito")),
+                        nombre_Distrito = result.GetString(result.GetOrdinal("nombre_Distrito"))
+                    };
+                    list_Districto.Add(distrito);
+                }
+                cx.Close();
+                return list_Districto;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cargar la información del distrito: " + ex.Message, ex);
+            }
+        }
     }
 }
 

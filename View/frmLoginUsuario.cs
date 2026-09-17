@@ -163,6 +163,7 @@ namespace View
                     frmContainer containerForm = new frmContainer(userLogin, userLogin.id_Usuario, username, txtPassword.Text);
                     frmPerfilUsuario profileView = new frmPerfilUsuario(userLogin, containerForm, username, txtPassword.Text);
                     frmSolicitudes frmSolicitudes = new frmSolicitudes(userLogin.id_Usuario);
+                    frmInformacionSitio frmInformacion = new frmInformacionSitio(userLogin);
 
                     // Mostramos el formulario principal
                     containerForm.Show();

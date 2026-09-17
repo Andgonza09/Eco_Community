@@ -28,15 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSolicitudes));
             panel10 = new Panel();
             label4 = new Label();
             label6 = new Label();
-            button2 = new Button();
             panel1 = new Panel();
             flowLayoutPanel1 = new FlowLayoutPanel();
             panel10.SuspendLayout();
-            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // panel10
@@ -69,25 +66,12 @@
             label6.TabIndex = 50;
             label6.Text = "Revisa y gestiona tus solicitudes en el sistema";
             // 
-            // button2
-            // 
-            button2.FlatAppearance.BorderSize = 0;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Image = (Image)resources.GetObject("button2.Image");
-            button2.Location = new Point(34, 29);
-            button2.Name = "button2";
-            button2.Size = new Size(48, 48);
-            button2.TabIndex = 41;
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
-            // 
             // panel1
             // 
-            panel1.Controls.Add(button2);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 89);
             panel1.Name = "panel1";
-            panel1.Size = new Size(116, 787);
+            panel1.Size = new Size(62, 787);
             panel1.TabIndex = 42;
             // 
             // flowLayoutPanel1
@@ -95,9 +79,9 @@
             flowLayoutPanel1.AutoScroll = true;
             flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanel1.Location = new Point(116, 89);
+            flowLayoutPanel1.Location = new Point(62, 89);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(1046, 787);
+            flowLayoutPanel1.Size = new Size(1100, 787);
             flowLayoutPanel1.TabIndex = 43;
             flowLayoutPanel1.WrapContents = false;
             flowLayoutPanel1.Paint += flowLayoutPanel1_Paint;
@@ -116,7 +100,6 @@
             Load += RequestUserView_Load;
             panel10.ResumeLayout(false);
             panel10.PerformLayout();
-            panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -125,7 +108,6 @@
         private Panel panel10;
         private Label label4;
         private Label label6;
-        private Button button2;
         private Panel panel1;
         private FlowLayoutPanel flowLayoutPanel1;
     }

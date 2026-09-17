@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Model.Eco_Community;
+using Controller;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,50 +35,21 @@ namespace View
             }
             return selectedIds;
         }
-
-        public event EventHandler NextClicked;
-        private void btnNext_Click(object sender, EventArgs e)
-        {
-            NextClicked?.Invoke(this, EventArgs.Empty);
-
-            List<int> idsSeleccionados = GetSelectedTypeWasteIds();
-
-            if (cmbNeighborhood.SelectedItem is not BarrioEntidad selectedNeighborhood)
-            {
-                MessageBox.Show("Seleccione un barrio.");
-                return;
-            }
-
-
-            // Obtenemos el valor de la instancia actual del sitio 
-            InformacionSitioEntidad siteInformation = new InformacionSitioEntidad
-            {
-                tipoSitio = cmbTypeSite.Text,
-                direccion = rchtxtAddress.Text,
-                id_Barrio = selectedNeighborhood.id_Barrio
-            };
-
-           // int id_InformacionSitio = siteInformation.AddSiteInformation();
-       //     siteInformation.id_InformacionSitio = id_InformacionSitio;
-
-            MessageBox.Show("Hora de probar si conecta");
-            DetalleClasificacionSitioEntidad detailsInformation = new DetalleClasificacionSitioEntidad();
-          //  long id_Details = detailsInformation.AddDetailsInformation(id_InformacionSitio, idsSeleccionados);
-        }
         private void cmbDistrict_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Verificar si el objeto es seleccionado
             if (cmbDistrict.SelectedItem is not DistritoEntidad selectedDistrict)
                 return;
 
             int idDistrict = selectedDistrict.id_Distrito;
 
             BarrioEntidad neighborhood = new BarrioEntidad();
-          //  List<BarrioEntidad> listNeighborhoods = neighborhood.ViewAllNeighborhood(idDistrict);
+            List<BarrioEntidad> listNeighborhoods = new BarrioController().ViewAllBarrios(idDistrict);
 
             // Permitir acceso directo a las propiedades del objeto
             cmbNeighborhood.DisplayMember = "nombre_Barrio";
             cmbNeighborhood.ValueMember = "id_Barrio";
-         //   cmbNeighborhood.DataSource = listNeighborhoods;
+            cmbNeighborhood.DataSource = listNeighborhoods;
 
         }
 
@@ -99,9 +71,9 @@ namespace View
             ckListTypeWaste.Items.Clear();
 
             CatalogoResiduosEntidad wasteCatalog = new CatalogoResiduosEntidad();
-          //  List<CatalogoResiduosEntidad> listWaste = wasteCatalog.ViewAllWaste();
+            List<CatalogoResiduosEntidad> listWaste = new CatalogoResiduosController().ViewAllWaste();
 
-           // ckListTypeWaste.DataSource = listWaste;
+            ckListTypeWaste.DataSource = listWaste;
             ckListTypeWaste.DisplayMember = "tipoResiduo";
             ckListTypeWaste.ValueMember = "id_CatalogoResiduos";
 
@@ -111,9 +83,9 @@ namespace View
             cmbDistrict.Items.Clear();
 
             DistritoEntidad district = new DistritoEntidad();
-           // List<DistritoEntidad> listDistrict = district.ViewAllDistrict();
+            List<DistritoEntidad> listDistrict = new DistritoController().ViewAllDistrict();
 
-        //    cmbDistrict.DataSource = listDistrict;
+            cmbDistrict.DataSource = listDistrict;
             cmbDistrict.DisplayMember = "nombre_Distrito";
             cmbDistrict.ValueMember = "id_Distrito";
 
@@ -212,11 +184,13 @@ namespace View
             }
 
             CopiarArchivosAdjuntos();
-        //    long idInformationSite = RegistrarSitio(selectedNeighborhood);
-        //    RegistrarDetallesClasificacion(idInformationSite, idsSeleccionados);
-        //    RegistrarDetalleUsuarioSitio(idInformationSite);
-         //   long idRequest = RegistrarSolicitud(idInformationSite);
-         //   RegistrarMultimedia(idRequest);
+            long idInformationSite = RegistrarSitio(selectedNeighborhood);
+            RegistrarDetallesClasificacion(idInformationSite, idsSeleccionados);
+            RegistrarDetalleUsuarioSitio(idInformationSite, _user.id_Usuario);
+
+
+            long idRequest = RegistrarSolicitud(idInformationSite);
+            RegistrarMultimedia(idRequest);
             MessageBox.Show("Solicitud enviada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -265,8 +239,39 @@ namespace View
                 listViewFile.Items[i].SubItems[3].Text = rutaDestino;
             }
         }
-       /* private long RegistrarSitio(BarrioEntidad selectedNeighborhood)
+        private long RegistrarSitio(BarrioEntidad selectedNeighborhood)
         {
+            InformacionSitioEntidad siteInformation = new InformacionSitioEntidad
+            {
+                tipoSitio = cmbTypeSite.Text,
+                direccion = rchtxtAddress.Text,
+                id_Barrio = selectedNeighborhood.id_Barrio
+
+            };
+
+            try
+            {
+                 return new InformacionSitioController().Insert(siteInformation, siteInformation.id_Barrio);
+            }
+            catch
+            {
+                MessageBox.Show("Error al registrar info... Ya sabes donde es LOL 👀👀");
+                return 0;
+            }
+           
+        }
+        private void RegistrarDetallesClasificacion(long id_InformacionSitio, List<int> idsSeleccionados)
+        {
+            // Obtenemos los valores obtenidos al hacer check en el catálogo
+            idsSeleccionados = GetSelectedTypeWasteIds();
+
+            if (cmbNeighborhood.SelectedItem is not BarrioEntidad selectedNeighborhood)
+            {
+                MessageBox.Show("Seleccione un barrio.");
+                return;
+            }
+
+            // Obtenemos el valor de la instancia actual del sitio 
             InformacionSitioEntidad siteInformation = new InformacionSitioEntidad
             {
                 tipoSitio = cmbTypeSite.Text,
@@ -274,30 +279,26 @@ namespace View
                 id_Barrio = selectedNeighborhood.id_Barrio
             };
 
-      //      long idInformationSite = siteInformation.AddSiteInformation();
+            Console.WriteLine($"{siteInformation.id_Barrio}");
+            id_InformacionSitio = new InformacionSitioController().Insert(siteInformation, siteInformation.id_Barrio);
 
-      //      siteInformation.IdSiteInformation = idInformationSite;
-
-      //      return idInformationSite;
-        }*/
-        private void RegistrarDetallesClasificacion(long idInformationSite, List<int> idsSeleccionados)
-        {
+            // Detalle Clasificación sitio.
             DetalleClasificacionSitioEntidad detailsInformation = new DetalleClasificacionSitioEntidad();
-       //     detailsInformation.AddDetailsInformation(idInformationSite, idsSeleccionados);
+            new DetalleClasificacionSitioController().Insert(detailsInformation, id_InformacionSitio, idsSeleccionados);
         }
-        private void RegistrarDetalleUsuarioSitio(long idInformationSite)
+        private void RegistrarDetalleUsuarioSitio(long idInformationSite, long id_Usuario)
         {
             DetalleSitiosEntidad detailsUserSite = new DetalleSitiosEntidad();
-      //      detailsUserSite.AddDetailsSite(_user.id_Usuario, idInformationSite);
+            new DetalleSitiosController().Insert(detailsUserSite, idInformationSite, _user.id_Usuario);
         }
-      /*  private long RegistrarSolicitud(long idInformationSite)
+        private long RegistrarSolicitud(long idInformationSite)
         {
             SolicitudesEntidad request = new SolicitudesEntidad();
-            int idUser = _user.id_Usuario;
-      //      int idRequest = request.AddRequest(idUser, idInformationSite);
+            long idUser = _user.id_Usuario;
 
-      //      return idRequest;
-        }*/
+            long id_Solicitud = new SolicitudesController().Insert(request);
+            return id_Solicitud;
+        }
         private void RegistrarMultimedia(long idRequest)
         {
             for (int i = 0; i < listViewFile.Items.Count; i++)
@@ -310,14 +311,8 @@ namespace View
                 multimedia.ruta_ArchivoMultimedia = listViewFile.Items[i].SubItems[3].Text;
 
                 int idExtension = ObtenerIdExtension(multimedia.tipo_ArchivoMultimedia);
-            /*
-                multimedia.AddMultimedia(
-                    multimedia.nombre_ArchivoMultimedia,
-                    multimedia.ruta_ArchivoMultimedia,
-                    multimedia.tamaño_ArchivoMultimedia,
-                    idRequest,
-                    idExtension
-                );*/
+                new MultimediaController().Insert(multimedia, idRequest, idExtension);
+
             }
 
         }

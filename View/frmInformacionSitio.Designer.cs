@@ -385,20 +385,10 @@
             // 
             // btnNext
             // 
-            btnNext.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnNext.BackColor = Color.FromArgb(69, 93, 51);
-            btnNext.Font = new Font("Segoe UI Historic", 10F, FontStyle.Bold);
-            btnNext.ForeColor = SystemColors.Control;
-            btnNext.Image = Properties.Resources.ArrowNext;
-            btnNext.Location = new Point(-1105, 670);
+            btnNext.Location = new Point(0, 0);
             btnNext.Name = "btnNext";
-            btnNext.Size = new Size(191, 47);
-            btnNext.TabIndex = 26;
-            btnNext.Text = "Siguiente";
-            btnNext.TextAlign = ContentAlignment.MiddleRight;
-            btnNext.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnNext.UseVisualStyleBackColor = false;
-            btnNext.Click += btnNext_Click;
+            btnNext.Size = new Size(75, 23);
+            btnNext.TabIndex = 0;
             // 
             // tableLayoutPanel6
             // 

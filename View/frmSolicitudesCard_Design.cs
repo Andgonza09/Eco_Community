@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Model.Eco_Community;
+using Controller;
+using View;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,20 +17,135 @@ namespace View
     {
         private string estadoActual = "";
         private string tipoSitioActual = "";
-        public frmSolicitudesCard_Design()
+        private bool seleccionada = false;
+        private bool mouseEncima = false;
+        private long _idUsuario;
+        private long id_Solicitud;
+
+        private readonly Color colorNormal =
+            Color.FromArgb(244, 248, 238);
+        private readonly Color colorHover =
+            Color.FromArgb(230, 242, 224);
+        private readonly Color colorSeleccionada =
+            Color.FromArgb(214, 235, 207);
+        public event Action SolicitudEliminada;
+        public frmSolicitudesCard_Design(long id_Usuario)
         {
             InitializeComponent();
+
+            this._idUsuario = id_Usuario;
+            this.Cursor = Cursors.Hand;
+
+            this.SetStyle(
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.UserPaint,
+                true
+            );
+
+            AsignarEventos(this);
         }
 
 
+        private void AsignarEventos(Control control)
+        {
+            control.MouseEnter += Card_MouseEnter;
+            control.MouseLeave += Card_MouseLeave;
+            control.Click += Card_Click;
+            control.Cursor = Cursors.Hand;
+
+            foreach (Control hijo in control.Controls)
+            {
+                AsignarEventos(hijo);
+            }
+        }
+        private void Card_MouseEnter(object sender, EventArgs e)
+        {
+            mouseEncima = true;
+
+            if (!seleccionada)
+            {
+                this.BackColor = colorHover;
+            }
+
+            this.Invalidate();
+        }
+        private void Card_MouseLeave(object sender, EventArgs e)
+        {
+            if (!this.ClientRectangle.Contains(
+                this.PointToClient(Cursor.Position)))
+            {
+                mouseEncima = false;
+
+                if (!seleccionada)
+                {
+                    this.BackColor = colorNormal;
+                }
+
+                this.Invalidate();
+            }
+        }
+        private void Card_Click(object sender, EventArgs e)
+        {
+            seleccionada = !seleccionada;
+
+            if (seleccionada)
+            {
+                this.BackColor = colorSeleccionada;
+            }
+            else
+            {
+                this.BackColor = mouseEncima
+                    ? colorHover
+                    : colorNormal;
+            }
+
+            this.Invalidate();
+        }
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            Color borde;
+            int grosor;
+
+            if (seleccionada)
+            {
+                borde = Color.FromArgb(48, 125, 70);
+                grosor = 3;
+            }
+            else if (mouseEncima)
+            {
+                borde = Color.FromArgb(120, 170, 125);
+                grosor = 2;
+            }
+            else
+            {
+                borde = Color.FromArgb(210, 220, 205);
+                grosor = 1;
+            }
+
+            using Pen pen = new Pen(borde, grosor);
+
+            Rectangle rect = new Rectangle(
+                1,
+                1,
+                this.Width - 3,
+                this.Height - 3
+            );
+
+            e.Graphics.DrawRectangle(pen, rect);
+        }
         public long IdSolicitud
         {
+            get => id_Solicitud;
+
             set
             {
+                id_Solicitud = value;
                 lbNSolicitud.Text = $"Solicitud #{value}";
             }
         }
-
         public string Estado
         {
             set
@@ -188,6 +306,35 @@ namespace View
         private void panel5_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void panel6_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DialogResult resultado = MessageBox.Show(
+                "¿Estás seguro que deseas eliminar la solicitud del sistema?",
+                "Verificación de información",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question
+            );
+
+            if (resultado == DialogResult.OK)
+            {
+                // Eliminar solicitud
+                // Eliminamos el id de la tabla multimedia para evitar las dependencias de llaves foráneas de cada tabla
+                new MultimediaController().DeleteMultimedia(id_Solicitud);
+                new SolicitudesController().DeleteRequest(id_Solicitud);
+                MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Avisar al formulario principal
+                SolicitudEliminada?.Invoke();
+            }
+
+            
         }
     }
 }
