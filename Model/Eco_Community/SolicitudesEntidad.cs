@@ -12,7 +12,7 @@ namespace Model.Eco_Community
       public  long id_Solicitud { get; set; }
        public string estado_Solicitud {  get; set; }
        public DateOnly fecha_Solicitud { get; set; }
-       public DateOnly fecha_Resolucion { get; set; }
+       public DateOnly? fecha_Resolucion { get; set; }
        public long id_UsuarioEstandar {  get; set; }
        public long id_InformacionSitio { get; set; }
 

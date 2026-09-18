@@ -17,8 +17,9 @@ namespace Controller
         public void Insert(MultimediaEntidad multimedia, long id_Solicitud, int id_Extension)
         {
             SqlConnection cx = conexion.ObtenerConexion();
+
             string sql = @"INSERT INTO Multimedia(nombre_ArchivoMultimedia, tamaño_ArchivoMultimedia, ruta_ArchivoMultimedia, fecha_Adjuncion, id_Solicitud, id_Extension) 
-                                                 VALUES (@nobre_ArchivoMultimedia, @tamaño_ArchivoMultimedia, @ruta_ArchivoMultimedia, GETDATE(), @id_Solicitud, @id_Extension)";
+                                                 VALUES (@nombre_ArchivoMultimedia, @tamaño_ArchivoMultimedia, @ruta_ArchivoMultimedia, GETDATE(), @id_Solicitud, @id_Extension)";
 
             SqlCommand cmd = new SqlCommand(sql, cx);
             cmd.Parameters.AddWithValue(@"nombre_ArchivoMultimedia", multimedia.nombre_ArchivoMultimedia);

@@ -15,16 +15,18 @@ namespace Controller
     {
         Conexion conexion = new Conexion();
 
-        public long Insert(SolicitudesEntidad solicitudes)
+        public long Insert(SolicitudesEntidad solicitudes, long id_Usuario, long id_InformacionSitio)
         {
             SqlConnection cx = conexion.ObtenerConexion();
-            string sql = @"INSERT INTO Solicitudes(estado_Solicitud,fecha_Solicitud,fecha_Resolucion) OUTPUT INSERTED.id_Solicitud VALUES (@estado_solicitud), @fecha_Solicitud, @fecha_Resolucion)";
+            string sql = @"INSERT INTO Solicitudes(estado_Solicitud, fecha_Solicitud, fecha_Resolucion, id_UsuarioEstandar, id_InformacionSitio) OUTPUT INSERTED.id_Solicitud VALUES (@estado_solicitud, GETDATE(), @fecha_Resolucion, @id_UsuarioEstandar, @id_InformacionSitio)";
 
             SqlCommand cmd = new SqlCommand(sql, cx);
 
-            cmd.Parameters.AddWithValue(@"estado_Solicitud", solicitudes.estado_Solicitud);
-            cmd.Parameters.AddWithValue(@"fecha_Solicitud", solicitudes.fecha_Solicitud);
-            cmd.Parameters.AddWithValue(@"fecha_Resolucion", solicitudes.fecha_Resolucion);
+            cmd.Parameters.AddWithValue("@estado_Solicitud", solicitudes.estado_Solicitud ?? "Pendiente");
+            cmd.Parameters.Add("@fecha_Resolucion", SqlDbType.Date).Value = solicitudes.fecha_Resolucion.HasValue ? solicitudes.fecha_Resolucion.Value.ToDateTime(TimeOnly.MinValue) : DBNull.Value;
+
+            cmd.Parameters.AddWithValue("@id_UsuarioEstandar", id_Usuario);
+            cmd.Parameters.AddWithValue("@id_InformacionSitio", id_InformacionSitio);
 
             cx.Open();
             long id_Solicitud = Convert.ToInt64(cmd.ExecuteScalar());

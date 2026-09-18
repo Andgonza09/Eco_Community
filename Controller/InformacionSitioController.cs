@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Eco_Community.Model;
+using Microsoft.Data.SqlClient;
+using Model.Eco_Community;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Eco_Community.Model;
-using Model.Eco_Community;
-using Microsoft.Data.SqlClient;
 
 namespace Controller
 {
@@ -22,8 +23,9 @@ namespace Controller
             cmd.Parameters.AddWithValue(@"tipoSitio", informacionsitio.tipoSitio);
             cmd.Parameters.AddWithValue(@"direccion", informacionsitio.direccion);
             cmd.Parameters.AddWithValue(@"id_Barrio", id_Barrio);
-            cmd.Parameters.AddWithValue(@"latitud", informacionsitio.latitud);
-            cmd.Parameters.AddWithValue(@"length", informacionsitio.length);
+            cmd.Parameters.AddWithValue(@"latitud", SqlDbType.Decimal).Value = informacionsitio.latitud.HasValue ? informacionsitio.latitud.Value : DBNull.Value;
+            cmd.Parameters.AddWithValue(@"length", SqlDbType.Decimal).Value = informacionsitio.length.HasValue ? informacionsitio.length.Value : DBNull.Value;
+
 
 
             cx.Open();

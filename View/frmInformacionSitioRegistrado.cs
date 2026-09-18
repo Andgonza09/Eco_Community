@@ -78,49 +78,48 @@ namespace View
             string json = JsonSerializer.Serialize(puntosMapa);
 
             string script = $@"
-                    var listaPuntos = {json};
+            var listaPuntos = {json};
 
-                    listaPuntos.forEach(function(punto) {{
-                        var lat = Number(punto.Latitude);
-                        var lng = Number(punto.Length);
+            listaPuntos.forEach(function(punto) {{
 
-                        if (isNaN(lat) || isNaN(lng)) {{
-                            console.log('Coordenadas inválidas:', punto);
-                            return;
-                        }}
+                var lat = Number(punto.latitud);
+                var lng = Number(punto.length);
 
-                        var marker = L.marker([lat, lng]).addTo(mapa);
+                if (isNaN(lat) || isNaN(lng)) {{
+                    console.log('Coordenadas inválidas:', punto);
+                    return;
+                }}
 
-                        var contenidoPopup = '';
-                        contenidoPopup += '<b>Punto ambiental</b><br>';
-                        contenidoPopup += '<b>ID:</b> ' + punto.id_InformacionSitio + '<br>';
-                        contenidoPopup += '<b>Tipo:</b> ' + punto.tipoSitio + '<br>';
-                        contenidoPopup += '<b>Dirección:</b> ' + punto.direccion + '<br>';
-                        contenidoPopup += '<b>Barrio:</b> ' + punto.id_Barrio + '<br>';
-                        contenidoPopup += '<b>Latitud:</b> ' + punto.latitud + '<br>';
-                        contenidoPopup += '<b>Longitud:</b> ' + punto.length;
+                var marker = L.marker([lat, lng]).addTo(mapa);
 
-                        marker.bindPopup(contenidoPopup);
-                    }});
+                var contenidoPopup = '';
+                contenidoPopup += '<b>Punto ambiental</b><br>';
+                contenidoPopup += '<b>ID:</b> ' + punto.id_InformacionSitio + '<br>';
+                contenidoPopup += '<b>Tipo:</b> ' + punto.tipoSitio + '<br>';
+                contenidoPopup += '<b>Dirección:</b> ' + punto.direccion + '<br>';
+                contenidoPopup += '<b>Barrio:</b> ' + punto.id_Barrio + '<br>';
+                contenidoPopup += '<b>Latitud:</b> ' + punto.latitud + '<br>';
+                contenidoPopup += '<b>Longitud:</b> ' + punto.length;
 
-                    mapa.invalidateSize();
-                ";
+                marker.bindPopup(contenidoPopup);
+            }});
+
+            mapa.invalidateSize();";
 
             await wv2Map.CoreWebView2.ExecuteScriptAsync(script);
         }
         private bool pointsLoaded = false;
-        private async void wv2Map_NavigationCompleted(object? sender, CoreWebView2NavigationCompletedEventArgs e)
+        private async void wv2Map_NavigationCompleted(
+            object? sender,
+            CoreWebView2NavigationCompletedEventArgs e)
         {
             if (!e.IsSuccess || pointsLoaded)
                 return;
 
             pointsLoaded = true;
 
-            await Task.Delay(1000);
-
             await LoadPointsToMap();
         }
-
 
         private void webView21_Click(object sender, EventArgs e)
         {
@@ -134,25 +133,57 @@ namespace View
 
         private async void UserPointsRegisters_Load(object sender, EventArgs e)
         {
-            await wv2Map.EnsureCoreWebView2Async();
-
-            wv2Map.CoreWebView2.PermissionRequested += (sender, e) =>
+            try
             {
-                if (e.PermissionKind == CoreWebView2PermissionKind.Geolocation)
+                await wv2Map.EnsureCoreWebView2Async();
+
+                // Permitir geolocalización
+                wv2Map.CoreWebView2.PermissionRequested += (sender, e) =>
                 {
-                    e.State = CoreWebView2PermissionState.Allow;
+                    if (e.PermissionKind == CoreWebView2PermissionKind.Geolocation)
+                    {
+                        e.State = CoreWebView2PermissionState.Allow;
+                    }
+                };
+
+                string carpetaMaps = Path.Combine(
+                    Application.StartupPath,
+                    "Maps"
+                );
+
+                string rutaMapa = Path.Combine(
+                    carpetaMaps,
+                    "mapa.html"
+                );
+
+                if (!File.Exists(rutaMapa))
+                {
+                    MessageBox.Show(
+                        $"No se encontró el mapa en:\n\n{rutaMapa}",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+
+                    return;
                 }
-            };
 
-            string carpetaHtml = Application.StartupPath;
+                wv2Map.CoreWebView2.SetVirtualHostNameToFolderMapping(
+                    "appassets.example",
+                    carpetaMaps,
+                    CoreWebView2HostResourceAccessKind.Allow
+                );
 
-            wv2Map.CoreWebView2.SetVirtualHostNameToFolderMapping(
-                "appassets.example",
-                carpetaHtml,
-                CoreWebView2HostResourceAccessKind.Allow
-            );
-
-            wv2Map.CoreWebView2.Navigate("https://appassets.example/Mapa.html");
+                wv2Map.CoreWebView2.Navigate(
+                    "https://appassets.example/mapa.html"
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error cargando el mapa:\n" + ex.Message
+                );
+            }
         }
 
         private void panel4_Paint(object sender, PaintEventArgs e)

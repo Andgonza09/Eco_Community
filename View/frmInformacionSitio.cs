@@ -184,8 +184,14 @@ namespace View
             }
 
             CopiarArchivosAdjuntos();
+
+            // Registro de sitio -- Información Sitio
             long idInformationSite = RegistrarSitio(selectedNeighborhood);
+
+            // Registro de detalles -- Informacion sitio y catálogo de residuos
             RegistrarDetallesClasificacion(idInformationSite, idsSeleccionados);
+
+            // Registro de usuarios y sitios 
             RegistrarDetalleUsuarioSitio(idInformationSite, _user.id_Usuario);
 
 
@@ -280,7 +286,7 @@ namespace View
             };
 
             Console.WriteLine($"{siteInformation.id_Barrio}");
-            id_InformacionSitio = new InformacionSitioController().Insert(siteInformation, siteInformation.id_Barrio);
+          //  id_InformacionSitio = new InformacionSitioController().Insert(siteInformation, siteInformation.id_Barrio);
 
             // Detalle Clasificación sitio.
             DetalleClasificacionSitioEntidad detailsInformation = new DetalleClasificacionSitioEntidad();
@@ -296,7 +302,7 @@ namespace View
             SolicitudesEntidad request = new SolicitudesEntidad();
             long idUser = _user.id_Usuario;
 
-            long id_Solicitud = new SolicitudesController().Insert(request);
+            long id_Solicitud = new SolicitudesController().Insert(request, idUser, idInformationSite);
             return id_Solicitud;
         }
         private void RegistrarMultimedia(long idRequest)

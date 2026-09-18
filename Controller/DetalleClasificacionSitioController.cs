@@ -23,29 +23,12 @@ namespace Controller
 
                 foreach (int idCatalogoResiduo in idS_CatalogoResiduos)
                 {
-                    string sql = @"
-                INSERT INTO DetalleClasificacionSitio
-                (
-                    id_InformacionSitio,
-                    id_CatalogoResiduos
-                )
-                VALUES
-                (
-                    @id_InformacionSitio,
-                    @id_CatalogoResiduos
-                )";
+                    string sql = @"INSERT INTO DetalleClasificacionSitio (id_InformacionSitio, id_CatalogoResiduos) VALUES (@id_InformacionSitio, @id_CatalogoResiduos)";
 
                     SqlCommand cmd = new SqlCommand(sql, cx);
 
-                    cmd.Parameters.AddWithValue(
-                        "@id_InformacionSitio",
-                        id_InformacionSitio
-                    );
-
-                    cmd.Parameters.AddWithValue(
-                        "@id_CatalogoResiduos",
-                        idCatalogoResiduo
-                    );
+                    cmd.Parameters.AddWithValue("@id_InformacionSitio", id_InformacionSitio);
+                    cmd.Parameters.AddWithValue("@id_CatalogoResiduos", idCatalogoResiduo);
 
                     cmd.ExecuteNonQuery();
                 }

@@ -22,6 +22,7 @@ namespace View
         private long _idUsuario;
         private long id_Solicitud;
 
+
         private readonly Color colorNormal =
             Color.FromArgb(244, 248, 238);
         private readonly Color colorHover =
@@ -136,6 +137,7 @@ namespace View
 
             e.Graphics.DrawRectangle(pen, rect);
         }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public long IdSolicitud
         {
             get => id_Solicitud;
@@ -146,6 +148,8 @@ namespace View
                 lbNSolicitud.Text = $"Solicitud #{value}";
             }
         }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string Estado
         {
             set
@@ -176,6 +180,8 @@ namespace View
                 ActualizarImagen();
             }
         }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string TipoSitio
         {
             set
@@ -188,6 +194,8 @@ namespace View
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+
         public string Direccion
         {
             set
@@ -196,6 +204,7 @@ namespace View
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public DateOnly FechaSolicitud
         {
             set
@@ -204,6 +213,7 @@ namespace View
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public DateOnly? FechaResolucion
         {
             set
@@ -238,7 +248,7 @@ namespace View
                     pictureBox1.Image =
                         Properties.Resources.PuntoReciclajeRedRemove;
             }
-            else if (tipo == "depósito de basura" ||
+            else if (tipo == "depósitos de basura" ||
                      tipo == "deposito de basura")
             {
                 if (estado == "aprobada")

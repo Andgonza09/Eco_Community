@@ -13,8 +13,8 @@ namespace Model.Eco_Community
        public string tipoSitio {  get; set; }
        public string direccion {  get; set; }
        public int id_Barrio { get; set; }
-       public decimal latitud { get; set; }
-       public decimal length { get; set; }
+       public decimal? latitud { get; set; }
+       public decimal? length { get; set; }
 
 
     }
