@@ -14,7 +14,6 @@ namespace Controller
     public class SolicitudesController
     {
         Conexion conexion = new Conexion();
-
         public long Insert(SolicitudesEntidad solicitudes, long id_Usuario, long id_InformacionSitio)
         {
             SqlConnection cx = conexion.ObtenerConexion();

@@ -12,9 +12,7 @@ namespace Controller
 {
     public class DistritoController
     {
-
         Conexion conexion = new Conexion();
-
         public void Insert(DistritoEntidad distritos)
         {
             SqlConnection cx = conexion.ObtenerConexion();

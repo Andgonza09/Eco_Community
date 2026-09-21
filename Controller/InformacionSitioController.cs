@@ -7,13 +7,13 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Controller
 {
     public class InformacionSitioController
     {
         Conexion conexion = new Conexion();
-
         public long Insert(InformacionSitioEntidad informacionsitio, int id_Barrio)
         {
             SqlConnection cx = conexion.ObtenerConexion();
@@ -35,6 +35,91 @@ namespace Controller
             return id_InformacionSitio;
 
         }
+        public void DeleteInformacion(InformacionSitioEntidad informacionSitio, long id_InformacionSitio)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"DELETE FROM InformacionSitio WHERE id_InformacionSitio = @idInformacionSitio";
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cmd.Parameters.AddWithValue("@idInformacionSitio", id_InformacionSitio);
+
+                cx.Open();
+                cmd.ExecuteNonQuery();
+                cx.Close();
+
+                MessageBox.Show("Información eliminada correctamente", "Operación exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al eliminar este punto" + ex.Message);
+            }
+        }
+        public long GetID_InformacionSitio(long id_InformacionSitio)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"Select * FROM informacionSitio WHERE id_InformacionSitio = @idInformacionSitio";
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cmd.Parameters.AddWithValue("@idInformacionSitio", id_InformacionSitio);
+
+                cx.Open();
+                object resultado = cmd.ExecuteScalar();
+                cx.Close();
+
+                if (resultado == null)
+                    return 0;
+
+                return Convert.ToInt64(resultado);
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar la información: " + ex.Message);
+            }
+        }
+        public bool UpdateInformacion(InformacionSitioEntidad informacionSitio, long id_InformacionSitio)
+        {
+
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"Update InformacionSitio SET tipoSitio = @tipoSitio, direccion = @Direccion, 
+                latitud = @Latitud, length = @Length WHERE id_InformacionSitio = @IdSiteInformation";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+                cmd.Parameters.AddWithValue("@IdSiteInformation", id_InformacionSitio);
+                cmd.Parameters.AddWithValue("@tipoSitio", informacionSitio.tipoSitio);
+                cmd.Parameters.AddWithValue("@Direccion", informacionSitio.direccion);
+                cmd.Parameters.AddWithValue("@Latitud", informacionSitio.latitud);
+                cmd.Parameters.AddWithValue("@Length", informacionSitio.length);
+
+                cx.Open();
+                int result = cmd.ExecuteNonQuery();
+
+                if (result == 0)
+                    return false;
+
+                else
+                {
+                    MessageBox.Show("Cambios realizados correctamente", "Cambios realizados", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                cx.Close();
+                return true;
+                
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar los datos: " + ex.Message);
+                return false;
+            }
+        }
         public List<(InformacionSitioEntidad, string)> ViewAllPoints()
         {
             List<(InformacionSitioEntidad Sitio, string NombreBarrio)> points = new List<(InformacionSitioEntidad Sitio, string NombreBarrio)>();
@@ -42,16 +127,9 @@ namespace Controller
 
             string sql = @"
                     SELECT 
-                        i.id_InformacionSitio,
-                        i.tipoSitio,
-                        i.direccion,
-                        i.id_Barrio,
-                        b.nombre_Barrio,
-                        i.latitud,
-                        i.length
-                    FROM InformacionSitio i
-                    INNER JOIN Barrio b 
-                        ON i.id_Barrio = b.id_Barrio INNER JOIN Solicitudes ON i.id_InformacionSitio = Solicitudes.id_InformacionSitio where Solicitudes.estado_Solicitud = 'Aprobada'";
+                        i.id_InformacionSitio, i.tipoSitio, i.direccion, i.id_Barrio, b.nombre_Barrio, i.latitud, i.length
+                        FROM InformacionSitio i INNER JOIN Barrio b ON i.id_Barrio = b.id_Barrio INNER JOIN
+                        Solicitudes ON i.id_InformacionSitio = Solicitudes.id_InformacionSitio where Solicitudes.estado_Solicitud = 'Aprobada'";
 
             SqlCommand cmd = new SqlCommand(sql, cx);
             cx.Open();

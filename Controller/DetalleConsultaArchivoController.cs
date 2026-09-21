@@ -12,7 +12,6 @@ namespace Controller
     public class DetalleConsultaArchivoController
     {
         Conexion conexion = new Conexion();
-
         public void Insert(long id_Usuario)
         {
             DetalleConsultaArchivoEntidad detalleConsultaArchivo = new DetalleConsultaArchivoEntidad();

@@ -1,8 +1,10 @@
-﻿using Microsoft.Data.SqlClient;
-using Model.Eco_Community;
-using Controller;
+﻿using Controller;
+using Eco_Community.Model;
+using Microsoft.Data.SqlClient;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
+using Microsoft.Web.WebView2.Wpf;
+using Model.Eco_Community;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,56 +20,95 @@ namespace View
 {
     public partial class frmPuntosRegistrados : Form
     {
-        private string connectionString = "Server=localhost;Database=Eco_Community;Trusted_Connection=True;TrustServerCertificate=True;";
         public frmPuntosRegistrados()
         {
             InitializeComponent();
-            InicializarMapa();
+            InitializeMap();
+            this.Load += PointsRegisteredView_Load;
+
+            this.Shown += frmPuntosRegistrados_Shown;
             dataGridView1.CellFormatting += dataGridView1_CellFormatting;
         }
+        private void frmPuntosRegistrados_Shown(object? sender, EventArgs e)
+        {
+            CargarPuntos();
+        }
+        private void CargarPuntos()
+        {
+            InformacionSitioController controller =
+                new InformacionSitioController();
 
+            var datos = controller.ViewAllPoints();
 
-        private async void InicializarMapa()
+            var datosGrid = datos.Select(x => new
+            {
+                Id = x.Item1.id_InformacionSitio,
+                TipoSitio = x.Item1.tipoSitio,
+                Direccion = x.Item1.direccion,
+                Latitud = x.Item1.latitud,
+                Longitud = x.Item1.length,
+                Barrio = x.Item2
+            }).ToList();
+
+            dataGridView1.DataSource = null;
+            dataGridView1.Columns.Clear();
+
+            dataGridView1.AutoGenerateColumns = true;
+            dataGridView1.ColumnHeadersVisible = true;
+
+            dataGridView1.DataSource = datosGrid;
+
+            tableLayoutPanel3.Visible = true;
+            dataGridView1.Visible = true;
+
+            dataGridView1.BringToFront();
+            dataGridView1.Refresh();
+
+            MessageBox.Show(
+                $"Datos: {datosGrid.Count}\n" +
+                $"Columnas: {dataGridView1.Columns.Count}\n" +
+                $"Filas: {dataGridView1.Rows.Count}\n" +
+                $"Grid visible: {dataGridView1.Visible}\n" +
+                $"Panel visible: {tableLayoutPanel3.Visible}"
+            );
+        }
+
+        private async void InitializeMap()
         {
             try
             {
-                // Inicializa el motor de Edge interno en el control
-                await wv2Map.EnsureCoreWebView2Async(null);
-
-                // Busca el archivo mapa.html que configuraste en el directorio bin
-                string rutaHtml = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mapa.html");
+                string rutaHtml = Path.Combine(
+                    AppContext.BaseDirectory,
+                    "Maps",
+                    "mapa.html"
+                );
 
                 if (!File.Exists(rutaHtml))
                 {
-                    MessageBox.Show("No se encontró el archivo mapa.html en: " + rutaHtml, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(
+                        $"No se encontró mapa.html.\n\nRuta buscada:\n{rutaHtml}",
+                        "Archivo no encontrado",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+
                     return;
                 }
 
-                // Carga el mapa en pantalla
-                wv2Map.CoreWebView2.Navigate(rutaHtml);
+                await wv2Map.EnsureCoreWebView2Async();
 
-                // EVENTO CLAVE: Cuando el HTML termine de cargar por completo, inyectamos los datos
-                wv2Map.NavigationCompleted += async (s, e) =>
-                {
-                    if (e.IsSuccess)
-                    {
-                        // Esperamos un segundo extra para asegurar que window.onload corrió en el navegador
-                        await Task.Delay(1000);
-                        await LoadPointsToMap();
-                    }
-                };
+                wv2Map.Source = new Uri(rutaHtml, UriKind.Absolute);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al inicializar el mapa: " + ex.Message);
+                MessageBox.Show(ex.Message);
             }
-
         }
         public void RefreshTable()
         {
-            InformacionSitioEntidad siteInformation = new InformacionSitioEntidad();
+            InformacionSitioController siteInformation = new InformacionSitioController();
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-           // dataGridView1.DataSource = siteInformation.ViewAllPoints();
+            dataGridView1.DataSource = siteInformation.ViewAllPoints();
         }
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
@@ -80,117 +121,18 @@ namespace View
                 e.FormattingApplied = true;
             }
         }
-
-        private async Task LoadPointsToMap()
-        {
-            
-
-            List<(InformacionSitioEntidad, string)> puntos = new InformacionSitioController().ViewAllPoints();
-            List<CatalogoResiduosEntidad> waste = new CatalogoResiduosController().ViewAllWaste();
-
-            MessageBox.Show("Cantidad de puntos encontrados: " + puntos.Count);
-            
-
-            var puntosMapa = puntos.Select(p => new
-            {
-                p.Item1,
-                p.Item2
-
-                /*                puntos -- Funcionamiento de items, al ser una tupla de datos, los items identifican sin la necesidad de desenvolver el objeto completo
-                 ├── [0]
-                 │    ├── Item1 → InformacionSitioEntidad
-                 │    └── Item2 → "Managua"
-                 │
-                 ├── [1]
-                 │    ├── Item1 → InformacionSitioEntidad
-                 │    └── Item2 → "Masaya"
-                 │
-                 └── [2]
-                      ├── Item1 → InformacionSitioEntidad
-                      └── Item2 → "Tipitapa"puntos
-                 ├── [0]
-                 │    ├── Item1 → InformacionSitioEntidad
-                 │    └── Item2 → "Managua"
-                 │
-                 ├── [1]
-                 │    ├── Item1 → InformacionSitioEntidad
-                 │    └── Item2 → "Masaya"
-                 │
-                 └── [2]
-                      ├── Item1 → InformacionSitioEntidad
-                      └── Item2 → "Tipitapa"*/
-
-            }).ToList();
-
-            var catalog = waste.Select(w => new
-            {
-                w.tipoResiduo
-            }).ToList();
-
-            var datosMapa = new
-            {
-                Points = puntosMapa,
-                WasteCatalog = catalog
-            };
-
-            string json = JsonSerializer.Serialize(datosMapa);
-
-            string script = $@"
-                var datosMapa = {json};
-
-                var listaPuntos = datosMapa.Points;
-                var catalogoResiduos = datosMapa.WasteCatalog;
-
-                var tiposResiduos = catalogoResiduos
-                    .map(function(residuo) {{
-                        return residuo.TypeWaste;
-                    }})
-                    .join(', ');
-
-                listaPuntos.forEach(function(punto) {{
-                    var lat = Number(punto.Latitude);
-                    var lng = Number(punto.Length);
-
-                    if (isNaN(lat) || isNaN(lng)) {{
-                        console.log('Coordenadas inválidas:', punto);
-                        return;
-                    }}
-
-                    var marker = L.marker([lat, lng]).addTo(mapa);
-
-                    var contenidoPopup = '';
-                    contenidoPopup += '<b>Punto ambiental</b><br>';
-                    contenidoPopup += '<b>ID:</b> ' + punto.IdSiteInformation + '<br>';
-                    contenidoPopup += '<b>Tipo:</b> ' + punto.TypeSite + '<br>';
-                    contenidoPopup += '<b>Dirección:</b> ' + punto.Address + '<br>';
-                    contenidoPopup += '<b>Barrio:</b> ' + punto.NeighborhoodName + '<br>';
-                    contenidoPopup += '<b>Tipos de Residuos:</b> ' + tiposResiduos + '<br>';
-                    contenidoPopup += '<b>Latitud:</b> ' + punto.Latitude + '<br>';
-                    contenidoPopup += '<b>Longitud:</b> ' + punto.Length;
-
-                    marker.bindPopup(contenidoPopup);
-                }});
-
-        mapa.invalidateSize();
-    ";
-
-            await wv2Map.CoreWebView2.ExecuteScriptAsync(script);
-        }
-
         private async void PointsRegisteredView_Load(object sender, EventArgs e)
         {
-            InformacionSitioEntidad points = new InformacionSitioEntidad();
+            MessageBox.Show("ENTRÓ AL LOAD");
+
             await wv2Map.EnsureCoreWebView2Async();
 
-            wv2Map.CoreWebView2.PermissionRequested += (sender, e) =>
-            {
-                if (e.PermissionKind == CoreWebView2PermissionKind.Geolocation)
-                {
-                    e.State = CoreWebView2PermissionState.Allow;
-                }
-            };
+            MessageBox.Show("WEBVIEW2 INICIALIZADO");
 
-            string carpetaHtml = Application.StartupPath;
+            string carpetaHtml = Path.Combine(
+                Application.StartupPath,
+                "Maps"
+            );
 
             wv2Map.CoreWebView2.SetVirtualHostNameToFolderMapping(
                 "appassets.example",
@@ -198,20 +140,83 @@ namespace View
                 CoreWebView2HostResourceAccessKind.Allow
             );
 
-            wv2Map.CoreWebView2.Navigate("https://appassets.example/Mapa.html");
+            wv2Map.CoreWebView2.NavigationCompleted += async (s, args) =>
+            {
+                MessageBox.Show("NAVIGATION COMPLETED");
 
-            InformacionSitioEntidad pointsTable = new InformacionSitioEntidad();
+                if (!args.IsSuccess)
+                {
+                    MessageBox.Show(
+                        "Falló la navegación: " +
+                        args.WebErrorStatus
+                    );
 
+                    return;
+                }
 
-            dataGridView1.AutoGenerateColumns = true;
-          //  dataGridView1.DataSource = pointsTable.ViewAllPoints();
+                MessageBox.Show("Voy a cargar los puntos");
 
-            dataGridView1.Columns["NeighborhoodId"].Visible = false;
-            dataGridView1.Columns["NeighborhoodName"].HeaderText = "Barrio";
-            dataGridView1.AutoSizeColumnsMode =
-                DataGridViewAutoSizeColumnsMode.Fill;
+                await LoadPointsToMap();
+            };
 
+            MessageBox.Show("VOY A NAVEGAR");
+
+            wv2Map.CoreWebView2.Navigate(
+                "https://appassets.example/mapa.html"
+            );
         }
+
+        private async Task LoadPointsToMap()
+        {
+            InformacionSitioEntidad siteInformation = new InformacionSitioEntidad();
+            List<(InformacionSitioEntidad Sitio, string NombreBarrio)> puntos = new InformacionSitioController().ViewAllPoints();
+
+            MessageBox.Show("Cantidad de puntos encontrados: " + puntos.Count);
+
+            var puntosMapa = puntos.Select(p => new
+            {
+                p.Sitio.id_InformacionSitio,
+                p.Sitio.tipoSitio,
+                p.Sitio.direccion,
+                p.Sitio.id_Barrio,
+                p.Sitio.latitud,
+                p.Sitio.length
+            }).ToList();
+
+            string json = JsonSerializer.Serialize(puntosMapa);
+
+            string script = $@"
+            var listaPuntos = {json};
+
+            listaPuntos.forEach(function(punto) {{
+
+                var lat = Number(punto.latitud);
+                var lng = Number(punto.length);
+
+                if (isNaN(lat) || isNaN(lng)) {{
+                    console.log('Coordenadas inválidas:', punto);
+                    return;
+                }}
+
+                var marker = L.marker([lat, lng]).addTo(mapa);
+
+                var contenidoPopup = '';
+                contenidoPopup += '<b>Punto ambiental</b><br>';
+                contenidoPopup += '<b>ID:</b> ' + punto.id_InformacionSitio + '<br>';
+                contenidoPopup += '<b>Tipo:</b> ' + punto.tipoSitio + '<br>';
+                contenidoPopup += '<b>Dirección:</b> ' + punto.direccion + '<br>';
+                contenidoPopup += '<b>Barrio:</b> ' + punto.id_Barrio + '<br>';
+                contenidoPopup += '<b>Latitud:</b> ' + punto.latitud + '<br>';
+                contenidoPopup += '<b>Longitud:</b> ' + punto.length;
+
+                marker.bindPopup(contenidoPopup);
+            }});
+
+            mapa.invalidateSize();";
+
+            await wv2Map.CoreWebView2.ExecuteScriptAsync(script);
+        }
+
 
         private bool pointsLoaded = false;
         private async void wv2Map_NavigationCompleted(object? sender, CoreWebView2NavigationCompletedEventArgs e)
@@ -226,17 +231,33 @@ namespace View
             await LoadPointsToMap();
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView1_CellClick(
+            object sender,
+            DataGridViewCellEventArgs e)
         {
-            InformacionSitioEntidad selectedPoint = (InformacionSitioEntidad)dataGridView1.CurrentRow.DataBoundItem;
-            txtNeighborhood.Text = new BarrioController().ObtenerNombreBarrio(selectedPoint.id_Barrio);
+            // Evita error al tocar encabezados
+            if (e.RowIndex < 0)
+                return;
 
-            txtIdPoints.Text = dataGridView1.SelectedCells[0].Value.ToString();
-            txtTypeSite.Text = dataGridView1.SelectedCells[1].Value.ToString();
-            rchtxtAdreess.Text = dataGridView1.SelectedCells[2].Value.ToString();
-            txtLatitude.Text = dataGridView1.SelectedCells[3].Value.ToString();
-            txtLength.Text = dataGridView1.SelectedCells[4].Value.ToString();
+            DataGridViewRow fila = dataGridView1.Rows[e.RowIndex];
 
+            txtIdPoints.Text =
+                fila.Cells["Id"].Value?.ToString();
+
+            txtTypeSite.Text =
+                fila.Cells["TipoSitio"].Value?.ToString();
+
+            rchtxtAdreess.Text =
+                fila.Cells["Direccion"].Value?.ToString();
+
+            txtLatitude.Text =
+                fila.Cells["Latitud"].Value?.ToString();
+
+            txtLength.Text =
+                fila.Cells["Longitud"].Value?.ToString();
+
+            txtNeighborhood.Text =
+                fila.Cells["Barrio"].Value?.ToString();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -246,41 +267,33 @@ namespace View
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+
             if (txtIdPoints.Text == string.Empty)
                 return;
 
-            if (txtTypeSite.Text.Trim() == dataGridView1.CurrentRow.Cells["TypeSite"].Value.ToString().Trim()
-            && rchtxtAdreess.Text.Trim() == dataGridView1.CurrentRow.Cells["Address"].Value.ToString().Trim()
-            && txtLatitude.Text.Trim() == dataGridView1.CurrentRow.Cells["Length"].Value.ToString().Trim()
-            && txtLength.Text.Trim() == dataGridView1.CurrentRow.Cells["Latitude"].Value.ToString().Trim())
+            InformacionSitioEntidad informacionSitio = new InformacionSitioEntidad()
+            {
+                id_InformacionSitio = long.Parse(txtIdPoints.Text),
+                tipoSitio = txtTypeSite.Text,
+                direccion = rchtxtAdreess.Text,
+                latitud = decimal.Parse(txtLatitude.Text),
+                length = decimal.Parse(txtLength.Text),
+            };
+
+            if (txtTypeSite.Text.Trim() == dataGridView1.CurrentRow.Cells["TipoSitio"].Value.ToString().Trim()
+            && rchtxtAdreess.Text.Trim() == dataGridView1.CurrentRow.Cells["Direccion"].Value.ToString().Trim()
+            && txtLatitude.Text.Trim() == dataGridView1.CurrentRow.Cells["Longitud"].Value.ToString().Trim()
+            && txtLength.Text.Trim() == dataGridView1.CurrentRow.Cells["Latitud"].Value.ToString().Trim())
             {
                 MessageBox.Show("No se ha realizado ningún cambio", "Validando actualización", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            /*
-            try
+
+            else
             {
-                using UpdateCommand updateCommand = new UpdateCommand();
-                string sql = @"Update InformacionSitio SET tipoSitio = @TypeSite, direccion = @Address, 
-                latitud = @Latitude, length = @Length WHERE id_InformacionSitio = @IdSiteInformation";
-
-                SqlParameter[] parameters = new SqlParameter[]
-                {
-                new SqlParameter("@IdSiteInformation", SqlDbType.BigInt) {Value = txtIdPoints.Text },
-                new SqlParameter("@TypeSite", SqlDbType.VarChar, 80) {Value = txtTypeSite.Text},
-                new SqlParameter("@Address", SqlDbType.VarChar, 500) {Value = rchtxtAdreess.Text},
-                new SqlParameter("@Latitude", SqlDbType.Decimal) {Value = txtLatitude.Text},
-                new SqlParameter("Length", SqlDbType.Decimal) {Value = txtLength.Text}
-                };
-
-                int result = updateCommand.ExecuteUpdate(sql, parameters);
-                MessageBox.Show("Cambios realizados correctamente", "Cambios realizados", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                RefreshTable();
+                new InformacionSitioController().UpdateInformacion(informacionSitio, informacionSitio.id_InformacionSitio);
+                MessageBox.Show("Cambios realizados correctamente", "Validación de información", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al actualizar los datos: " + ex.Message, "No se pudo actualizar la información", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }*/
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -295,6 +308,17 @@ namespace View
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            InformacionSitioEntidad informacionSitio = new InformacionSitioEntidad()
+            {
+                id_InformacionSitio = long.Parse(txtIdPoints.Text),
+                tipoSitio = txtTypeSite.Text,
+                direccion = rchtxtAdreess.Text,
+                latitud = Convert.ToDecimal(txtLatitude.Text),
+                length = Convert.ToDecimal(txtLength.Text),
+                id_Barrio = int.Parse(txtNeighborhood.Text),
+            };
+
+
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.MultiSelect = false;
 
@@ -310,57 +334,28 @@ namespace View
             if (verificate == DialogResult.OK)
             {
                 // Validar la eliminación del valor de la tabla detalle
-                int id = int.Parse(txtIdPoints.Text);
-                int detailsSite = Delete_Details(id);
-                /*
-                try
-                {
-                    using DeleteCommand deleteCommand = new DeleteCommand();
-                    string sql = @"Delete FROM informacionSitio 
-                     WHERE id_InformacionSitio = @IdSiteInformation";
-
-                    SqlParameter[] parameters = new SqlParameter[]
-                    {
-                        new SqlParameter("@IdSiteInformation", SqlDbType.BigInt) {Value = txtIdPoints.Text}
-                    };
-
-
-                    int result = deleteCommand.ExecuteDelete(sql, parameters);
-                    MessageBox.Show("Punto eliminado correctamente", "Eliminación de punto", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    RefreshTable();
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al eliminar este punto: " + ex.Message, "Error en eliminación", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }*/
+                Delete_Details();
+                new InformacionSitioController().DeleteInformacion(informacionSitio, informacionSitio.id_InformacionSitio);
+                RefreshTable();   
             }
 
         }
-        private int Delete_Details(int id)
-        {/*
+
+        // Arreglar consulta de SQL (Llave compuesta) 
+        private void Delete_Details()
+        {
             try
             {
-                using DeleteCommand deleteCommand = new DeleteCommand();
-                string sql = @"DELETE FROM DetalleClasificacionSitio 
-                    WHERE id_InformacionSitio = @IdSiteInformation";
+                long id_InformacionSitio = long.Parse(txtIdPoints.Text);
+                new InformacionSitioController().GetID_InformacionSitio(id_InformacionSitio);
 
-                    SqlParameter[] parameters =
-                    {
-                        new SqlParameter("@IdSiteInformation", SqlDbType.Int)
-                    {
-                        Value = id
-                    }
-                };
-
-                int rowsAffected = deleteCommand.ExecuteDelete(sql, parameters);
-                return rowsAffected;
+                List<int> idS_CatalogoResiduos = new DetalleClasificacionSitioController().GetIds_CatalogoResiduosByInformacion(id_InformacionSitio);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al eliminar la información del sitio: " + ex.Message);
-            }*/
-            return 0;
+                throw new Exception("Error al eliminar los detalles de la clasificación del sitio: " + ex.Message);
+            }
+            
         }
 
 

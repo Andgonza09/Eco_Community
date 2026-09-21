@@ -290,7 +290,7 @@ namespace View
 
             // Detalle Clasificación sitio.
             DetalleClasificacionSitioEntidad detailsInformation = new DetalleClasificacionSitioEntidad();
-            new DetalleClasificacionSitioController().Insert(detailsInformation, id_InformacionSitio, idsSeleccionados);
+            new DetalleClasificacionSitioController().Insert(id_InformacionSitio, idsSeleccionados);
         }
         private void RegistrarDetalleUsuarioSitio(long idInformationSite, long id_Usuario)
         {

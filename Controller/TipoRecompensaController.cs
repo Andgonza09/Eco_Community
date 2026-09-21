@@ -12,7 +12,6 @@ namespace Controller
     public class TipoRecompensaController
     {
         Conexion conexion = new Conexion();
-
         public void Insert(TipoRecompensaEntidad roles)
         {
             SqlConnection cx = conexion.ObtenerConexion();

@@ -14,7 +14,6 @@ namespace Controller
     public class BarrioController
     {
         Conexion conexion = new Conexion();
-
         public void Insert(BarrioEntidad barrios)
         {
             SqlConnection cx = conexion.ObtenerConexion();

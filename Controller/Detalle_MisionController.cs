@@ -12,7 +12,6 @@ namespace Controller
     public class Detalle_MisionController
     {
         Conexion conexion = new Conexion();
-
         public void Insert(Detalle_MisionEntidad detalle_mision)
         {
             SqlConnection cx = conexion.ObtenerConexion();

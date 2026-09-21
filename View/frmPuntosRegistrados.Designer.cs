@@ -180,9 +180,9 @@
             label5.Font = new Font("Segoe UI Historic", 10.2F);
             label5.Location = new Point(14, 250);
             label5.Name = "label5";
-            label5.Size = new Size(78, 23);
+            label5.Size = new Size(63, 23);
             label5.TabIndex = 40;
-            label5.Text = "Longitud";
+            label5.Text = "Latitud";
             label5.Click += label5_Click;
             // 
             // label7
@@ -191,9 +191,9 @@
             label7.Font = new Font("Segoe UI Historic", 10.2F);
             label7.Location = new Point(14, 327);
             label7.Name = "label7";
-            label7.Size = new Size(63, 23);
+            label7.Size = new Size(78, 23);
             label7.TabIndex = 41;
-            label7.Text = "Latitud";
+            label7.Text = "Longitud";
             // 
             // label8
             // 

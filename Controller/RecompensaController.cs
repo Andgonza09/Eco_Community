@@ -13,7 +13,6 @@ namespace Controller
     public class RecompensaController
     {
         Conexion conexion = new Conexion();
-
         public int Insert(RecompensaEntidad recompensa)
         {
             SqlConnection cx = conexion.ObtenerConexion();

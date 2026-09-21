@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using Eco_Community.Model;
 using Model.Eco_Community;
 using Microsoft.Data.SqlClient;
+using Model;
 
 namespace Controller
 {
     public class CatalogoResiduosController
     {
         Conexion conexion = new Conexion();
-
         public void Insert(CatalogoResiduosEntidad catalogoresiduos)
         {
             SqlConnection cx = conexion.ObtenerConexion();
@@ -28,12 +28,13 @@ namespace Controller
             cx.Close();
 
         }
+
         public List<CatalogoResiduosEntidad> ViewAllWaste()
         {
             try
             {
                 SqlConnection cx = conexion.ObtenerConexion();
-                string sql = @"SELECT id_CatalogoResiduos, tipoResiduo FROM CatalogoResiduos";
+                string sql = @"SELECT * FROM CatalogoResiduos";
 
                 SqlCommand cmd = new SqlCommand(sql, cx);
 

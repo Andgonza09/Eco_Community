@@ -12,7 +12,6 @@ namespace Controller
     public class RolesController
     {
         Conexion conexion = new Conexion();
-
         public void Insert(RolesEntidad roles)
         {
             SqlConnection cx = conexion.ObtenerConexion();

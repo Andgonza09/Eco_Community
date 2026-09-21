@@ -12,7 +12,6 @@ namespace Controller
     public class ExtensionController
     {
         Conexion conexion = new Conexion();
-
         public void Insert(ExtensionEntidad extension)
         {
             SqlConnection cx = conexion.ObtenerConexion();

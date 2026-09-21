@@ -15,7 +15,6 @@ namespace Controller
     public class ArchivoCriteriosController
     {
         Conexion conexion = new Conexion();
-
         public void Insert(ArchivoCriteriosEntidad archivocriterios)
         {
             SqlConnection cx = conexion.ObtenerConexion();

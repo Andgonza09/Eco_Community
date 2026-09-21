@@ -27,7 +27,7 @@ namespace Controller
             cmd.ExecuteNonQuery();
             cx.Close();
 
-
         }
+
     }
 }

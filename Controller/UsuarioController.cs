@@ -13,7 +13,6 @@ namespace Controller
 {
     public class UsuarioController
     {
-
         Conexion conexion = new Conexion();
         public void Insert(UsuarioEntidad Usuario)
         {
