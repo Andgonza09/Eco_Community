@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+
+    <title>Mapa de Puntos Ambientales</title>
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            background-color: #d8e6f3;
+        }
+
+        #estado {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 9999;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+    <div id="map"></div>
+
+    <div id="estado">
+        Cargando mapa...
+    </div>
+
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+
+    <script>
+
+                const estado =
+                    document.getElementById("estado");
+
+
+                // ============================
+                // CREAR MAPA UNA SOLA VEZ
+                // ============================
+
+                var mapa = L.map(
+                    "map",
+                    {
+                        zoomControl: true,
+
+                        zoomAnimation: false,
+
+                        fadeAnimation: false,
+
+                        markerZoomAnimation: false,
+
+                        preferCanvas: true
+                    }
+                );
+
+
+                // Posición inicial Managua
+                mapa.setView(
+                    [12.1364, -86.2514],
+                    13,
+                    {
+                        animate: false
+                    }
+                );
+
+
+                // ============================
+                // CAPA OPENSTREETMAP
+                // ============================
+
+                L.tileLayer(
+                    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    {
+                        minZoom: 10,
+
+                        maxZoom: 18,
+
+                        updateWhenIdle: true,
+
+                        updateWhenZooming: false,
+
+                        keepBuffer: 1,
+
+                        detectRetina: false
+                    }
+                ).addTo(mapa);
+
+
+                // ============================
+                // UBICACIÓN DEL USUARIO
+                // ============================
+
+                var marcadorUsuario = null;
+
+
+                function cargarUbicacionUsuario() {
+
+                    if (!navigator.geolocation) {
+
+                        estado.innerHTML =
+                            "Geolocalización no disponible.";
+
+                        return;
+                    }
+
+
+                    estado.innerHTML =
+                        "Buscando tu ubicación...";
+
+
+                    navigator.geolocation.getCurrentPosition(
+
+                        // ======================
+                        // UBICACIÓN ENCONTRADA
+                        // ======================
+
+                        function (position) {
+
+                            const lat =
+                                position.coords.latitude;
+
+                            const lng =
+                                position.coords.longitude;
+
+
+                            marcadorUsuario =
+                                L.marker(
+                                    [lat, lng]
+                                )
+                                .addTo(mapa)
+                                .bindPopup(
+                                    "<b>Tu ubicación actual</b><br>" +
+
+                                    "<b>Latitud:</b> "
+                                    + lat.toFixed(6)
+                                    + "<br>" +
+
+                                    "<b>Longitud:</b> "
+                                    + lng.toFixed(6)
+                                );
+
+
+                            // Acercar sin animaciones
+                            mapa.setView(
+                                [lat, lng],
+                                15,
+                                {
+                                    animate: false
+                                }
+                            );
+
+
+                            mapa.invalidateSize(false);
+
+
+                            estado.innerHTML =
+                                "Ubicación actual cargada correctamente.";
+
+
+                            // Ocultar mensaje después
+                            setTimeout(
+                                function () {
+
+                                    estado.style.display =
+                                        "none";
+
+                                },
+                                2000
+                            );
+
+                        },
+
+
+                        // ======================
+                        // ERROR
+                        // ======================
+
+                        function (error) {
+
+                            if (error.code === 1) {
+
+                                estado.innerHTML =
+                                    "Permiso de ubicación denegado.";
+
+                            }
+
+                            else if (error.code === 2) {
+
+                                estado.innerHTML =
+                                    "Ubicación no disponible.";
+
+                            }
+
+                            else if (error.code === 3) {
+
+                                estado.innerHTML =
+                                    "La ubicación tardó demasiado.";
+
+                            }
+
+                            else {
+
+                                estado.innerHTML =
+                                    "No se pudo obtener tu ubicación.";
+
+                            }
+
+
+                            console.log(
+                                "Error geolocalización:",
+                                error
+                            );
+
+                        },
+
+
+                        // ======================
+                        // CONFIGURACIÓN
+                        // ======================
+
+                        {
+                            enableHighAccuracy: false,
+
+                            timeout: 8000,
+
+                            maximumAge: 300000
+                        }
+
+                    );
+
+                }
+
+
+                // ============================
+                // MAPA LISTO
+                // ============================
+
+                mapa.whenReady(
+                    function () {
+
+                        mapa.invalidateSize(false);
+
+                        cargarUbicacionUsuario();
+
+                    }
+                );
+
+    </script>
+
+</body>
+
+</html>
