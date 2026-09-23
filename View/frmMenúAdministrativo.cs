@@ -60,36 +60,51 @@ namespace View
         {
 
         }
+
+        private void lblDescriptionViewPoints_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label23_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel13_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
         /*
-        private void CountRequestApproved()
-        {
-            using SelectQuery query = new SelectQuery();
+private void CountRequestApproved()
+{
+using SelectQuery query = new SelectQuery();
 
-            string sql = @"SELECT COUNT(*) FROM Solicitudes
-            INNER JOIN Usuario ON Solicitudes.id_UsuarioEstandar = Usuario.id_Usuario WHERE Solicitudes.estado_Solicitud = 'Aprobada'";
+string sql = @"SELECT COUNT(*) FROM Solicitudes
+INNER JOIN Usuario ON Solicitudes.id_UsuarioEstandar = Usuario.id_Usuario WHERE Solicitudes.estado_Solicitud = 'Aprobada'";
 
-            object? total = query.ExecuteScalar(sql);
-            label12.Text = total?.ToString() ?? "0";
-        }
-        private void CountRequestEarrings()
-        {
-            using SelectQuery query = new SelectQuery();
+object? total = query.ExecuteScalar(sql);
+label12.Text = total?.ToString() ?? "0";
+}
+private void CountRequestEarrings()
+{
+using SelectQuery query = new SelectQuery();
 
-            string sql = @"SELECT COUNT(*) FROM Solicitudes
-            INNER JOIN Usuario ON Solicitudes.id_UsuarioEstandar = Usuario.id_Usuario WHERE Solicitudes.estado_Solicitud = 'Pendiente'";
+string sql = @"SELECT COUNT(*) FROM Solicitudes
+INNER JOIN Usuario ON Solicitudes.id_UsuarioEstandar = Usuario.id_Usuario WHERE Solicitudes.estado_Solicitud = 'Pendiente'";
 
-            object? total = query.ExecuteScalar(sql);
-            label1.Text = total?.ToString() ?? "0";
-        }
-        private void CountRequestRejected()
-        {
-            using SelectQuery query = new SelectQuery();
+object? total = query.ExecuteScalar(sql);
+label1.Text = total?.ToString() ?? "0";
+}
+private void CountRequestRejected()
+{
+using SelectQuery query = new SelectQuery();
 
-            string sql = @"SELECT COUNT(*) FROM Solicitudes
-            INNER JOIN Usuario ON Solicitudes.id_UsuarioEstandar = Usuario.id_Usuario WHERE Solicitudes.estado_Solicitud = 'Rechazada'";
+string sql = @"SELECT COUNT(*) FROM Solicitudes
+INNER JOIN Usuario ON Solicitudes.id_UsuarioEstandar = Usuario.id_Usuario WHERE Solicitudes.estado_Solicitud = 'Rechazada'";
 
-            object? total = query.ExecuteScalar(sql);
-            label3.Text = total?.ToString() ?? "0";
-        }*/
+object? total = query.ExecuteScalar(sql);
+label3.Text = total?.ToString() ?? "0";
+}*/
     }
 }

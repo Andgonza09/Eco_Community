@@ -253,9 +253,9 @@ namespace View.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap EstadoPendienteRemove {
+        internal static System.Drawing.Bitmap EstadoRechazadoRemove {
             get {
-                object obj = ResourceManager.GetObject("EstadoPendienteRemove", resourceCulture);
+                object obj = ResourceManager.GetObject("EstadoRechazadoRemove", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -263,9 +263,9 @@ namespace View.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap EstadoRechazadoRemove {
+        internal static System.Drawing.Bitmap EstadoRePendienteRemove {
             get {
-                object obj = ResourceManager.GetObject("EstadoRechazadoRemove", resourceCulture);
+                object obj = ResourceManager.GetObject("EstadoRePendienteRemove", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

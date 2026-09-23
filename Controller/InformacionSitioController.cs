@@ -105,10 +105,6 @@ namespace Controller
                 if (result == 0)
                     return false;
 
-                else
-                {
-                    MessageBox.Show("Cambios realizados correctamente", "Cambios realizados", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
                 cx.Close();
                 return true;
                 

@@ -161,6 +161,7 @@
             pbEstado.Size = new Size(156, 31);
             pbEstado.TabIndex = 33;
             pbEstado.TabStop = false;
+            pbEstado.Click += pbEstado_Click;
             // 
             // lbDireccionTitulo
             // 

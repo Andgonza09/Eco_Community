@@ -163,7 +163,7 @@ namespace View
                         break;
 
                     case "pendiente":
-                        pbEstado.Image = Properties.Resources.EstadoPendienteRemove;
+                        pbEstado.Image = Properties.Resources.EstadoRePendienteRemove;
                         break;
 
                     case "rechazada":
@@ -344,7 +344,12 @@ namespace View
                 SolicitudEliminada?.Invoke();
             }
 
-            
+
+        }
+
+        private void pbEstado_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

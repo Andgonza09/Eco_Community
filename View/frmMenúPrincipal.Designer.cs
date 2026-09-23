@@ -189,7 +189,7 @@
             // 
             // pnlViewMyRequest
             // 
-            pnlViewMyRequest.BackColor = Color.FromArgb(179, 194, 148);
+            pnlViewMyRequest.BackColor = Color.FromArgb(111, 146, 82);
             pnlViewMyRequest.Controls.Add(pictureBox15);
             pnlViewMyRequest.Controls.Add(lblDescriptionRequest);
             pnlViewMyRequest.Controls.Add(lblViewRequest);
@@ -235,7 +235,7 @@
             // 
             // pnlViewMyPoints
             // 
-            pnlViewMyPoints.BackColor = Color.FromArgb(179, 194, 148);
+            pnlViewMyPoints.BackColor = Color.FromArgb(111, 146, 82);
             pnlViewMyPoints.Controls.Add(pictureBox17);
             pnlViewMyPoints.Controls.Add(lblDescriptionViewPoints);
             pnlViewMyPoints.Controls.Add(lblViewPoints);
@@ -283,7 +283,7 @@
             // 
             // pnlAddPoints
             // 
-            pnlAddPoints.BackColor = Color.FromArgb(179, 194, 148);
+            pnlAddPoints.BackColor = Color.FromArgb(111, 146, 82);
             pnlAddPoints.Controls.Add(pictureBox16);
             pnlAddPoints.Controls.Add(lblDescriptionAdd);
             pnlAddPoints.Controls.Add(lblAddPoints);
@@ -613,7 +613,7 @@
             // 
             // tableLayoutPanel3
             // 
-            tableLayoutPanel3.BackColor = Color.FromArgb(179, 194, 148);
+            tableLayoutPanel3.BackColor = Color.FromArgb(111, 146, 82);
             tableLayoutPanel3.ColumnCount = 1;
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel3.Controls.Add(label11, 0, 0);

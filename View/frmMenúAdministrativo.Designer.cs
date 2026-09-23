@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMenúAdministrativo));
             panel1 = new Panel();
             label5 = new Label();
             label9 = new Label();
@@ -70,19 +71,16 @@
             label11 = new Label();
             tableLayoutPanel4 = new TableLayoutPanel();
             panel27 = new Panel();
-            button18 = new Button();
             label30 = new Label();
             label28 = new Label();
             label26 = new Label();
             pictureBox12 = new PictureBox();
             panel25 = new Panel();
-            button2 = new Button();
             label24 = new Label();
             label23 = new Label();
             label22 = new Label();
             pictureBox3 = new PictureBox();
             panel26 = new Panel();
-            button16 = new Button();
             label29 = new Label();
             label27 = new Label();
             label25 = new Label();
@@ -199,7 +197,7 @@
             // 
             // panel17
             // 
-            panel17.BackColor = Color.FromArgb(179, 194, 148);
+            panel17.BackColor = Color.FromArgb(130, 167, 98);
             panel17.Controls.Add(pictureBox15);
             panel17.Controls.Add(lblDescriptionRequest);
             panel17.Controls.Add(lblViewRequest);
@@ -212,7 +210,7 @@
             // 
             // pictureBox15
             // 
-            pictureBox15.Image = View.Properties.Resources.taskchecklist__2_;
+            pictureBox15.Image = Properties.Resources.taskchecklist__2_;
             pictureBox15.Location = new Point(9, 7);
             pictureBox15.Name = "pictureBox15";
             pictureBox15.Size = new Size(48, 48);
@@ -244,7 +242,7 @@
             // 
             // panel18
             // 
-            panel18.BackColor = Color.FromArgb(179, 194, 148);
+            panel18.BackColor = Color.FromArgb(130, 167, 98);
             panel18.Controls.Add(pictureBox17);
             panel18.Controls.Add(lblDescriptionViewPoints);
             panel18.Controls.Add(lblViewPoints);
@@ -257,7 +255,7 @@
             // 
             // pictureBox17
             // 
-            pictureBox17.Image = View.Properties.Resources.marker__1_;
+            pictureBox17.Image = Properties.Resources.marker__1_;
             pictureBox17.Location = new Point(9, 7);
             pictureBox17.Name = "pictureBox17";
             pictureBox17.Size = new Size(48, 48);
@@ -275,6 +273,7 @@
             lblDescriptionViewPoints.TabIndex = 29;
             lblDescriptionViewPoints.Text = "Visualiza la información de los puntos ecológicos en el sistema";
             lblDescriptionViewPoints.TextAlign = ContentAlignment.MiddleCenter;
+            lblDescriptionViewPoints.Click += lblDescriptionViewPoints_Click;
             // 
             // lblViewPoints
             // 
@@ -289,7 +288,7 @@
             // 
             // panel19
             // 
-            panel19.BackColor = Color.FromArgb(179, 194, 148);
+            panel19.BackColor = Color.FromArgb(130, 167, 98);
             panel19.Controls.Add(pictureBox16);
             panel19.Controls.Add(lblDescriptionAdd);
             panel19.Controls.Add(lblAddPoints);
@@ -302,7 +301,7 @@
             // 
             // pictureBox16
             // 
-            pictureBox16.Image = View.Properties.Resources.user;
+            pictureBox16.Image = Properties.Resources.user;
             pictureBox16.Location = new Point(9, 7);
             pictureBox16.Name = "pictureBox16";
             pictureBox16.Size = new Size(48, 48);
@@ -394,7 +393,7 @@
             // pictureBox6
             // 
             pictureBox6.Anchor = AnchorStyles.Top;
-            pictureBox6.Image = View.Properties.Resources.clockwaiting;
+            pictureBox6.Image = Properties.Resources.clockwaiting;
             pictureBox6.Location = new Point(47, 14);
             pictureBox6.Name = "pictureBox6";
             pictureBox6.Size = new Size(64, 64);
@@ -450,7 +449,7 @@
             // pictureBox13
             // 
             pictureBox13.Anchor = AnchorStyles.Top;
-            pictureBox13.Image = View.Properties.Resources.check_circle__1_;
+            pictureBox13.Image = Properties.Resources.check_circle__1_;
             pictureBox13.Location = new Point(50, 14);
             pictureBox13.Name = "pictureBox13";
             pictureBox13.Size = new Size(64, 64);
@@ -481,6 +480,7 @@
             panel13.Name = "panel13";
             panel13.Size = new Size(333, 99);
             panel13.TabIndex = 67;
+            panel13.Paint += panel13_Paint;
             // 
             // label4
             // 
@@ -507,7 +507,7 @@
             // pictureBox1
             // 
             pictureBox1.Anchor = AnchorStyles.Top;
-            pictureBox1.Image = View.Properties.Resources.exit;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(50, 14);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(64, 64);
@@ -533,7 +533,7 @@
             // 
             // tableLayoutPanel3
             // 
-            tableLayoutPanel3.BackColor = Color.FromArgb(179, 194, 148);
+            tableLayoutPanel3.BackColor = Color.FromArgb(130, 167, 98);
             tableLayoutPanel3.ColumnCount = 1;
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel3.Controls.Add(label11, 0, 0);
@@ -581,7 +581,6 @@
             // panel27
             // 
             panel27.BorderStyle = BorderStyle.FixedSingle;
-            panel27.Controls.Add(button18);
             panel27.Controls.Add(label30);
             panel27.Controls.Add(label28);
             panel27.Controls.Add(label26);
@@ -591,19 +590,6 @@
             panel27.Name = "panel27";
             panel27.Size = new Size(1040, 104);
             panel27.TabIndex = 24;
-            // 
-            // button18
-            // 
-            button18.Anchor = AnchorStyles.Right;
-            button18.Cursor = Cursors.Hand;
-            button18.FlatAppearance.BorderSize = 0;
-            button18.FlatStyle = FlatStyle.Flat;
-            button18.Image = View.Properties.Resources.moreInformation2;
-            button18.Location = new Point(826, 26);
-            button18.Name = "button18";
-            button18.Size = new Size(48, 48);
-            button18.TabIndex = 29;
-            button18.UseVisualStyleBackColor = true;
             // 
             // label30
             // 
@@ -642,7 +628,7 @@
             // pictureBox12
             // 
             pictureBox12.Anchor = AnchorStyles.Left;
-            pictureBox12.Image = View.Properties.Resources.clockwaiting;
+            pictureBox12.Image = Properties.Resources.clockwaiting;
             pictureBox12.Location = new Point(16, 37);
             pictureBox12.Name = "pictureBox12";
             pictureBox12.Size = new Size(33, 30);
@@ -652,8 +638,8 @@
             // 
             // panel25
             // 
+            panel25.BackColor = Color.FromArgb(130, 167, 98);
             panel25.BorderStyle = BorderStyle.FixedSingle;
-            panel25.Controls.Add(button2);
             panel25.Controls.Add(label24);
             panel25.Controls.Add(label23);
             panel25.Controls.Add(label22);
@@ -664,19 +650,6 @@
             panel25.Size = new Size(1040, 100);
             panel25.TabIndex = 22;
             panel25.Paint += panel25_Paint;
-            // 
-            // button2
-            // 
-            button2.Anchor = AnchorStyles.Right;
-            button2.Cursor = Cursors.Hand;
-            button2.FlatAppearance.BorderSize = 0;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Image = View.Properties.Resources.moreInformation2;
-            button2.Location = new Point(826, 25);
-            button2.Name = "button2";
-            button2.Size = new Size(48, 48);
-            button2.TabIndex = 27;
-            button2.UseVisualStyleBackColor = true;
             // 
             // label24
             // 
@@ -700,6 +673,7 @@
             label23.TabIndex = 25;
             label23.Text = "Barrio Altagracia Norte, Distrito III. Del Parque Las Palmas 2C al lago.";
             label23.TextAlign = ContentAlignment.MiddleCenter;
+            label23.Click += label23_Click;
             // 
             // label22
             // 
@@ -716,7 +690,7 @@
             // pictureBox3
             // 
             pictureBox3.Anchor = AnchorStyles.Left;
-            pictureBox3.Image = View.Properties.Resources.clockwaiting;
+            pictureBox3.Image = Properties.Resources.clockwaiting;
             pictureBox3.Location = new Point(16, 33);
             pictureBox3.Name = "pictureBox3";
             pictureBox3.Size = new Size(33, 30);
@@ -727,7 +701,6 @@
             // panel26
             // 
             panel26.BorderStyle = BorderStyle.FixedSingle;
-            panel26.Controls.Add(button16);
             panel26.Controls.Add(label29);
             panel26.Controls.Add(label27);
             panel26.Controls.Add(label25);
@@ -737,19 +710,6 @@
             panel26.Name = "panel26";
             panel26.Size = new Size(1040, 100);
             panel26.TabIndex = 23;
-            // 
-            // button16
-            // 
-            button16.Anchor = AnchorStyles.Right;
-            button16.Cursor = Cursors.Hand;
-            button16.FlatAppearance.BorderSize = 0;
-            button16.FlatStyle = FlatStyle.Flat;
-            button16.Image = View.Properties.Resources.moreInformation2;
-            button16.Location = new Point(826, 25);
-            button16.Name = "button16";
-            button16.Size = new Size(48, 48);
-            button16.TabIndex = 28;
-            button16.UseVisualStyleBackColor = true;
             // 
             // label29
             // 
@@ -789,7 +749,7 @@
             // pictureBox4
             // 
             pictureBox4.Anchor = AnchorStyles.Left;
-            pictureBox4.Image = View.Properties.Resources.clockwaiting;
+            pictureBox4.Image = Properties.Resources.clockwaiting;
             pictureBox4.Location = new Point(16, 34);
             pictureBox4.Name = "pictureBox4";
             pictureBox4.Size = new Size(33, 30);
@@ -797,7 +757,7 @@
             pictureBox4.TabIndex = 11;
             pictureBox4.TabStop = false;
             // 
-            // AdminStartView
+            // frmMenúAdministrativo
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
@@ -817,7 +777,7 @@
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "AdminStartView";
+            Name = "frmMenúAdministrativo";
             WindowState = FormWindowState.Maximized;
             Load += AdminStartView_Load;
             panel1.ResumeLayout(false);
@@ -910,8 +870,5 @@
         private Label label27;
         private Label label25;
         private PictureBox pictureBox4;
-        private Button button2;
-        private Button button18;
-        private Button button16;
     }
 }

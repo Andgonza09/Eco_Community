@@ -146,7 +146,7 @@ namespace View
 
             lblItems.Location = new Point(176, 23);
             lblItems.Padding = new Padding(0, 0, 0, 0);
-            OpenForm(new frmGestiónUsuarios());
+            OpenForm(new frmUsuariosRegistrados());
         }
 
         private void btnPoitnsHistory_Click(object sender, EventArgs e)
@@ -157,7 +157,7 @@ namespace View
             lblItems.SendToBack();
             lblItems.Location = new Point(156, 23);
             lblItems.Padding = new Padding(0, 0, 0, 0);
-            OpenForm(new frmPuntosRegistrados());
+            OpenForm(new frmPuntoRegistrados());
         }
 
         private void btnRequestManagement_Click(object sender, EventArgs e)
@@ -169,7 +169,7 @@ namespace View
 
             lblItems.Location = new Point(176, 23);
             lblItems.Padding = new Padding(10, 0, 0, 0);
-            OpenForm(new frmSolicitudesUsuarioAdmin());
+            OpenForm(new frmSolicitudesRegistradas());
         }
 
         private void btnCreateMission_Click(object sender, EventArgs e)

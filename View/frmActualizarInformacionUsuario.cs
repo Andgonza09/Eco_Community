@@ -36,7 +36,16 @@ namespace View
             txtUsername.Text = _currentUser.nombre_Usuario;
             txtEmail.Text = _currentUser.correo_Usuario;
             txtPassword.Text = _currentUser.contraseña_Usuario;
-            dtpRegisterDate.Value = _currentUser.fecha_Registro.ToDateTime(TimeOnly.MinValue);
+            if (_currentUser.fecha_Registro != DateOnly.MinValue)
+            {
+                dtpRegisterDate.Value =
+                    _currentUser.fecha_Registro.ToDateTime(TimeOnly.MinValue);
+            }
+            else
+            {
+                dtpRegisterDate.Value = DateTime.Today;
+            }
+
         }
 
         private void button1_Click(object sender, EventArgs e)

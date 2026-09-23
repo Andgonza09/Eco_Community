@@ -59,6 +59,20 @@ namespace Controller
             }
 
         }
+        public void DeletebyInformacionSitio(long id_InformacionSitio)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+
+            string sql = @"DELETE FROM Solicitudes 
+                   WHERE id_InformacionSitio = @id_InformacionSitio";
+
+            SqlCommand cmd = new SqlCommand(sql, cx);
+            cmd.Parameters.AddWithValue("@id_InformacionSitio", id_InformacionSitio);
+
+            cx.Open();
+            cmd.ExecuteNonQuery();
+            cx.Close();
+        }
         public bool UpdateRequest(long id_Request, string stateRequest)
         {
             int rowAffected = 0;
@@ -82,14 +96,15 @@ namespace Controller
             }
             return rowAffected > 0;
         }
-        public List<(SolicitudesEntidad, string)> ViewAllRequest()
+        public List<(SolicitudesEntidad, string, string, string)> ViewAllRequest()
         {
-            List<(SolicitudesEntidad, string)> Lista_solicitudes = new List<(SolicitudesEntidad, string)>();
+            List<(SolicitudesEntidad, string,string, string)> Lista_solicitudes = new List<(SolicitudesEntidad, string, string, string)>();
             try
             {
                 SqlConnection cx = conexion.ObtenerConexion();
-                string sql = @"SELECT id_Solicitud, estado_Solicitud, fecha_Solicitud, fecha_Resolucion, id_UsuarioEstandar, id_InformacionSitio, nombre_Usuario FROM Solicitudes
-                INNER JOIN Usuario on Usuario.id_Usuario = Solicitudes.id_UsuarioEstandar";
+                string sql = @"SELECT s.id_Solicitud, s.estado_Solicitud, s.fecha_Solicitud,
+                s.fecha_Resolucion, i.tipoSitio, i.direccion, u.nombre_Usuario FROM Solicitudes AS s INNER JOIN InformacionSitio AS i
+                ON s.id_InformacionSitio = i.id_InformacionSitio INNER JOIN Usuario As u ON u.id_Usuario = s.id_UsuarioEstandar";
 
                 SqlCommand cmd = new SqlCommand(sql, cx);
 
@@ -98,9 +113,10 @@ namespace Controller
 
                 while (result.Read())
                 {
-                    long id_Usuario = result.GetInt64(result.GetOrdinal("id_UsuarioEstandar"));
-                    long id_InformacionSitio = result.GetInt64(result.GetOrdinal("id_InformacionSitio"));
+
                     string nombre_Usuario = result.GetString(result.GetOrdinal("nombre_Usuario"));
+                    string tipoSitio = result.GetString(result.GetOrdinal("tipoSitio"));
+                    string direccion = result.GetString(result.GetOrdinal("direccion"));
 
                     SolicitudesEntidad solicitudes = new SolicitudesEntidad()
                     {
@@ -108,11 +124,9 @@ namespace Controller
                         fecha_Solicitud = DateOnly.FromDateTime(result.GetDateTime(result.GetOrdinal("fecha_Solicitud"))),
                         fecha_Resolucion = result["fecha_Resolucion"] == DBNull.Value ? DateOnly.MinValue : DateOnly.FromDateTime(Convert.ToDateTime(result["fecha_Resolucion"])),
                         estado_Solicitud = result.GetString(result.GetOrdinal("estado_Solicitud")),
-                        id_UsuarioEstandar = id_Usuario,
-                        id_InformacionSitio = id_InformacionSitio
 
                     };
-                    Lista_solicitudes.Add((solicitudes, nombre_Usuario));
+                    Lista_solicitudes.Add((solicitudes, nombre_Usuario, tipoSitio, direccion));
                 }
 
                 cx.Close();
@@ -167,5 +181,75 @@ namespace Controller
                 throw new Exception("Error al mostrar la información" + ex.Message);
             }
         }
+        public List<(SolicitudesEntidad, string, string, string)> ViewRequestByID(long id_Solicitud)
+        {
+            List<(SolicitudesEntidad, string, string, string)> lista_Solicitudes = new List<(SolicitudesEntidad, string, string, string)>();
+            try
+            {
+                SqlConnection cx = conexion.ObtenerConexion();
+                string sql = @"SELECT s.id_Solicitud, s.estado_Solicitud, s.fecha_Solicitud,
+                s.fecha_Resolucion, i.tipoSitio, i.direccion, u.nombre_Usuario FROM Solicitudes AS s INNER JOIN InformacionSitio AS i
+                ON s.id_InformacionSitio = i.id_InformacionSitio INNER JOIN Usuario As u ON u.id_Usuario = s.id_UsuarioEstandar WHERE id_Solicitud = @id_Solicitud";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+                cmd.Parameters.AddWithValue("@id_Solicitud", id_Solicitud);
+
+                cx.Open();
+                SqlDataReader result = cmd.ExecuteReader();
+
+                while (result.Read())
+                {
+                    string nombre_Usuario = result.GetString(result.GetOrdinal("nombre_Usuario"));
+                    string tipoSitio = result.GetString(result.GetOrdinal("tipoSitio"));
+                    string dirección = result.GetString(result.GetOrdinal("direccion"));
+                    int fechaResolucionIndex = result.GetOrdinal("fecha_Resolucion");
+
+                    SolicitudesEntidad solicitudes = new SolicitudesEntidad
+                    {
+                        id_Solicitud = result.GetInt64(result.GetOrdinal("id_Solicitud")),
+                        estado_Solicitud = result.GetString(result.GetOrdinal("estado_Solicitud")),
+                        fecha_Solicitud = DateOnly.FromDateTime(result.GetDateTime(result.GetOrdinal("fecha_Solicitud"))),
+                        fecha_Resolucion = result.IsDBNull(fechaResolucionIndex) ? DateOnly.MinValue : DateOnly.FromDateTime(result.GetDateTime(fechaResolucionIndex)),
+                    };
+
+                    lista_Solicitudes.Add((solicitudes, nombre_Usuario, tipoSitio, dirección));
+                }
+
+                return lista_Solicitudes;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al mostrar la información" + ex.Message);
+            }
+        }
+        public long GetID_Solicitud(long id_InformacionSitio)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"Select * FROM Solicitudes WHERE id_InformacionSitio = @id_InformacionSitio";
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cmd.Parameters.AddWithValue("@id_InformacionSitio", id_InformacionSitio);
+
+                cx.Open();
+                object resultado = cmd.ExecuteScalar();
+                cx.Close();
+
+                if (resultado == null)
+                    return 0;
+
+                return Convert.ToInt64(resultado);
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener el ID de la solicitud: " + ex.Message);
+            }
+        }
+
+        
     }
 }

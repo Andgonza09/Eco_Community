@@ -14,37 +14,57 @@ namespace Controller
     public class UsuarioController
     {
         Conexion conexion = new Conexion();
-        public void Insert(UsuarioEntidad Usuario)
+        public void Insert(UsuarioEntidad Usuario, int id_Rol)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try
             {
-                string sql = @"INSERT INTO Usuario(nombre_Usuario,contraseña_Usuario,correo_Usuario,fecha_Registro) VALUES (@nombre_Usuario, @contraseña_Usuario,@correo_Usuario,@fecha_Registro)";
+                string sql = @"INSERT INTO Usuario(nombre_Usuario ,contraseña_Usuario, correo_Usuario, fecha_Registro, id_Roles) VALUES (@nombre_Usuario, @contraseña_Usuario,@correo_Usuario, GETDATE(), @id_Rol)";
 
                 SqlCommand cmd = new SqlCommand(sql, cx);
 
                 cmd.Parameters.AddWithValue("@nombre_Usuario", Usuario.nombre_Usuario);
                 cmd.Parameters.AddWithValue("@contraseña_Usuario", Usuario.contraseña_Usuario);
                 cmd.Parameters.AddWithValue("@correo_Usuario", Usuario.correo_Usuario);
-                cmd.Parameters.AddWithValue("@fecha_Registro", Usuario.fecha_Registro = DateOnly.FromDateTime(DateTime.Now));
+                cmd.Parameters.AddWithValue("@id_Rol", id_Rol);
 
 
                 cx.Open();
                 cmd.ExecuteNonQuery();
                 cx.Close();
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Error al agregar el usuario");
+                throw new Exception("Error al agregar el usuario: " + ex.Message, ex);
             }
-           
-            
+
+
+        }
+        public void Delete(long id_Usuario)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"DELETE FROM Usuario WHERE id_Usuario = @Id_Usuario";
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cmd.Parameters.AddWithValue("@Id_Usuario", id_Usuario);
+                cx.Open();
+                cmd.ExecuteNonQuery();
+                cx.Close();
+
+
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Error al eliminar la información: " + ex.Message);
+            }
         }
         public UsuarioEntidad BuscarUsuario(string email, string password)
         {
             try
             {
-               SqlConnection cx = conexion.ObtenerConexion();
+                SqlConnection cx = conexion.ObtenerConexion();
                 string sql = @"SELECT * FROM Usuario WHERE contraseña_Usuario = @Password AND correo_Usuario = @Email";
 
                 SqlCommand cmd = new SqlCommand(sql, cx);
@@ -62,55 +82,58 @@ namespace Controller
                     return null;
                 }
 
-                 usuario.id_Usuario = Convert.ToInt32(result["id_Usuario"]);
-                 usuario.nombre_Usuario = result["nombre_Usuario"].ToString();
-                 usuario.contraseña_Usuario = result["contraseña_Usuario"].ToString();
-                 usuario.correo_Usuario = result["correo_Usuario"].ToString();
-                 usuario.id_Roles = Convert.ToInt32(result["id_Roles"]);
+                usuario.id_Usuario = Convert.ToInt32(result["id_Usuario"]);
+                usuario.nombre_Usuario = result["nombre_Usuario"].ToString();
+                usuario.contraseña_Usuario = result["contraseña_Usuario"].ToString();
+                usuario.correo_Usuario = result["correo_Usuario"].ToString();
+                usuario.id_Roles = Convert.ToInt32(result["id_Roles"]);
 
                 cx.Close();
                 return usuario;
-                
+
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al encontrar el usuario: " + ex.Message);
             }
         }
-        public List<UsuarioEntidad> ViewAllUsers()
+        public List<(UsuarioEntidad, string)> ViewAllUsers()
         {
-            List<UsuarioEntidad> userList = new List<UsuarioEntidad>();
-
+            SqlConnection cx = conexion.ObtenerConexion();
+            List<(UsuarioEntidad, string)> ListaUsuario = new List<(UsuarioEntidad, string)>();
             try
             {
-                SqlConnection cx = conexion.ObtenerConexion();
-
-                string sql = @"SELECT * FROM Usuario";
-
+                string sql = @"SELECT u.id_Usuario, u.nombre_Usuario, u.contraseña_Usuario, 
+                u.correo_Usuario, u.fecha_Registro, u.id_Roles, r.tipo_Roles FROM Usuario As u INNER JOIN Roles As r 
+                ON u.id_Roles = r.id_Roles";
                 SqlCommand cmd = new SqlCommand(sql, cx);
+
                 cx.Open();
-                SqlDataReader result = cmd.ExecuteReader();
-
-                while (result.Read())
+                using SqlDataReader reader = cmd.ExecuteReader();
+               
+                while (reader.Read())
                 {
-                    UsuarioEntidad usuario = new UsuarioEntidad();
+                    string tipoRol = reader.GetString(reader.GetOrdinal("tipo_Roles"));
 
-                    usuario.id_Usuario = Convert.ToInt32(result["id_Usuario"]);
-                    usuario.nombre_Usuario = result["nombre_Usuario"].ToString();
-                    usuario.contraseña_Usuario = result["contraseña_Usuario"].ToString();
-                    usuario.correo_Usuario = result["correo_Usuario"].ToString();
-                    usuario.id_Roles = Convert.ToInt32(result["id_Roles"]);
+                    UsuarioEntidad usuario = new UsuarioEntidad()
+                    {
 
-                    userList.Add(usuario);
+                        id_Usuario = Convert.ToInt32(reader["id_Usuario"]),
+                        nombre_Usuario = reader["nombre_Usuario"].ToString() ?? string.Empty,
+                        contraseña_Usuario = reader["contraseña_Usuario"].ToString() ?? string.Empty,
+                        correo_Usuario = reader.GetString(reader.GetOrdinal("correo_usuario")),
+                        fecha_Registro = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("fecha_Registro"))),
+                        id_Roles = reader.GetInt32(reader.GetOrdinal("id_Roles"))
+                    };
+                    ListaUsuario.Add((usuario, tipoRol));
                 }
+                cx.Close();
+                return ListaUsuario;
 
-                result.Close();
-
-                return userList;
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al mostrar los usuarios: " + ex.Message);
+                throw new Exception("Error en la busqueda del usuario: " + ex.Message);
             }
         }
         public bool UpdateUser(string newUsername, string newPassWord, string newEmail, string newDate)
@@ -137,6 +160,70 @@ namespace Controller
             }
 
             return rowsAffected > 0;
+        }
+        public List<(UsuarioEntidad, string)> BuscarUsuarioById(long id_Usuario)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            List<(UsuarioEntidad, string)> ListaUsuario = new List<(UsuarioEntidad, string)>();
+            try
+            {
+                string sql = @"SELECT u.id_Usuario, u.nombre_Usuario, u.contraseña_Usuario, 
+                u.correo_Usuario, u.fecha_Registro, u.id_Roles, r.tipo_Roles FROM Usuario As u INNER JOIN Roles As r 
+                ON u.id_Roles = r.id_Roles where id_Usuario = @IdUser";
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cmd.Parameters.AddWithValue("@IdUser", id_Usuario);
+                cx.Open();
+                using SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string tipoRol = reader.GetString(reader.GetOrdinal("tipo_Roles"));
+
+                    UsuarioEntidad usuario = new UsuarioEntidad()
+                    {
+
+                        id_Usuario = Convert.ToInt32(reader["id_Usuario"]),
+                        nombre_Usuario = reader["nombre_Usuario"].ToString() ?? string.Empty,
+                        contraseña_Usuario = reader["contraseña_Usuario"].ToString() ?? string.Empty,
+                        correo_Usuario = reader.GetString(reader.GetOrdinal("correo_usuario")),
+                        fecha_Registro = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("fecha_Registro"))),
+                        id_Roles = reader.GetInt32(reader.GetOrdinal("id_Roles"))
+
+                    };
+                    ListaUsuario.Add((usuario, tipoRol));
+                }
+                cx.Close();
+                return ListaUsuario;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error en la busqueda del usuario: " + ex.Message);
+            }
+            
+        }
+        public int UsuarioExiste(string correo, string username)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"SELECT COUNT(*) FROM Usuario WHERE correo_Usuario = @Correo AND nombre_Usuario = @NombreUsuario";
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cx.Open();
+                cmd.Parameters.AddWithValue("@Correo", correo);
+                cmd.Parameters.AddWithValue("@NombreUsuario", username);
+                int cantidad = (int)cmd.ExecuteScalar();
+
+                cx.Close();
+                return cantidad;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar el usuario: " + ex.Message);
+            }
         }
     }
 }

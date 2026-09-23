@@ -28,6 +28,20 @@ namespace Controller
             cx.Close();
 
         }
+        public void Delete(long id_InformacionSitio)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+
+            string sql = @"DELETE FROM DetalleSitios 
+                   WHERE id_InformacionSitio = @id_InformacionSitio";
+
+            SqlCommand cmd = new SqlCommand(sql, cx);
+            cmd.Parameters.AddWithValue("@id_InformacionSitio", id_InformacionSitio);
+
+            cx.Open();
+            cmd.ExecuteNonQuery();
+            cx.Close();
+        }
 
     }
 }

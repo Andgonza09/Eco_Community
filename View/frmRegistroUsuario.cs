@@ -64,14 +64,8 @@ namespace View
                     contraseña_Usuario = txtPassword.Text.Trim(),
                     correo_Usuario = txtEmail.Text.Trim(),
                     fecha_Registro = DateOnly.FromDateTime(DateTime.Now),
-                    id_Roles = role.id_Roles
                 };
-              
-              new UsuarioController().Insert(userRegister);
-             // int id_User = userRegister.AddUser();
-             //   userRegister.id_Usuario = id_User;
 
-             MessageBox.Show($"Usuario registrado con ID: {userRegister.id_Usuario}");
                 if (!txtEmail.Text.EndsWith("@gmail.com"))
                 {
                     MessageBox.Show("Correo electrónico no válido", "Validación de correo", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -83,23 +77,32 @@ namespace View
                     return;
                 }
 
-                var result = MessageBox.Show("Usuario registrado correctamente", "Registro exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                if (result == DialogResult.OK)
+                try
                 {
-                    this.Hide();
-                    frmContainer containerForm = new frmContainer(userRegister, userRegister.id_Usuario, txtUsername.Text.Trim(), txtPassword.Text.Trim());
-                    // Acá le pasamos el objeto a otros formularios
-                    frmArchivoCriterios GuideForm = new frmArchivoCriterios(userRegister);
-                    frmMenúPrincipal userStartView = new frmMenúPrincipal(userRegister, txtUsername.Text.Trim(), txtPassword.Text.Trim());
-                    frmPerfilUsuario profileView = new frmPerfilUsuario(userRegister, containerForm, txtUsername.Text.Trim(), txtPassword.Text.Trim());
+                    new UsuarioController().Insert(userRegister, role.id_Roles);
+                    var result = MessageBox.Show("Usuario registrado correctamente", "Registro exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    containerForm.Show();
+                    if (result == DialogResult.OK)
+                    {
+                        this.Hide();
+                        frmContainer containerForm = new frmContainer(userRegister, userRegister.id_Usuario, txtUsername.Text.Trim(), txtPassword.Text.Trim());
+                        // Acá le pasamos el objeto a otros formularios
+                        frmArchivoCriterios GuideForm = new frmArchivoCriterios(userRegister);
+                        frmMenúPrincipal userStartView = new frmMenúPrincipal(userRegister, txtUsername.Text.Trim(), txtPassword.Text.Trim());
+                        frmPerfilUsuario profileView = new frmPerfilUsuario(userRegister, containerForm, txtUsername.Text.Trim(), txtPassword.Text.Trim());
+
+                        containerForm.Show();
+                    }
                 }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error de inserción" + ex.Message, ex);
+                }
+                
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al registrar el usuario: {ex.Message}", "Error de registro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new Exception("Error al agregar el usuario: " + ex.Message);
             }
         }
         private void panel1_Paint_1(object sender, PaintEventArgs e)
