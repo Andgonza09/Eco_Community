@@ -31,7 +31,6 @@
             panel6 = new Panel();
             label2 = new Label();
             button21 = new Button();
-            button15 = new Button();
             pictureBox2 = new PictureBox();
             label6 = new Label();
             pnlBedcrums = new Panel();
@@ -41,8 +40,6 @@
             lblHome = new Label();
             pnlSideBarLeft = new Panel();
             pnlSubMenuMissionReward = new Panel();
-            button2 = new Button();
-            btnListMission = new Button();
             btnCreateMission = new Button();
             btnMission = new Button();
             pnlSubMenuRequest = new Panel();
@@ -70,10 +67,9 @@
             // 
             // panel6
             // 
-            panel6.BackColor = Color.FromArgb(111, 146, 82);
+            panel6.BackColor = Color.FromArgb(7, 80, 51);
             panel6.Controls.Add(label2);
             panel6.Controls.Add(button21);
-            panel6.Controls.Add(button15);
             panel6.Controls.Add(pictureBox2);
             panel6.Controls.Add(label6);
             panel6.Dock = DockStyle.Top;
@@ -90,7 +86,7 @@
             label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Historic", 9F, FontStyle.Bold);
-            label2.Location = new Point(1025, 31);
+            label2.Location = new Point(1031, 31);
             label2.Name = "label2";
             label2.Size = new Size(58, 20);
             label2.TabIndex = 18;
@@ -99,7 +95,7 @@
             // button21
             // 
             button21.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button21.BackgroundImage = View.Properties.Resources.User_newIcon2;
+            button21.BackgroundImage = Properties.Resources.User_newIcon2;
             button21.FlatAppearance.BorderSize = 0;
             button21.FlatStyle = FlatStyle.Flat;
             button21.Location = new Point(954, 6);
@@ -108,19 +104,9 @@
             button21.TabIndex = 16;
             button21.UseVisualStyleBackColor = true;
             // 
-            // button15
-            // 
-            button15.BackgroundImage = View.Properties.Resources.IconMenu;
-            button15.Location = new Point(46, 16);
-            button15.Name = "button15";
-            button15.Size = new Size(48, 48);
-            button15.TabIndex = 5;
-            button15.UseVisualStyleBackColor = true;
-            button15.Click += button15_Click;
-            // 
             // pictureBox2
             // 
-            pictureBox2.Image = View.Properties.Resources.logo_final;
+            pictureBox2.Image = Properties.Resources.logo_final;
             pictureBox2.Location = new Point(136, 10);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(111, 62);
@@ -142,7 +128,7 @@
             // 
             // pnlBedcrums
             // 
-            pnlBedcrums.BackColor = Color.FromArgb(243, 247, 238);
+            pnlBedcrums.BackColor = Color.White;
             pnlBedcrums.Controls.Add(lblItems);
             pnlBedcrums.Controls.Add(lblMenu);
             pnlBedcrums.Controls.Add(btnExit);
@@ -180,13 +166,13 @@
             // btnExit
             // 
             btnExit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnExit.BackColor = Color.FromArgb(90, 120, 66);
+            btnExit.BackColor = Color.FromArgb(7, 80, 51);
             btnExit.Cursor = Cursors.Hand;
             btnExit.FlatAppearance.BorderSize = 0;
             btnExit.FlatStyle = FlatStyle.Flat;
             btnExit.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnExit.ForeColor = Color.FromArgb(246, 246, 247);
-            btnExit.Image = View.Properties.Resources.leave;
+            btnExit.Image = Properties.Resources.leave;
             btnExit.ImageAlign = ContentAlignment.MiddleLeft;
             btnExit.Location = new Point(738, 9);
             btnExit.Name = "btnExit";
@@ -211,7 +197,7 @@
             // 
             // pnlSideBarLeft
             // 
-            pnlSideBarLeft.BackColor = Color.FromArgb(130, 167, 98);
+            pnlSideBarLeft.BackColor = Color.FromArgb(32, 98, 71);
             pnlSideBarLeft.Controls.Add(pnlSubMenuMissionReward);
             pnlSideBarLeft.Controls.Add(btnMission);
             pnlSideBarLeft.Controls.Add(pnlSubMenuRequest);
@@ -231,52 +217,14 @@
             // 
             // pnlSubMenuMissionReward
             // 
-            pnlSubMenuMissionReward.BackColor = Color.FromArgb(141, 170, 104);
-            pnlSubMenuMissionReward.Controls.Add(button2);
-            pnlSubMenuMissionReward.Controls.Add(btnListMission);
+            pnlSubMenuMissionReward.BackColor = Color.FromArgb(57, 115, 92);
             pnlSubMenuMissionReward.Controls.Add(btnCreateMission);
             pnlSubMenuMissionReward.Dock = DockStyle.Top;
             pnlSubMenuMissionReward.Location = new Point(0, 372);
             pnlSubMenuMissionReward.Name = "pnlSubMenuMissionReward";
-            pnlSubMenuMissionReward.Size = new Size(240, 192);
+            pnlSubMenuMissionReward.Size = new Size(240, 69);
             pnlSubMenuMissionReward.TabIndex = 11;
             pnlSubMenuMissionReward.Paint += pnlSubMenuMissionReward_Paint;
-            // 
-            // button2
-            // 
-            button2.Cursor = Cursors.Hand;
-            button2.Dock = DockStyle.Top;
-            button2.FlatAppearance.BorderSize = 0;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button2.ForeColor = Color.FromArgb(246, 246, 247);
-            button2.Location = new Point(0, 112);
-            button2.Name = "button2";
-            button2.Padding = new Padding(48, 0, 0, 0);
-            button2.Size = new Size(240, 61);
-            button2.TabIndex = 9;
-            button2.Text = "Recompensas registradas";
-            button2.TextAlign = ContentAlignment.MiddleLeft;
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
-            // 
-            // btnListMission
-            // 
-            btnListMission.Cursor = Cursors.Hand;
-            btnListMission.Dock = DockStyle.Top;
-            btnListMission.FlatAppearance.BorderSize = 0;
-            btnListMission.FlatStyle = FlatStyle.Flat;
-            btnListMission.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnListMission.ForeColor = Color.FromArgb(246, 246, 247);
-            btnListMission.Location = new Point(0, 67);
-            btnListMission.Name = "btnListMission";
-            btnListMission.Padding = new Padding(48, 0, 0, 0);
-            btnListMission.Size = new Size(240, 45);
-            btnListMission.TabIndex = 8;
-            btnListMission.Text = "Misiones registradas";
-            btnListMission.TextAlign = ContentAlignment.MiddleLeft;
-            btnListMission.UseVisualStyleBackColor = true;
-            btnListMission.Click += btnListMission_Click;
             // 
             // btnCreateMission
             // 
@@ -298,14 +246,14 @@
             // 
             // btnMission
             // 
-            btnMission.BackColor = Color.FromArgb(90, 120, 66);
+            btnMission.BackColor = Color.FromArgb(6, 72, 46);
             btnMission.Cursor = Cursors.Hand;
             btnMission.Dock = DockStyle.Top;
             btnMission.FlatAppearance.BorderSize = 0;
             btnMission.FlatStyle = FlatStyle.Flat;
             btnMission.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnMission.ForeColor = Color.FromArgb(246, 246, 247);
-            btnMission.Image = View.Properties.Resources.mission__2_;
+            btnMission.Image = Properties.Resources.mission__2_;
             btnMission.ImageAlign = ContentAlignment.MiddleLeft;
             btnMission.Location = new Point(0, 332);
             btnMission.Name = "btnMission";
@@ -319,7 +267,7 @@
             // 
             // pnlSubMenuRequest
             // 
-            pnlSubMenuRequest.BackColor = Color.FromArgb(141, 170, 104);
+            pnlSubMenuRequest.BackColor = Color.FromArgb(57, 115, 92);
             pnlSubMenuRequest.Controls.Add(btnRequestManagement);
             pnlSubMenuRequest.Dock = DockStyle.Top;
             pnlSubMenuRequest.Location = new Point(0, 274);
@@ -347,14 +295,14 @@
             // 
             // btnRequest
             // 
-            btnRequest.BackColor = Color.FromArgb(90, 120, 66);
+            btnRequest.BackColor = Color.FromArgb(6, 72, 46);
             btnRequest.Cursor = Cursors.Hand;
             btnRequest.Dock = DockStyle.Top;
             btnRequest.FlatAppearance.BorderSize = 0;
             btnRequest.FlatStyle = FlatStyle.Flat;
             btnRequest.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnRequest.ForeColor = Color.FromArgb(246, 246, 247);
-            btnRequest.Image = View.Properties.Resources.request;
+            btnRequest.Image = Properties.Resources.request;
             btnRequest.ImageAlign = ContentAlignment.MiddleLeft;
             btnRequest.Location = new Point(0, 234);
             btnRequest.Name = "btnRequest";
@@ -368,7 +316,7 @@
             // 
             // pnlSubMenuPoints
             // 
-            pnlSubMenuPoints.BackColor = Color.FromArgb(141, 170, 104);
+            pnlSubMenuPoints.BackColor = Color.FromArgb(57, 115, 92);
             pnlSubMenuPoints.Controls.Add(btnPoitnsHistory);
             pnlSubMenuPoints.Dock = DockStyle.Top;
             pnlSubMenuPoints.Location = new Point(0, 186);
@@ -378,6 +326,7 @@
             // 
             // btnPoitnsHistory
             // 
+            btnPoitnsHistory.BackColor = Color.FromArgb(57, 115, 92);
             btnPoitnsHistory.Cursor = Cursors.Hand;
             btnPoitnsHistory.Dock = DockStyle.Top;
             btnPoitnsHistory.FlatAppearance.BorderSize = 0;
@@ -391,19 +340,19 @@
             btnPoitnsHistory.TabIndex = 5;
             btnPoitnsHistory.Text = "Historial de puntos";
             btnPoitnsHistory.TextAlign = ContentAlignment.MiddleLeft;
-            btnPoitnsHistory.UseVisualStyleBackColor = true;
+            btnPoitnsHistory.UseVisualStyleBackColor = false;
             btnPoitnsHistory.Click += btnPoitnsHistory_Click;
             // 
             // btnPoints
             // 
-            btnPoints.BackColor = Color.FromArgb(90, 120, 66);
+            btnPoints.BackColor = Color.FromArgb(6, 72, 46);
             btnPoints.Cursor = Cursors.Hand;
             btnPoints.Dock = DockStyle.Top;
             btnPoints.FlatAppearance.BorderSize = 0;
             btnPoints.FlatStyle = FlatStyle.Flat;
             btnPoints.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnPoints.ForeColor = Color.FromArgb(246, 246, 247);
-            btnPoints.Image = View.Properties.Resources.location;
+            btnPoints.Image = Properties.Resources.location;
             btnPoints.ImageAlign = ContentAlignment.MiddleLeft;
             btnPoints.Location = new Point(0, 146);
             btnPoints.Name = "btnPoints";
@@ -417,7 +366,7 @@
             // 
             // pnlSubMenuUsers
             // 
-            pnlSubMenuUsers.BackColor = Color.FromArgb(141, 170, 104);
+            pnlSubMenuUsers.BackColor = Color.FromArgb(57, 115, 92);
             pnlSubMenuUsers.Controls.Add(btnUserRegister);
             pnlSubMenuUsers.Dock = DockStyle.Top;
             pnlSubMenuUsers.Location = new Point(0, 94);
@@ -445,14 +394,14 @@
             // 
             // btnUser
             // 
-            btnUser.BackColor = Color.FromArgb(90, 120, 66);
+            btnUser.BackColor = Color.FromArgb(6, 72, 46);
             btnUser.Cursor = Cursors.Hand;
             btnUser.Dock = DockStyle.Top;
             btnUser.FlatAppearance.BorderSize = 0;
             btnUser.FlatStyle = FlatStyle.Flat;
             btnUser.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnUser.ForeColor = Color.FromArgb(246, 246, 247);
-            btnUser.Image = View.Properties.Resources.user__1_;
+            btnUser.Image = Properties.Resources.user__1_;
             btnUser.ImageAlign = ContentAlignment.MiddleLeft;
             btnUser.Location = new Point(0, 54);
             btnUser.Name = "btnUser";
@@ -476,14 +425,13 @@
             // 
             // button1
             // 
-            button1.BackColor = Color.FromArgb(130, 167, 98);
+            button1.BackColor = Color.FromArgb(32, 98, 71);
             button1.Cursor = Cursors.Hand;
             button1.Dock = DockStyle.Top;
             button1.FlatAppearance.BorderSize = 0;
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI Historic", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.FromArgb(246, 246, 247);
-            button1.Image = View.Properties.Resources.home__3_;
             button1.ImageAlign = ContentAlignment.MiddleRight;
             button1.Location = new Point(0, 0);
             button1.Name = "button1";
@@ -495,6 +443,7 @@
             // 
             // panel1
             // 
+            panel1.BackColor = Color.White;
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(240, 140);
             panel1.Name = "panel1";
@@ -502,7 +451,7 @@
             panel1.TabIndex = 52;
             panel1.Paint += panel1_Paint;
             // 
-            // ContainerFormAdmin
+            // frmContainerAdmin
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
@@ -515,7 +464,7 @@
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "ContainerFormAdmin";
+            Name = "frmContainerAdmin";
             Text = "ContainerFormAdmin";
             WindowState = FormWindowState.Maximized;
             Load += ContainerFormAdmin_Load;
@@ -538,7 +487,6 @@
         private Panel panel6;
         private Label label2;
         private Button button21;
-        private Button button15;
         private PictureBox pictureBox2;
         private Label label6;
         private Panel pnlBedcrums;
@@ -548,7 +496,6 @@
         private Label lblHome;
         private Panel pnlSideBarLeft;
         private Panel pnlSubMenuMissionReward;
-        private Button btnListMission;
         private Button btnCreateMission;
         private Button btnMission;
         private Panel pnlSubMenuRequest;
@@ -562,7 +509,6 @@
         private Button btnUser;
         private Panel pnlHome;
         private Button button1;
-        private Button button2;
         private Panel panel1;
     }
 }

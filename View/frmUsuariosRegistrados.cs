@@ -20,6 +20,8 @@ namespace View
             this.Shown += frmUsuarioRegistrados_shown;
             dgvUsuarios.CellClick += dgvUsuarios_CellClick;
             dgvUsuarios.DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+            dgvUsuarios.DefaultCellStyle.SelectionBackColor = Color.FromArgb(57, 115, 92);
+            dgvUsuarios.DefaultCellStyle.SelectionForeColor = Color.White;
 
         }
         private long id_UsuarioSeleccionado = 0;
@@ -45,7 +47,7 @@ namespace View
                 contraseña_Usuario = fila.Cells[colContrasena.Index].Value?.ToString() ?? "",
                 correo_Usuario = fila.Cells[colCorreo.Index].Value?.ToString() ?? "",
                 fecha_Registro = (DateOnly)fila.Cells[colFechaRegistro.Index].Value,
-                
+
             };
             string rol = fila.Cells[colRol.Index].Value?.ToString() ?? "";
             // Llenar los campos
@@ -178,34 +180,6 @@ namespace View
             */
         }
 
-        private void dgvUsuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void lblRegistros_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dtpFechaRegistro_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-        private void frmUsuariosRegistrados_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtSearchId_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pnlHeader_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
         private void button4_Click(object sender, EventArgs e)
         {
@@ -282,8 +256,6 @@ namespace View
             {
                 throw new Exception("Error de inserción: " + ex.Message, ex);
             }
-
-
         }
 
         private void tlpPrincipal_Paint(object sender, PaintEventArgs e)
@@ -302,6 +274,126 @@ namespace View
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tlpSuperior_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void dgvUsuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void lblRegistros_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dtpFechaRegistro_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void frmUsuariosRegistrados_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtSearchId_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pnlHeader_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            DialogResult resultado = MessageBox.Show("¿Estás seguro que deseas eliminar el usuario del sistema?", "Verificación de información", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+            if (resultado == DialogResult.OK)
+            {
+                // Eliminación de usuario
+                new UsuarioController().Delete(id_UsuarioSeleccionado);
+                MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                RefreshTable();
+                dgvUsuarios.ClearSelection();
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            UsuarioController controller = new UsuarioController();
+            int id_Roles;
+
+            if (comboBox1.SelectedItem == null || txtNameUsuario.Text == "" || txtContrasena.Text == "" || txtCorreo.Text == "")
+            {
+                MessageBox.Show("Completa todos los campos", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (comboBox1.SelectedItem.ToString() == "Administrador")
+            {
+                id_Roles = 1;
+            }
+            else
+            {
+                id_Roles = 2;
+            }
+
+            UsuarioEntidad usuario = new UsuarioEntidad()
+            {
+                nombre_Usuario = txtNameUsuario.Text,
+                contraseña_Usuario = txtContrasena.Text,
+                correo_Usuario = txtCorreo.Text,
+                id_Roles = id_Roles
+            };
+            try
+            {
+
+                int Cantidad = controller.UsuarioExiste(txtCorreo.Text, txtNameUsuario.Text);
+
+                if (Cantidad > 0)
+                {
+                    MessageBox.Show("Usuario ya existente, intenta de nuevo", "Verificación de información", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                else
+                {
+                    controller.Insert(usuario, id_Roles);
+                    MessageBox.Show("Registro exitoso", "Usuario agregado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    RefreshTable();
+                    dgvUsuarios.ClearSelection();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error de inserción: " + ex.Message, ex);
+            }
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            comboBox1.SelectedIndex = -1;
+            txtNameUsuario.Clear();
+            txtCorreo.Clear();
+            txtContrasena.Clear();
+            dgvUsuarios.ClearSelection();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
         {
 
         }

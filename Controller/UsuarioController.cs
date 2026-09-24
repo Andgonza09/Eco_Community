@@ -60,6 +60,31 @@ namespace Controller
                 throw new Exception("Error al eliminar la información: " + ex.Message);
             }
         }
+        public bool UpdateUser(string newUsername, string newPassWord, string newEmail, string newDate)
+        {
+            int rowsAffected = 0; // Variable para almacenar el número de filas afectadas por la operación de actualización
+            try
+            {
+                SqlConnection cx = conexion.ObtenerConexion();
+
+                string sql = @"UPDATE Usuario SET nombre_Usuario = @NewUsername, contraseña_Usuario = @NewPassword, correo_Usuario = @EmailUser WHERE nombre_Usuario = @CurrentUsername 
+                OR contraseña_Usuario = @CurrentPassword OR correo_Usuario = @EmailUser";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cmd.Parameters.AddWithValue("@NewUsername", newUsername);
+                cmd.Parameters.AddWithValue("@NewPassword", newPassWord);
+                cmd.Parameters.AddWithValue("@EmailUser", newEmail);
+
+                rowsAffected = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al actualizar el usuario: " + ex.Message);
+            }
+
+            return rowsAffected > 0;
+        }
         public UsuarioEntidad BuscarUsuario(string email, string password)
         {
             try
@@ -136,31 +161,7 @@ namespace Controller
                 throw new Exception("Error en la busqueda del usuario: " + ex.Message);
             }
         }
-        public bool UpdateUser(string newUsername, string newPassWord, string newEmail, string newDate)
-        {
-            int rowsAffected = 0; // Variable para almacenar el número de filas afectadas por la operación de actualización
-            try
-            {
-                SqlConnection cx = conexion.ObtenerConexion();
 
-                string sql = @"UPDATE Usuario SET nombre_Usuario = @NewUsername, contraseña_Usuario = @NewPassword, correo_Usuario = @EmailUser WHERE nombre_Usuario = @CurrentUsername 
-                OR contraseña_Usuario = @CurrentPassword OR correo_Usuario = @EmailUser";
-
-                SqlCommand cmd = new SqlCommand(sql, cx);
-
-                cmd.Parameters.AddWithValue("@NewUsername", newUsername);
-                cmd.Parameters.AddWithValue("@NewPassword", newPassWord);
-                cmd.Parameters.AddWithValue("@EmailUser", newEmail);
-
-                rowsAffected = cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al actualizar el usuario: " + ex.Message);
-            }
-
-            return rowsAffected > 0;
-        }
         public List<(UsuarioEntidad, string)> BuscarUsuarioById(long id_Usuario)
         {
             SqlConnection cx = conexion.ObtenerConexion();

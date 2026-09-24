@@ -52,7 +52,6 @@
             panel6 = new Panel();
             lblUsername = new Label();
             button21 = new Button();
-            button15 = new Button();
             pictureBox2 = new PictureBox();
             label6 = new Label();
             pnlBedcrums = new Panel();
@@ -74,7 +73,7 @@
             // 
             // pnlSideBar
             // 
-            pnlSideBar.BackColor = Color.FromArgb(130, 167, 98);
+            pnlSideBar.BackColor = Color.FromArgb(32, 98, 71);
             pnlSideBar.Controls.Add(panel15);
             pnlSideBar.Controls.Add(pnlSubMenuCriteria);
             pnlSideBar.Controls.Add(btnLocationCriteria);
@@ -105,7 +104,7 @@
             // 
             // pnlSubMenuCriteria
             // 
-            pnlSubMenuCriteria.BackColor = Color.FromArgb(141, 170, 104);
+            pnlSubMenuCriteria.BackColor = Color.FromArgb(57, 115, 92);
             pnlSubMenuCriteria.Controls.Add(btnCriteriaGuide);
             pnlSubMenuCriteria.Dock = DockStyle.Top;
             pnlSubMenuCriteria.Location = new Point(0, 532);
@@ -115,6 +114,7 @@
             // 
             // btnCriteriaGuide
             // 
+            btnCriteriaGuide.BackColor = Color.FromArgb(57, 115, 92);
             btnCriteriaGuide.Cursor = Cursors.Hand;
             btnCriteriaGuide.Dock = DockStyle.Top;
             btnCriteriaGuide.FlatAppearance.BorderSize = 0;
@@ -128,19 +128,19 @@
             btnCriteriaGuide.TabIndex = 9;
             btnCriteriaGuide.Text = "Guía de ubicación";
             btnCriteriaGuide.TextAlign = ContentAlignment.MiddleLeft;
-            btnCriteriaGuide.UseVisualStyleBackColor = true;
+            btnCriteriaGuide.UseVisualStyleBackColor = false;
             btnCriteriaGuide.Click += btnCriteriaGuide_Click;
             // 
             // btnLocationCriteria
             // 
-            btnLocationCriteria.BackColor = Color.FromArgb(90, 120, 66);
+            btnLocationCriteria.BackColor = Color.FromArgb(6, 72, 46);
             btnLocationCriteria.Cursor = Cursors.Hand;
             btnLocationCriteria.Dock = DockStyle.Top;
             btnLocationCriteria.FlatAppearance.BorderSize = 0;
             btnLocationCriteria.FlatStyle = FlatStyle.Flat;
             btnLocationCriteria.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnLocationCriteria.ForeColor = Color.FromArgb(246, 246, 247);
-            btnLocationCriteria.Image = View.Properties.Resources.leaf__1_;
+            btnLocationCriteria.Image = Properties.Resources.leaf__1_;
             btnLocationCriteria.ImageAlign = ContentAlignment.MiddleLeft;
             btnLocationCriteria.Location = new Point(0, 492);
             btnLocationCriteria.Name = "btnLocationCriteria";
@@ -155,7 +155,7 @@
             // 
             // pnlSubMenuReward
             // 
-            pnlSubMenuReward.BackColor = Color.FromArgb(141, 170, 104);
+            pnlSubMenuReward.BackColor = Color.FromArgb(57, 115, 92);
             pnlSubMenuReward.Controls.Add(btnExploreReward);
             pnlSubMenuReward.Dock = DockStyle.Top;
             pnlSubMenuReward.Location = new Point(0, 443);
@@ -183,14 +183,14 @@
             // 
             // btnReward
             // 
-            btnReward.BackColor = Color.FromArgb(90, 120, 66);
+            btnReward.BackColor = Color.FromArgb(6, 72, 46);
             btnReward.Cursor = Cursors.Hand;
             btnReward.Dock = DockStyle.Top;
             btnReward.FlatAppearance.BorderSize = 0;
             btnReward.FlatStyle = FlatStyle.Flat;
             btnReward.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnReward.ForeColor = Color.FromArgb(246, 246, 247);
-            btnReward.Image = View.Properties.Resources.reward_2;
+            btnReward.Image = Properties.Resources.reward_2;
             btnReward.ImageAlign = ContentAlignment.MiddleLeft;
             btnReward.Location = new Point(0, 403);
             btnReward.Name = "btnReward";
@@ -204,7 +204,7 @@
             // 
             // pnlSubMenuMission
             // 
-            pnlSubMenuMission.BackColor = Color.FromArgb(141, 170, 104);
+            pnlSubMenuMission.BackColor = Color.FromArgb(57, 115, 92);
             pnlSubMenuMission.Controls.Add(btnListMission);
             pnlSubMenuMission.Dock = DockStyle.Top;
             pnlSubMenuMission.Location = new Point(0, 350);
@@ -233,14 +233,14 @@
             // 
             // btnMission
             // 
-            btnMission.BackColor = Color.FromArgb(90, 120, 66);
+            btnMission.BackColor = Color.FromArgb(6, 72, 46);
             btnMission.Cursor = Cursors.Hand;
             btnMission.Dock = DockStyle.Top;
             btnMission.FlatAppearance.BorderSize = 0;
             btnMission.FlatStyle = FlatStyle.Flat;
             btnMission.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnMission.ForeColor = Color.FromArgb(246, 246, 247);
-            btnMission.Image = View.Properties.Resources.mission__2_;
+            btnMission.Image = Properties.Resources.mission__2_;
             btnMission.ImageAlign = ContentAlignment.MiddleLeft;
             btnMission.Location = new Point(0, 310);
             btnMission.Name = "btnMission";
@@ -254,7 +254,7 @@
             // 
             // pnlSubMenuRequest
             // 
-            pnlSubMenuRequest.BackColor = Color.FromArgb(141, 170, 104);
+            pnlSubMenuRequest.BackColor = Color.FromArgb(57, 115, 92);
             pnlSubMenuRequest.Controls.Add(btnMyRequests);
             pnlSubMenuRequest.Dock = DockStyle.Top;
             pnlSubMenuRequest.Location = new Point(0, 251);
@@ -282,14 +282,14 @@
             // 
             // btnRequest
             // 
-            btnRequest.BackColor = Color.FromArgb(90, 120, 66);
+            btnRequest.BackColor = Color.FromArgb(6, 72, 46);
             btnRequest.Cursor = Cursors.Hand;
             btnRequest.Dock = DockStyle.Top;
             btnRequest.FlatAppearance.BorderSize = 0;
             btnRequest.FlatStyle = FlatStyle.Flat;
             btnRequest.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnRequest.ForeColor = Color.FromArgb(246, 246, 247);
-            btnRequest.Image = View.Properties.Resources.request;
+            btnRequest.Image = Properties.Resources.request;
             btnRequest.ImageAlign = ContentAlignment.MiddleLeft;
             btnRequest.Location = new Point(0, 211);
             btnRequest.Name = "btnRequest";
@@ -303,7 +303,7 @@
             // 
             // pnlSubMenuPointsWaste
             // 
-            pnlSubMenuPointsWaste.BackColor = Color.FromArgb(141, 170, 104);
+            pnlSubMenuPointsWaste.BackColor = Color.FromArgb(57, 115, 92);
             pnlSubMenuPointsWaste.Controls.Add(btnPointsRegister);
             pnlSubMenuPointsWaste.Controls.Add(bntAddPoints);
             pnlSubMenuPointsWaste.Dock = DockStyle.Top;
@@ -350,14 +350,14 @@
             // 
             // btnPointsWaste
             // 
-            btnPointsWaste.BackColor = Color.FromArgb(90, 120, 66);
+            btnPointsWaste.BackColor = Color.FromArgb(6, 72, 46);
             btnPointsWaste.Cursor = Cursors.Hand;
             btnPointsWaste.Dock = DockStyle.Top;
             btnPointsWaste.FlatAppearance.BorderSize = 0;
             btnPointsWaste.FlatStyle = FlatStyle.Flat;
             btnPointsWaste.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnPointsWaste.ForeColor = Color.FromArgb(246, 246, 247);
-            btnPointsWaste.Image = View.Properties.Resources.location;
+            btnPointsWaste.Image = Properties.Resources.location;
             btnPointsWaste.ImageAlign = ContentAlignment.MiddleLeft;
             btnPointsWaste.Location = new Point(0, 54);
             btnPointsWaste.Name = "btnPointsWaste";
@@ -382,14 +382,13 @@
             // 
             // button1
             // 
-            button1.BackColor = Color.FromArgb(130, 167, 98);
+            button1.BackColor = Color.FromArgb(32, 98, 71);
             button1.Cursor = Cursors.Hand;
             button1.Dock = DockStyle.Top;
             button1.FlatAppearance.BorderSize = 0;
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI Historic", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.FromArgb(246, 246, 247);
-            button1.Image = View.Properties.Resources.home__3_;
             button1.ImageAlign = ContentAlignment.MiddleRight;
             button1.Location = new Point(0, 0);
             button1.Name = "button1";
@@ -402,13 +401,13 @@
             // btnExit
             // 
             btnExit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnExit.BackColor = Color.FromArgb(90, 120, 66);
+            btnExit.BackColor = Color.FromArgb(7, 80, 51);
             btnExit.Cursor = Cursors.Hand;
             btnExit.FlatAppearance.BorderSize = 0;
             btnExit.FlatStyle = FlatStyle.Flat;
             btnExit.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnExit.ForeColor = Color.FromArgb(246, 246, 247);
-            btnExit.Image = View.Properties.Resources.leave;
+            btnExit.Image = Properties.Resources.leave;
             btnExit.ImageAlign = ContentAlignment.MiddleLeft;
             btnExit.Location = new Point(738, 9);
             btnExit.Name = "btnExit";
@@ -422,10 +421,9 @@
             // 
             // panel6
             // 
-            panel6.BackColor = Color.FromArgb(111, 146, 82);
+            panel6.BackColor = Color.FromArgb(7, 80, 51);
             panel6.Controls.Add(lblUsername);
             panel6.Controls.Add(button21);
-            panel6.Controls.Add(button15);
             panel6.Controls.Add(pictureBox2);
             panel6.Controls.Add(label6);
             panel6.Dock = DockStyle.Top;
@@ -452,7 +450,7 @@
             // button21
             // 
             button21.Anchor = AnchorStyles.Right;
-            button21.BackgroundImage = View.Properties.Resources.User_newIcon2;
+            button21.BackgroundImage = Properties.Resources.User_newIcon2;
             button21.FlatAppearance.BorderSize = 0;
             button21.FlatStyle = FlatStyle.Flat;
             button21.Location = new Point(937, 9);
@@ -462,20 +460,10 @@
             button21.UseVisualStyleBackColor = true;
             button21.Click += button21_Click;
             // 
-            // button15
-            // 
-            button15.BackgroundImage = View.Properties.Resources.IconMenu;
-            button15.Location = new Point(27, 17);
-            button15.Name = "button15";
-            button15.Size = new Size(48, 48);
-            button15.TabIndex = 5;
-            button15.UseVisualStyleBackColor = true;
-            button15.Click += button15_Click;
-            // 
             // pictureBox2
             // 
-            pictureBox2.Image = View.Properties.Resources.logo_final;
-            pictureBox2.Location = new Point(136, 10);
+            pictureBox2.Image = Properties.Resources.logo_final;
+            pictureBox2.Location = new Point(170, 9);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(111, 62);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -497,7 +485,7 @@
             // 
             // pnlBedcrums
             // 
-            pnlBedcrums.BackColor = Color.FromArgb(243, 247, 238);
+            pnlBedcrums.BackColor = Color.White;
             pnlBedcrums.Controls.Add(lblItems);
             pnlBedcrums.Controls.Add(lblMenu);
             pnlBedcrums.Controls.Add(btnExit);
@@ -547,6 +535,7 @@
             // 
             // panelContent
             // 
+            panelContent.BackColor = Color.White;
             panelContent.Dock = DockStyle.Fill;
             panelContent.Location = new Point(240, 140);
             panelContent.Name = "panelContent";
@@ -554,7 +543,7 @@
             panelContent.TabIndex = 50;
             panelContent.Paint += panelContent_Paint;
             // 
-            // ContainerForm
+            // frmContainer
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
@@ -567,7 +556,7 @@
             FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "ContainerForm";
+            Name = "frmContainer";
             WindowState = FormWindowState.Maximized;
             Load += ContainerForm_Load;
             pnlSideBar.ResumeLayout(false);
@@ -609,7 +598,6 @@
         private Panel panel6;
         private Label lblUsername;
         private Button button21;
-        private Button button15;
         private PictureBox pictureBox2;
         private Label label6;
         private Panel pnlBedcrums;

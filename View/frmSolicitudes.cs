@@ -27,8 +27,6 @@ namespace View
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.WrapContents = false;
 
-            MessageBox.Show($"ID recibido en solicitudes: {this._id_Usuario}");
-
         }
 
         public void CargarSolicitudes(long idUsuario)
@@ -38,10 +36,6 @@ namespace View
             var solicitudes =
                 new SolicitudesController().ViewRequestByUser(idUsuario);
 
-            MessageBox.Show(
-            $"Usuario: {idUsuario}\n" +
-            $"Solicitudes encontradas: {solicitudes.Count}"
-        );
 
             foreach (var solicitud in solicitudes)
             {
@@ -71,12 +65,12 @@ namespace View
         {
             CargarSolicitudes(_id_Usuario);
             frmSolicitudesCard_Design frmCard = new frmSolicitudesCard_Design(_id_Usuario);
-            
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -84,6 +78,10 @@ namespace View
 
         }
 
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 
 }

@@ -63,8 +63,6 @@ namespace View
             InformacionSitioEntidad siteInformation = new InformacionSitioEntidad();
             List<(InformacionSitioEntidad Sitio, string NombreBarrio)> puntos = new InformacionSitioController().ViewAllPoints();
 
-            MessageBox.Show("Cantidad de puntos encontrados: " + puntos.Count);
-
             var puntosMapa = puntos.Select(p => new
             {
                 p.Sitio.id_InformacionSitio,

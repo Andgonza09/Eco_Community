@@ -57,9 +57,9 @@
             wv2Map = new Microsoft.Web.WebView2.WinForms.WebView2();
             grpAcciones = new GroupBox();
             groupBox2 = new GroupBox();
-            button4 = new Button();
-            button3 = new Button();
-            button2 = new Button();
+            btnClean = new Button();
+            btnDelete = new Button();
+            button9 = new Button();
             grpListado = new GroupBox();
             dgvPuntos = new DataGridView();
             colIdPunto = new DataGridViewTextBoxColumn();
@@ -88,7 +88,7 @@
             // 
             // pnlHeader
             // 
-            pnlHeader.BackColor = Color.FromArgb(111, 146, 82);
+            pnlHeader.BackColor = Color.FromArgb(7, 80, 51);
             pnlHeader.Controls.Add(lblHeaderIcon);
             pnlHeader.Controls.Add(lblTitulo);
             pnlHeader.Controls.Add(lblSubtitulo);
@@ -183,11 +183,11 @@
             // 
             // grpInformacion
             // 
-            grpInformacion.BackColor = Color.FromArgb(227, 235, 216);
+            grpInformacion.BackColor = Color.White;
             grpInformacion.Controls.Add(tlpCampos);
             grpInformacion.Dock = DockStyle.Fill;
             grpInformacion.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            grpInformacion.ForeColor = Color.FromArgb(31, 58, 42);
+            grpInformacion.ForeColor = Color.Black;
             grpInformacion.Location = new Point(0, 0);
             grpInformacion.Margin = new Padding(0, 0, 8, 10);
             grpInformacion.Name = "grpInformacion";
@@ -328,11 +328,11 @@
             // 
             // grpMapa
             // 
-            grpMapa.BackColor = Color.FromArgb(227, 235, 216);
+            grpMapa.BackColor = Color.White;
             grpMapa.Controls.Add(wv2Map);
             grpMapa.Dock = DockStyle.Fill;
             grpMapa.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            grpMapa.ForeColor = Color.FromArgb(31, 58, 42);
+            grpMapa.ForeColor = Color.Black;
             grpMapa.Location = new Point(545, 0);
             grpMapa.Margin = new Padding(8, 0, 8, 10);
             grpMapa.Name = "grpMapa";
@@ -353,14 +353,15 @@
             wv2Map.Size = new Size(584, 339);
             wv2Map.TabIndex = 1;
             wv2Map.ZoomFactor = 1D;
+            wv2Map.Click += wv2Map_Click;
             // 
             // grpAcciones
             // 
-            grpAcciones.BackColor = Color.FromArgb(227, 235, 216);
+            grpAcciones.BackColor = Color.White;
             grpAcciones.Controls.Add(groupBox2);
             grpAcciones.Dock = DockStyle.Fill;
             grpAcciones.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            grpAcciones.ForeColor = Color.FromArgb(31, 58, 42);
+            grpAcciones.ForeColor = Color.Black;
             grpAcciones.Location = new Point(1165, 0);
             grpAcciones.Margin = new Padding(8, 0, 0, 10);
             grpAcciones.Name = "grpAcciones";
@@ -368,54 +369,80 @@
             grpAcciones.Size = new Size(213, 384);
             grpAcciones.TabIndex = 2;
             grpAcciones.TabStop = false;
-            grpAcciones.Text = "⚙  Acciones";
             grpAcciones.Enter += grpAcciones_Enter;
             // 
             // groupBox2
             // 
             groupBox2.Anchor = AnchorStyles.Top;
-            groupBox2.Controls.Add(button4);
-            groupBox2.Controls.Add(button3);
-            groupBox2.Controls.Add(button2);
+            groupBox2.Controls.Add(btnClean);
+            groupBox2.Controls.Add(btnDelete);
+            groupBox2.Controls.Add(button9);
             groupBox2.Location = new Point(28, 39);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(159, 328);
             groupBox2.TabIndex = 4;
             groupBox2.TabStop = false;
             // 
-            // button4
+            // btnClean
             // 
-            button4.Image = (Image)resources.GetObject("button4.Image");
-            button4.Location = new Point(34, 130);
-            button4.Name = "button4";
-            button4.Size = new Size(83, 75);
-            button4.TabIndex = 3;
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
+            btnClean.Anchor = AnchorStyles.Right;
+            btnClean.BackColor = Color.FromArgb(230, 238, 235);
+            btnClean.Cursor = Cursors.Hand;
+            btnClean.FlatStyle = FlatStyle.Flat;
+            btnClean.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold);
+            btnClean.ForeColor = Color.Black;
+            btnClean.Image = (Image)resources.GetObject("btnClean.Image");
+            btnClean.ImageAlign = ContentAlignment.TopCenter;
+            btnClean.Location = new Point(18, 220);
+            btnClean.Name = "btnClean";
+            btnClean.Size = new Size(122, 66);
+            btnClean.TabIndex = 52;
+            btnClean.Text = "Limpiar";
+            btnClean.TextAlign = ContentAlignment.BottomCenter;
+            btnClean.UseVisualStyleBackColor = false;
+            btnClean.Click += btnClean_Click;
             // 
-            // button3
+            // btnDelete
             // 
-            button3.Image = (Image)resources.GetObject("button3.Image");
-            button3.Location = new Point(34, 31);
-            button3.Name = "button3";
-            button3.Size = new Size(83, 75);
-            button3.TabIndex = 2;
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
+            btnDelete.Anchor = AnchorStyles.Right;
+            btnDelete.BackColor = Color.FromArgb(230, 238, 235);
+            btnDelete.Cursor = Cursors.Hand;
+            btnDelete.FlatStyle = FlatStyle.Flat;
+            btnDelete.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold);
+            btnDelete.ForeColor = Color.Black;
+            btnDelete.Image = (Image)resources.GetObject("btnDelete.Image");
+            btnDelete.ImageAlign = ContentAlignment.TopCenter;
+            btnDelete.Location = new Point(18, 131);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(122, 66);
+            btnDelete.TabIndex = 50;
+            btnDelete.Text = "Eliminar ";
+            btnDelete.TextAlign = ContentAlignment.BottomCenter;
+            btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
             // 
-            // button2
+            // button9
             // 
-            button2.Image = (Image)resources.GetObject("button2.Image");
-            button2.Location = new Point(34, 234);
-            button2.Name = "button2";
-            button2.Size = new Size(83, 75);
-            button2.TabIndex = 1;
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            button9.Anchor = AnchorStyles.Right;
+            button9.BackColor = Color.FromArgb(230, 238, 235);
+            button9.Cursor = Cursors.Hand;
+            button9.FlatStyle = FlatStyle.Flat;
+            button9.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold);
+            button9.ForeColor = Color.Black;
+            button9.Image = (Image)resources.GetObject("button9.Image");
+            button9.ImageAlign = ContentAlignment.TopCenter;
+            button9.Location = new Point(18, 38);
+            button9.Name = "button9";
+            button9.Size = new Size(122, 66);
+            button9.TabIndex = 51;
+            button9.Text = "Actualizar";
+            button9.TextAlign = ContentAlignment.BottomCenter;
+            button9.UseVisualStyleBackColor = false;
+            button9.Click += button9_Click;
             // 
             // grpListado
             // 
-            grpListado.BackColor = Color.FromArgb(227, 235, 216);
+            grpListado.BackColor = Color.White;
             grpListado.Controls.Add(dgvPuntos);
             grpListado.Controls.Add(pnlListadoHeader);
             grpListado.Dock = DockStyle.Fill;
@@ -439,11 +466,11 @@
             dgvPuntos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvPuntos.BackgroundColor = Color.White;
             dgvPuntos.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(230, 240, 225);
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(7, 80, 51);
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = Color.FromArgb(31, 58, 42);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(230, 240, 225);
-            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(31, 58, 42);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(57, 115, 92);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
             dgvPuntos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvPuntos.ColumnHeadersHeight = 36;
             dgvPuntos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -458,7 +485,7 @@
             dgvPuntos.DefaultCellStyle = dataGridViewCellStyle3;
             dgvPuntos.Dock = DockStyle.Fill;
             dgvPuntos.EnableHeadersVisualStyles = false;
-            dgvPuntos.GridColor = Color.FromArgb(222, 229, 217);
+            dgvPuntos.GridColor = Color.FromArgb(57, 115, 92);
             dgvPuntos.Location = new Point(10, 87);
             dgvPuntos.MultiSelect = false;
             dgvPuntos.Name = "dgvPuntos";
@@ -519,6 +546,7 @@
             // 
             // pnlListadoHeader
             // 
+            pnlListadoHeader.BackColor = Color.White;
             pnlListadoHeader.Controls.Add(lblListadoIcon);
             pnlListadoHeader.Controls.Add(lblListadoTitulo);
             pnlListadoHeader.Controls.Add(txtBuscar);
@@ -527,6 +555,7 @@
             pnlListadoHeader.Name = "pnlListadoHeader";
             pnlListadoHeader.Size = new Size(1364, 52);
             pnlListadoHeader.TabIndex = 1;
+            pnlListadoHeader.Paint += pnlListadoHeader_Paint;
             // 
             // lblListadoIcon
             // 
@@ -629,8 +658,8 @@
         private Microsoft.Web.WebView2.WinForms.WebView2 wv2Map;
         private TextBox textBox1;
         private GroupBox groupBox2;
-        private Button button4;
-        private Button button3;
-        private Button button2;
+        private Button button9;
+        private Button btnDelete;
+        private Button btnClean;
     }
 }

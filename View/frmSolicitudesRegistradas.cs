@@ -19,6 +19,11 @@ namespace View
             dgvSolicitudes.CellClick += dgvSolicitudes_CellClick;
             dgvSolicitudes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvSolicitudes.MultiSelect = false;
+
+            dgvSolicitudes.DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+            dgvSolicitudes.DefaultCellStyle.SelectionBackColor = Color.FromArgb(57, 115, 92);
+            dgvSolicitudes.DefaultCellStyle.SelectionForeColor = Color.White;
+
         }
         private long idSolicitudSeleccionada = 0;
         private void dgvSolicitudes_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -44,10 +49,7 @@ namespace View
                 valorFecha != DBNull.Value &&
                 !string.IsNullOrWhiteSpace(valorFecha.ToString()))
             {
-                DateOnly fecha = valorFecha is DateOnly f
-                    ? f
-                    : DateOnly.FromDateTime(Convert.ToDateTime(valorFecha));
-
+                DateOnly fecha = valorFecha is DateOnly f ? f : DateOnly.FromDateTime(Convert.ToDateTime(valorFecha));
                 if (fecha != DateOnly.MinValue)
                 {
                     fechaResolucion = fecha;
@@ -58,8 +60,7 @@ namespace View
             {
                 id_Solicitud = Convert.ToInt64(fila.Cells[colIdSolicitud.Index].Value),
                 estado_Solicitud = fila.Cells[colEstado.Index].Value?.ToString() ?? "",
-                fecha_Solicitud = fila.Cells[colFechaSolicitud.Index].Value is DateOnly fechaSolicitud
-                        ? fechaSolicitud : DateOnly.FromDateTime(Convert.ToDateTime(fila.Cells[colFechaSolicitud.Index].Value)),
+                fecha_Solicitud = fila.Cells[colFechaSolicitud.Index].Value is DateOnly fechaSolicitud ? fechaSolicitud : DateOnly.FromDateTime(Convert.ToDateTime(fila.Cells[colFechaSolicitud.Index].Value)),
 
                 fecha_Resolucion = fechaResolucion
             };
@@ -73,15 +74,10 @@ namespace View
             txtFechaSolicitud.Text =
                 selectedUser.fecha_Solicitud.ToString("dd/MM/yyyy");
 
-            txtFechaResolucion.Text =
-    selectedUser.fecha_Resolucion == null ||
-    selectedUser.fecha_Resolucion == DateOnly.MinValue
-        ? ""
-        : selectedUser.fecha_Resolucion.Value.ToString("dd/MM/yyyy");
+            txtFechaResolucion.Text = selectedUser.fecha_Resolucion == null || selectedUser.fecha_Resolucion == DateOnly.MinValue ? "" : selectedUser.fecha_Resolucion.Value.ToString("dd/MM/yyyy");
+
             string tipoSitio = fila.Cells[colTipoSitio.Index].Value?.ToString() ?? "";
-
             string direccion = fila.Cells[colDireccion.Index].Value?.ToString() ?? "";
-
             string nombreUsuario = fila.Cells[colNombreUsuario.Index].Value?.ToString() ?? "";
 
             txtTipoSitio.Text = tipoSitio;
@@ -132,33 +128,6 @@ namespace View
 
                 return;
             }
-        }
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-
-        }
-
-
-
-        private void dgvSolicitudes_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void tlpPrincipal_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void pnlBusqueda_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void lblTitulo_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -219,10 +188,10 @@ namespace View
             // validamos que exista un usuario seleccionado
             if (dgvSolicitudes.CurrentRow == null)
             {
-                MessageBox.Show("Seleccione un usuario.");
                 return;
             }
 
+            /*
             // Obtenemos del datagridview y convertirlos a un objeto user
             DataGridViewRow fila = dgvSolicitudes.CurrentRow;
             object? valorFecha = fila.Cells[colFechaResolucion.Index].Value;
@@ -256,42 +225,18 @@ namespace View
                 fecha_Resolucion = fechaResolucion
             };
 
+            frmActualizarSolicitud editRequest = new frmActualizarSolicitud(); */
 
-            // Mandamos el usuario seleccionado al formulario 
-            frmActualizarSolicitud editRequest = new frmActualizarSolicitud();
-            /*
-             * editInformation.StartPosition = FormStartPosition.CenterScreen;
-
-            editInformation.ShowDialog();
-            this.Show();
-
-            */
         }
-
-
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void button3_Click_1(object sender, EventArgs e)
         {
 
         }
+
+
         private void button2_Click(object sender, EventArgs e)
         {
-            DialogResult resultado = MessageBox.Show(
-                "¿Estás seguro que deseas eliminar la solicitud del sistema?",
-                "Verificación de información",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Question
-            );
 
-            if (resultado == DialogResult.OK)
-            {
-                // Eliminar solicitud
-                // Eliminamos el id de la tabla multimedia para evitar las dependencias de llaves foráneas de cada tabla
-                new MultimediaController().DeleteMultimedia(idSolicitudSeleccionada);
-                new SolicitudesController().DeleteRequest(idSolicitudSeleccionada);
-                MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                RefreshTable();
-            }
         }
 
         private void grpAcciones_Enter(object sender, EventArgs e)
@@ -318,8 +263,95 @@ namespace View
         {
 
         }
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
 
         private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pnlListadoHeader_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void frmSolicitudesRegistradas_Load(object sender, EventArgs e)
+        {
+
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private void dgvSolicitudes_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void tlpPrincipal_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pnlBusqueda_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void lblTitulo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void grpInformacion_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvSolicitudes_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            DialogResult resultado = MessageBox.Show("¿Estás seguro que deseas eliminar la solicitud del sistema?", "Verificación de información", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+            if (resultado == DialogResult.OK)
+            {
+                // Eliminar solicitud
+                // Eliminamos el id de la tabla multimedia para evitar las dependencias de llaves foráneas de cada tabla
+                new MultimediaController().DeleteMultimedia(idSolicitudSeleccionada);
+                new SolicitudesController().DeleteRequest(idSolicitudSeleccionada);
+                MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                RefreshTable();
+            }
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            txtDireccion.Clear();
+            cmbEstado.SelectedIndex = -1;
+            txtIdSolicitud.Clear();
+            txtFechaResolucion.Clear();
+            txtFechaSolicitud.Clear();
+            txtNombreUsuario.Clear();
+            txtTipoSitio.Clear();
+
+        }
+
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button11_Click(object sender, EventArgs e)
         {
 
         }

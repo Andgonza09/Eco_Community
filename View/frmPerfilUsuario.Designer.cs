@@ -89,6 +89,7 @@
             // 
             // panel13
             // 
+            panel13.BackColor = Color.FromArgb(7, 80, 51);
             panel13.Controls.Add(label9);
             panel13.Controls.Add(label15);
             panel13.Dock = DockStyle.Top;
@@ -102,6 +103,7 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI Historic", 12F);
+            label9.ForeColor = SystemColors.Control;
             label9.Location = new Point(58, 50);
             label9.Name = "label9";
             label9.Size = new Size(461, 28);
@@ -112,6 +114,7 @@
             // 
             label15.AutoSize = true;
             label15.Font = new Font("Segoe UI Historic", 18F, FontStyle.Bold);
+            label15.ForeColor = SystemColors.Control;
             label15.Location = new Point(59, 9);
             label15.Name = "label15";
             label15.Size = new Size(248, 41);
@@ -120,6 +123,7 @@
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.BackColor = Color.White;
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.9496851F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 88.0503159F));
@@ -135,7 +139,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = Color.FromArgb(179, 194, 148);
+            panel1.BackColor = Color.FromArgb(57, 115, 92);
             panel1.Controls.Add(panel5);
             panel1.Controls.Add(panel4);
             panel1.Controls.Add(typeRol);
@@ -150,7 +154,7 @@
             // panel5
             // 
             panel5.Anchor = AnchorStyles.Left;
-            panel5.BackColor = Color.FromArgb(227, 235, 216);
+            panel5.BackColor = Color.White;
             panel5.Controls.Add(label11);
             panel5.Controls.Add(label12);
             panel5.Location = new Point(21, 442);
@@ -182,7 +186,7 @@
             // panel4
             // 
             panel4.Anchor = AnchorStyles.Left;
-            panel4.BackColor = Color.FromArgb(227, 235, 216);
+            panel4.BackColor = Color.White;
             panel4.Controls.Add(pictureBox13);
             panel4.Controls.Add(labUserState);
             panel4.Controls.Add(label10);
@@ -193,7 +197,7 @@
             // 
             // pictureBox13
             // 
-            pictureBox13.Image = View.Properties.Resources.check;
+            pictureBox13.Image = Properties.Resources.check;
             pictureBox13.Location = new Point(50, 37);
             pictureBox13.Name = "pictureBox13";
             pictureBox13.Size = new Size(29, 30);
@@ -225,6 +229,7 @@
             typeRol.Anchor = AnchorStyles.Left;
             typeRol.AutoSize = true;
             typeRol.Font = new Font("Segoe UI Historic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            typeRol.ForeColor = Color.White;
             typeRol.Location = new Point(47, 287);
             typeRol.Name = "typeRol";
             typeRol.Size = new Size(175, 28);
@@ -236,6 +241,7 @@
             label5.Anchor = AnchorStyles.Left;
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Historic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.ForeColor = Color.White;
             label5.Location = new Point(76, 259);
             label5.Name = "label5";
             label5.Size = new Size(107, 28);
@@ -246,7 +252,7 @@
             // 
             pbxUserImage.Anchor = AnchorStyles.Left;
             pbxUserImage.Cursor = Cursors.Hand;
-            pbxUserImage.Image = View.Properties.Resources.editUser;
+            pbxUserImage.Image = (Image)resources.GetObject("pbxUserImage.Image");
             pbxUserImage.Location = new Point(68, 97);
             pbxUserImage.Name = "pbxUserImage";
             pbxUserImage.Size = new Size(128, 128);
@@ -257,6 +263,7 @@
             // 
             // panel2
             // 
+            panel2.BackColor = Color.White;
             panel2.Dock = DockStyle.Right;
             panel2.Location = new Point(1064, 89);
             panel2.Name = "panel2";
@@ -267,11 +274,11 @@
             // btnUpdateData
             // 
             btnUpdateData.Anchor = AnchorStyles.None;
-            btnUpdateData.BackColor = Color.FromArgb(69, 93, 51);
+            btnUpdateData.BackColor = Color.FromArgb(57, 115, 92);
             btnUpdateData.Cursor = Cursors.Hand;
             btnUpdateData.Font = new Font("Segoe UI Historic", 10F, FontStyle.Bold);
             btnUpdateData.ForeColor = SystemColors.Control;
-            btnUpdateData.Location = new Point(278, 67);
+            btnUpdateData.Location = new Point(248, 34);
             btnUpdateData.Name = "btnUpdateData";
             btnUpdateData.Size = new Size(176, 52);
             btnUpdateData.TabIndex = 35;
@@ -291,6 +298,7 @@
             // 
             // tableLayoutPanel4
             // 
+            tableLayoutPanel4.BackColor = Color.FromArgb(57, 115, 92);
             tableLayoutPanel4.ColumnCount = 2;
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33F));
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 67F));
@@ -311,6 +319,7 @@
             tableLayoutPanel5.Controls.Add(lblDateRegister, 0, 1);
             tableLayoutPanel5.Controls.Add(label8, 0, 0);
             tableLayoutPanel5.Dock = DockStyle.Fill;
+            tableLayoutPanel5.ForeColor = Color.White;
             tableLayoutPanel5.Location = new Point(245, 3);
             tableLayoutPanel5.Name = "tableLayoutPanel5";
             tableLayoutPanel5.RowCount = 2;
@@ -335,6 +344,7 @@
             label8.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI Historic", 9F, FontStyle.Bold);
+            label8.ForeColor = Color.White;
             label8.Location = new Point(3, 37);
             label8.Name = "label8";
             label8.Size = new Size(140, 20);
@@ -345,7 +355,7 @@
             // pictureBox6
             // 
             pictureBox6.Anchor = AnchorStyles.None;
-            pictureBox6.Image = View.Properties.Resources.calendarClock;
+            pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
             pictureBox6.Location = new Point(74, 18);
             pictureBox6.Name = "pictureBox6";
             pictureBox6.Size = new Size(94, 84);
@@ -366,6 +376,7 @@
             // 
             // tableLayoutPanel3
             // 
+            tableLayoutPanel3.BackColor = Color.FromArgb(57, 115, 92);
             tableLayoutPanel3.ColumnCount = 5;
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 2.388506F));
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 13.77551F));
@@ -387,6 +398,7 @@
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 50.0033379F));
             tableLayoutPanel3.Size = new Size(735, 195);
             tableLayoutPanel3.TabIndex = 42;
+            tableLayoutPanel3.Paint += tableLayoutPanel3_Paint;
             // 
             // txtPasswordProfile
             // 
@@ -414,6 +426,7 @@
             label2.Anchor = AnchorStyles.None;
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Historic", 9F, FontStyle.Bold);
+            label2.ForeColor = Color.White;
             label2.Location = new Point(114, 28);
             label2.Name = "label2";
             label2.Size = new Size(99, 40);
@@ -426,6 +439,7 @@
             label7.Anchor = AnchorStyles.None;
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Historic", 9F, FontStyle.Bold);
+            label7.ForeColor = Color.White;
             label7.Location = new Point(117, 136);
             label7.Name = "label7";
             label7.Size = new Size(93, 20);
@@ -435,7 +449,7 @@
             // pictureBox1
             // 
             pictureBox1.Anchor = AnchorStyles.Right;
-            pictureBox1.Image = View.Properties.Resources.user;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(52, 31);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(37, 34);
@@ -458,7 +472,7 @@
             // pictureBox2
             // 
             pictureBox2.Anchor = AnchorStyles.Left;
-            pictureBox2.Image = View.Properties.Resources.PasswordHide;
+            pictureBox2.Image = Properties.Resources.PasswordHide;
             pictureBox2.Location = new Point(575, 129);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(37, 33);
@@ -469,6 +483,7 @@
             // 
             // panel14
             // 
+            panel14.BackColor = Color.FromArgb(57, 115, 92);
             panel14.Controls.Add(label1);
             panel14.Controls.Add(label13);
             panel14.Dock = DockStyle.Top;
@@ -481,6 +496,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Historic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.White;
             label1.Location = new Point(30, 7);
             label1.Name = "label1";
             label1.Size = new Size(227, 28);
@@ -491,7 +507,7 @@
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Segoe UI Historic", 10F);
-            label13.ForeColor = SystemColors.ControlDarkDark;
+            label13.ForeColor = Color.White;
             label13.Location = new Point(30, 39);
             label13.Name = "label13";
             label13.Size = new Size(323, 23);
@@ -500,6 +516,7 @@
             // 
             // tableLayoutPanel2
             // 
+            tableLayoutPanel2.BackColor = Color.White;
             tableLayoutPanel2.ColumnCount = 2;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 3.453469F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 96.54653F));
@@ -519,6 +536,7 @@
             // 
             // panel16
             // 
+            panel16.BackColor = Color.White;
             panel16.Controls.Add(btnUpdateData);
             panel16.Dock = DockStyle.Fill;
             panel16.Location = new Point(29, 435);
@@ -527,7 +545,7 @@
             panel16.TabIndex = 35;
             panel16.Paint += panel16_Paint;
             // 
-            // ProfileView
+            // frmPerfilUsuario
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
@@ -541,7 +559,7 @@
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "ProfileView";
+            Name = "frmPerfilUsuario";
             Text = " ";
             WindowState = FormWindowState.Maximized;
             Load += ProfileView_Load;

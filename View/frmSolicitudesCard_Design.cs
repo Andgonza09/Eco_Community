@@ -21,8 +21,6 @@ namespace View
         private bool mouseEncima = false;
         private long _idUsuario;
         private long id_Solicitud;
-
-
         private readonly Color colorNormal =
             Color.FromArgb(244, 248, 238);
         private readonly Color colorHover =
@@ -266,7 +264,28 @@ namespace View
 
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
         }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DialogResult resultado = MessageBox.Show(
+                "¿Estás seguro que deseas eliminar la solicitud del sistema?",
+                "Verificación de información",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question
+            );
 
+            if (resultado == DialogResult.OK)
+            {
+                // Eliminamos el id de la tabla multimedia para evitar las dependencias de llaves foráneas de cada tabla
+                new MultimediaController().DeleteMultimedia(id_Solicitud);
+                new SolicitudesController().DeleteRequest(id_Solicitud);
+                MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Avisar al formulario principal
+                SolicitudEliminada?.Invoke();
+            }
+
+
+        }
 
         private void frmSolicitudesCard_Design_Load(object sender, EventArgs e)
         {
@@ -323,31 +342,18 @@ namespace View
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+
+        private void pbEstado_Click(object sender, EventArgs e)
         {
-            DialogResult resultado = MessageBox.Show(
-                "¿Estás seguro que deseas eliminar la solicitud del sistema?",
-                "Verificación de información",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Question
-            );
-
-            if (resultado == DialogResult.OK)
-            {
-                // Eliminar solicitud
-                // Eliminamos el id de la tabla multimedia para evitar las dependencias de llaves foráneas de cada tabla
-                new MultimediaController().DeleteMultimedia(id_Solicitud);
-                new SolicitudesController().DeleteRequest(id_Solicitud);
-                MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Avisar al formulario principal
-                SolicitudEliminada?.Invoke();
-            }
-
 
         }
 
-        private void pbEstado_Click(object sender, EventArgs e)
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
         }

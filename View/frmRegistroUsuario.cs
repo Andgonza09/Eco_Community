@@ -13,27 +13,6 @@ namespace View
         {
             InitializeComponent();
         }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnRegister_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtUsername.Text) || string.IsNullOrWhiteSpace(txtPassword.Text) || string.IsNullOrWhiteSpace(txtEmail.Text))
@@ -105,10 +84,6 @@ namespace View
                 throw new Exception("Error al agregar el usuario: " + ex.Message);
             }
         }
-        private void panel1_Paint_1(object sender, PaintEventArgs e)
-        {
-
-        }
 
         private void pictureBox4_Click_1(object sender, EventArgs e)
         {
@@ -129,7 +104,6 @@ namespace View
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             UsuarioEntidad userRegister = new UsuarioEntidad();
-            //   userRegister.GetUserbyRegister();
             UsuarioController usuario = new UsuarioController();
             usuario.BuscarUsuario(txtEmail.Text.Trim(), txtPassword.Text.Trim());
 
@@ -137,12 +111,6 @@ namespace View
             frmLoginUsuario loginForm = new frmLoginUsuario(userRegister, txtEmail.Text.Trim(), txtPassword.Text.Trim());
             loginForm.Show();
         }
-
-        private void txtUser_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void RegisterView_Load(object sender, EventArgs e)
         {
             this.FormClosing += RegisterView_FormCLosing;
@@ -155,5 +123,34 @@ namespace View
                 Application.Exit();
             }
         }
+
+        private void txtUser_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void panel1_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
     }
 }

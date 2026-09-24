@@ -56,7 +56,7 @@
             // 
             panel1.Anchor = AnchorStyles.None;
             panel1.AutoSize = true;
-            panel1.BackColor = Color.FromArgb(179, 194, 148);
+            panel1.BackColor = Color.FromArgb(7, 80, 51);
             panel1.Controls.Add(linkLabel2);
             panel1.Controls.Add(linkLabel1);
             panel1.Controls.Add(label3);
@@ -71,6 +71,7 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(621, 395);
             panel1.TabIndex = 10;
+            panel1.Paint += panel1_Paint;
             // 
             // linkLabel2
             // 
@@ -100,6 +101,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Historic", 9F, FontStyle.Bold);
+            label3.ForeColor = SystemColors.Control;
             label3.Location = new Point(237, 303);
             label3.Name = "label3";
             label3.Size = new Size(152, 20);
@@ -139,7 +141,7 @@
             // 
             // btnLogin
             // 
-            btnLogin.BackColor = Color.FromArgb(69, 93, 51);
+            btnLogin.BackColor = Color.FromArgb(57, 115, 92);
             btnLogin.Font = new Font("Segoe UI Historic", 10F, FontStyle.Bold);
             btnLogin.ForeColor = SystemColors.Control;
             btnLogin.Location = new Point(153, 233);
@@ -208,6 +210,7 @@
             // 
             // panel2
             // 
+            panel2.BackColor = Color.White;
             panel2.Dock = DockStyle.Left;
             panel2.Location = new Point(0, 110);
             panel2.Name = "panel2";
@@ -216,6 +219,7 @@
             // 
             // panel3
             // 
+            panel3.BackColor = Color.White;
             panel3.Dock = DockStyle.Right;
             panel3.Location = new Point(912, 110);
             panel3.Name = "panel3";
@@ -225,6 +229,7 @@
             // 
             // panel4
             // 
+            panel4.BackColor = Color.White;
             panel4.Dock = DockStyle.Top;
             panel4.Location = new Point(0, 0);
             panel4.Name = "panel4";
@@ -236,7 +241,7 @@
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
-            BackColor = Color.FromArgb(227, 235, 216);
+            BackColor = Color.White;
             ClientSize = new Size(1162, 876);
             Controls.Add(panel3);
             Controls.Add(panel2);

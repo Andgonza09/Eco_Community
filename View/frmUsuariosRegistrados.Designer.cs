@@ -66,10 +66,10 @@
             comboBox1 = new ComboBox();
             grpAcciones = new GroupBox();
             groupBox2 = new GroupBox();
-            button4 = new Button();
-            button3 = new Button();
-            button2 = new Button();
-            button5 = new Button();
+            button6 = new Button();
+            button8 = new Button();
+            button14 = new Button();
+            btnDelete = new Button();
             tlpPrincipal = new TableLayoutPanel();
             pnlHeader.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -87,7 +87,7 @@
             // 
             // pnlHeader
             // 
-            pnlHeader.BackColor = Color.FromArgb(111, 146, 82);
+            pnlHeader.BackColor = Color.FromArgb(7, 80, 51);
             pnlHeader.Controls.Add(lblHeaderIcon);
             pnlHeader.Controls.Add(lblTitulo);
             pnlHeader.Controls.Add(lblSubtitulo);
@@ -234,7 +234,11 @@
             dgvUsuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvUsuarios.BackgroundColor = Color.White;
             dgvUsuarios.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(7, 80, 51);
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(57, 115, 92);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
             dgvUsuarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvUsuarios.ColumnHeadersHeight = 38;
             dgvUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -301,7 +305,7 @@
             // 
             // pnlListadoHeader
             // 
-            pnlListadoHeader.BackColor = Color.FromArgb(227, 235, 216);
+            pnlListadoHeader.BackColor = Color.White;
             pnlListadoHeader.Controls.Add(lblListadoIcon);
             pnlListadoHeader.Controls.Add(lblListadoTitulo);
             pnlListadoHeader.Controls.Add(txtBuscarId);
@@ -326,7 +330,7 @@
             // 
             lblListadoTitulo.AutoSize = true;
             lblListadoTitulo.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblListadoTitulo.ForeColor = Color.FromArgb(48, 75, 48);
+            lblListadoTitulo.ForeColor = Color.Black;
             lblListadoTitulo.Location = new Point(52, 13);
             lblListadoTitulo.Name = "lblListadoTitulo";
             lblListadoTitulo.Size = new Size(205, 28);
@@ -357,6 +361,7 @@
             tlpSuperior.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tlpSuperior.Size = new Size(1378, 244);
             tlpSuperior.TabIndex = 0;
+            tlpSuperior.Paint += tlpSuperior_Paint;
             // 
             // grpDatos
             // 
@@ -364,7 +369,7 @@
             grpDatos.Controls.Add(tlpCampos);
             grpDatos.Dock = DockStyle.Fill;
             grpDatos.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            grpDatos.ForeColor = Color.FromArgb(48, 75, 48);
+            grpDatos.ForeColor = Color.Black;
             grpDatos.Location = new Point(0, 0);
             grpDatos.Margin = new Padding(0, 0, 9, 10);
             grpDatos.Name = "grpDatos";
@@ -377,7 +382,7 @@
             // 
             // tlpCampos
             // 
-            tlpCampos.BackColor = Color.FromArgb(227, 235, 216);
+            tlpCampos.BackColor = Color.White;
             tlpCampos.ColumnCount = 4;
             tlpCampos.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 14F));
             tlpCampos.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 36F));
@@ -471,11 +476,11 @@
             // 
             // grpAcciones
             // 
-            grpAcciones.BackColor = Color.FromArgb(227, 235, 216);
+            grpAcciones.BackColor = Color.White;
             grpAcciones.Controls.Add(groupBox2);
             grpAcciones.Dock = DockStyle.Fill;
             grpAcciones.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            grpAcciones.ForeColor = Color.FromArgb(48, 75, 48);
+            grpAcciones.ForeColor = Color.Black;
             grpAcciones.Location = new Point(1083, 0);
             grpAcciones.Margin = new Padding(9, 0, 0, 10);
             grpAcciones.Name = "grpAcciones";
@@ -483,59 +488,92 @@
             grpAcciones.Size = new Size(295, 234);
             grpAcciones.TabIndex = 1;
             grpAcciones.TabStop = false;
-            grpAcciones.Text = "⚙  Acciones";
             // 
             // groupBox2
             // 
             groupBox2.Anchor = AnchorStyles.Top;
-            groupBox2.Controls.Add(button4);
-            groupBox2.Controls.Add(button3);
-            groupBox2.Controls.Add(button2);
-            groupBox2.Controls.Add(button5);
-            groupBox2.Location = new Point(46, 25);
+            groupBox2.Controls.Add(button6);
+            groupBox2.Controls.Add(button8);
+            groupBox2.Controls.Add(button14);
+            groupBox2.Controls.Add(btnDelete);
+            groupBox2.Location = new Point(15, 20);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(206, 195);
+            groupBox2.Size = new Size(265, 199);
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             // 
-            // button4
+            // button6
             // 
-            button4.Image = (Image)resources.GetObject("button4.Image");
-            button4.Location = new Point(16, 102);
-            button4.Name = "button4";
-            button4.Size = new Size(83, 75);
-            button4.TabIndex = 3;
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
+            button6.Anchor = AnchorStyles.Right;
+            button6.BackColor = Color.FromArgb(230, 238, 235);
+            button6.Cursor = Cursors.Hand;
+            button6.FlatStyle = FlatStyle.Flat;
+            button6.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold);
+            button6.ForeColor = Color.Black;
+            button6.Image = (Image)resources.GetObject("button6.Image");
+            button6.ImageAlign = ContentAlignment.TopCenter;
+            button6.Location = new Point(135, 109);
+            button6.Name = "button6";
+            button6.Size = new Size(114, 66);
+            button6.TabIndex = 49;
+            button6.Text = "Actualizar";
+            button6.TextAlign = ContentAlignment.BottomCenter;
+            button6.UseVisualStyleBackColor = false;
+            button6.Click += button6_Click;
             // 
-            // button3
+            // button8
             // 
-            button3.Image = (Image)resources.GetObject("button3.Image");
-            button3.Location = new Point(109, 99);
-            button3.Name = "button3";
-            button3.Size = new Size(83, 75);
-            button3.TabIndex = 2;
-            button3.UseVisualStyleBackColor = true;
+            button8.BackColor = Color.FromArgb(57, 115, 92);
+            button8.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button8.ForeColor = SystemColors.Control;
+            button8.Image = (Image)resources.GetObject("button8.Image");
+            button8.ImageAlign = ContentAlignment.TopCenter;
+            button8.Location = new Point(15, 31);
+            button8.Name = "button8";
+            button8.Size = new Size(114, 66);
+            button8.TabIndex = 47;
+            button8.Text = "Guardar";
+            button8.TextAlign = ContentAlignment.BottomCenter;
+            button8.UseVisualStyleBackColor = false;
+            button8.Click += button8_Click;
             // 
-            // button2
+            // button14
             // 
-            button2.Image = (Image)resources.GetObject("button2.Image");
-            button2.Location = new Point(109, 21);
-            button2.Name = "button2";
-            button2.Size = new Size(83, 75);
-            button2.TabIndex = 1;
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            button14.Anchor = AnchorStyles.Right;
+            button14.BackColor = Color.FromArgb(230, 238, 235);
+            button14.Cursor = Cursors.Hand;
+            button14.FlatStyle = FlatStyle.Flat;
+            button14.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold);
+            button14.ForeColor = Color.Black;
+            button14.Image = (Image)resources.GetObject("button14.Image");
+            button14.ImageAlign = ContentAlignment.TopCenter;
+            button14.Location = new Point(15, 109);
+            button14.Name = "button14";
+            button14.Size = new Size(114, 66);
+            button14.TabIndex = 50;
+            button14.Text = "Limpiar";
+            button14.TextAlign = ContentAlignment.BottomCenter;
+            button14.UseVisualStyleBackColor = false;
+            button14.Click += button14_Click;
             // 
-            // button5
+            // btnDelete
             // 
-            button5.Image = (Image)resources.GetObject("button5.Image");
-            button5.Location = new Point(16, 21);
-            button5.Name = "button5";
-            button5.Size = new Size(83, 75);
-            button5.TabIndex = 0;
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
+            btnDelete.Anchor = AnchorStyles.Right;
+            btnDelete.BackColor = Color.FromArgb(230, 238, 235);
+            btnDelete.Cursor = Cursors.Hand;
+            btnDelete.FlatStyle = FlatStyle.Flat;
+            btnDelete.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold);
+            btnDelete.ForeColor = Color.Black;
+            btnDelete.Image = (Image)resources.GetObject("btnDelete.Image");
+            btnDelete.ImageAlign = ContentAlignment.TopCenter;
+            btnDelete.Location = new Point(135, 31);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(114, 66);
+            btnDelete.TabIndex = 48;
+            btnDelete.Text = "Eliminar ";
+            btnDelete.TextAlign = ContentAlignment.BottomCenter;
+            btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += button7_Click;
             // 
             // tlpPrincipal
             // 
@@ -627,10 +665,10 @@
         private GroupBox grpAcciones;
         private TableLayoutPanel tlpPrincipal;
         private GroupBox groupBox2;
-        private Button button4;
-        private Button button3;
-        private Button button2;
-        private Button button5;
         private ComboBox comboBox1;
+        private Button button14;
+        private Button button6;
+        private Button btnDelete;
+        private Button button8;
     }
 }

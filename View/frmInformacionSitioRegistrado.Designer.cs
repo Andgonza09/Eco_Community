@@ -42,6 +42,7 @@
             // 
             // panel10
             // 
+            panel10.BackColor = Color.FromArgb(7, 80, 51);
             panel10.Controls.Add(label4);
             panel10.Controls.Add(label6);
             panel10.Dock = DockStyle.Top;
@@ -54,6 +55,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Historic", 18F, FontStyle.Bold);
+            label4.ForeColor = SystemColors.Control;
             label4.Location = new Point(43, 10);
             label4.Name = "label4";
             label4.Size = new Size(464, 41);
@@ -64,6 +66,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Historic", 12F);
+            label6.ForeColor = SystemColors.Control;
             label6.Location = new Point(43, 51);
             label6.Name = "label6";
             label6.Size = new Size(540, 28);
@@ -73,6 +76,7 @@
             // wv2Map
             // 
             wv2Map.AllowExternalDrop = true;
+            wv2Map.BackColor = Color.White;
             wv2Map.CreationProperties = null;
             wv2Map.DefaultBackgroundColor = Color.White;
             wv2Map.Dock = DockStyle.Fill;
@@ -85,6 +89,7 @@
             // 
             // panel1
             // 
+            panel1.BackColor = Color.White;
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 89);
             panel1.Name = "panel1";
@@ -94,6 +99,7 @@
             // 
             // panel2
             // 
+            panel2.BackColor = Color.White;
             panel2.Dock = DockStyle.Right;
             panel2.Location = new Point(1112, 108);
             panel2.Name = "panel2";
@@ -102,6 +108,7 @@
             // 
             // panel3
             // 
+            panel3.BackColor = Color.White;
             panel3.Dock = DockStyle.Left;
             panel3.Location = new Point(0, 108);
             panel3.Name = "panel3";
@@ -121,7 +128,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(227, 235, 216);
+            BackColor = Color.White;
             ClientSize = new Size(1162, 876);
             Controls.Add(panel4);
             Controls.Add(panel3);

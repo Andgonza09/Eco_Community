@@ -66,6 +66,7 @@
             // 
             // pictureBox1
             // 
+            pictureBox1.BackColor = Color.FromArgb(81, 133, 112);
             pictureBox1.Dock = DockStyle.Left;
             pictureBox1.Location = new Point(18, 10);
             pictureBox1.Name = "pictureBox1";
@@ -77,14 +78,17 @@
             // 
             // panel2
             // 
+            panel2.BackColor = Color.FromArgb(81, 133, 112);
             panel2.Dock = DockStyle.Left;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
             panel2.Size = new Size(18, 350);
             panel2.TabIndex = 17;
+            panel2.Paint += panel2_Paint;
             // 
             // panel1
             // 
+            panel1.BackColor = Color.FromArgb(81, 133, 112);
             panel1.Dock = DockStyle.Bottom;
             panel1.Location = new Point(18, 337);
             panel1.Name = "panel1";
@@ -93,6 +97,7 @@
             // 
             // panel4
             // 
+            panel4.BackColor = Color.FromArgb(81, 133, 112);
             panel4.Dock = DockStyle.Top;
             panel4.Location = new Point(18, 0);
             panel4.Name = "panel4";
@@ -101,6 +106,7 @@
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.BackColor = Color.FromArgb(81, 133, 112);
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(panel3, 0, 1);
@@ -115,6 +121,7 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 39F));
             tableLayoutPanel1.Size = new Size(787, 327);
             tableLayoutPanel1.TabIndex = 31;
+            tableLayoutPanel1.Paint += tableLayoutPanel1_Paint;
             // 
             // panel3
             // 
@@ -125,6 +132,7 @@
             // 
             // panel5
             // 
+            panel5.BackColor = Color.FromArgb(81, 133, 112);
             panel5.Controls.Add(button2);
             panel5.Controls.Add(pbEstado);
             panel5.Controls.Add(lbDireccionTitulo);
@@ -167,6 +175,7 @@
             // 
             lbDireccionTitulo.AutoSize = true;
             lbDireccionTitulo.Font = new Font("Segoe UI Historic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbDireccionTitulo.ForeColor = SystemColors.Control;
             lbDireccionTitulo.Location = new Point(70, 116);
             lbDireccionTitulo.Name = "lbDireccionTitulo";
             lbDireccionTitulo.Size = new Size(72, 20);
@@ -177,6 +186,7 @@
             // 
             lbTipoSitioTitulo.AutoSize = true;
             lbTipoSitioTitulo.Font = new Font("Segoe UI Historic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbTipoSitioTitulo.ForeColor = SystemColors.Control;
             lbTipoSitioTitulo.Location = new Point(70, 43);
             lbTipoSitioTitulo.Name = "lbTipoSitioTitulo";
             lbTipoSitioTitulo.Size = new Size(92, 20);
@@ -207,6 +217,7 @@
             // 
             lbDireccion.AutoSize = true;
             lbDireccion.Font = new Font("Segoe UI Historic", 10.8F);
+            lbDireccion.ForeColor = SystemColors.Control;
             lbDireccion.Location = new Point(70, 142);
             lbDireccion.Name = "lbDireccion";
             lbDireccion.Size = new Size(85, 25);
@@ -217,6 +228,7 @@
             // 
             lbTipoSitio.AutoSize = true;
             lbTipoSitio.Font = new Font("Segoe UI Historic", 10.8F);
+            lbTipoSitio.ForeColor = SystemColors.Control;
             lbTipoSitio.Location = new Point(70, 70);
             lbTipoSitio.Name = "lbTipoSitio";
             lbTipoSitio.Size = new Size(110, 25);
@@ -227,6 +239,7 @@
             // 
             lbEstado.AutoSize = true;
             lbEstado.Font = new Font("Segoe UI Historic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbEstado.ForeColor = SystemColors.Control;
             lbEstado.Location = new Point(503, 43);
             lbEstado.Name = "lbEstado";
             lbEstado.Size = new Size(72, 25);
@@ -237,6 +250,7 @@
             // 
             lbNSolicitud.AutoSize = true;
             lbNSolicitud.Font = new Font("Segoe UI Historic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbNSolicitud.ForeColor = SystemColors.Control;
             lbNSolicitud.Location = new Point(28, 9);
             lbNSolicitud.Name = "lbNSolicitud";
             lbNSolicitud.Size = new Size(164, 25);
@@ -245,6 +259,7 @@
             // 
             // panel6
             // 
+            panel6.BackColor = Color.FromArgb(81, 133, 112);
             panel6.Controls.Add(pictureBox4);
             panel6.Controls.Add(pictureBox3);
             panel6.Controls.Add(lbFechaSolicitud);
@@ -282,6 +297,7 @@
             // 
             lbFechaSolicitud.AutoSize = true;
             lbFechaSolicitud.Font = new Font("Segoe UI Historic", 10.8F);
+            lbFechaSolicitud.ForeColor = SystemColors.Control;
             lbFechaSolicitud.Location = new Point(93, 72);
             lbFechaSolicitud.Name = "lbFechaSolicitud";
             lbFechaSolicitud.Size = new Size(130, 25);
@@ -292,6 +308,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Historic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.ForeColor = SystemColors.Control;
             label2.Location = new Point(393, 36);
             label2.Name = "label2";
             label2.Size = new Size(164, 25);
@@ -302,6 +319,7 @@
             // 
             lbFechaResolución.AutoSize = true;
             lbFechaResolución.Font = new Font("Segoe UI Historic", 10.8F);
+            lbFechaResolución.ForeColor = SystemColors.Control;
             lbFechaResolución.Location = new Point(394, 72);
             lbFechaResolución.Name = "lbFechaResolución";
             lbFechaResolución.Size = new Size(148, 25);
@@ -312,6 +330,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Historic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = SystemColors.Control;
             label1.Location = new Point(93, 36);
             label1.Name = "label1";
             label1.Size = new Size(145, 25);

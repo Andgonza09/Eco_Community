@@ -22,17 +22,12 @@ namespace View
             dgvPuntos.CellFormatting += dataGridView1_CellFormatting;
             dgvPuntos.CellClick += dataGridView1_CellClick;
             this.Shown += frmPuntosRegistrados_Shown;
+
+            dgvPuntos.DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+            dgvPuntos.DefaultCellStyle.SelectionBackColor = Color.FromArgb(57, 115, 92);
+            dgvPuntos.DefaultCellStyle.SelectionForeColor = Color.White;
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void dgvPuntos_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
         private async void InitializeMap()
         {
             try
@@ -165,8 +160,6 @@ namespace View
         {
             InformacionSitioEntidad siteInformation = new InformacionSitioEntidad();
             List<(InformacionSitioEntidad Sitio, string NombreBarrio)> puntos = new InformacionSitioController().ViewAllPoints();
-
-            MessageBox.Show("Cantidad de puntos encontrados: " + puntos.Count);
 
             var puntosMapa = puntos.Select(p => new
             {
@@ -400,15 +393,149 @@ namespace View
 
             else
             {
-                new InformacionSitioController().UpdateInformacion(informacionSitio, informacionSitio.id_InformacionSitio);
-                MessageBox.Show("Cambios realizados correctamente", "Validación de información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                RefreshTable();
+                var verificate = MessageBox.Show("¨¿Estás seguro que deseas actualizar este punto del mapa?", "Verificando información", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (verificate == DialogResult.OK)
+                {
+                    new InformacionSitioController().UpdateInformacion(informacionSitio, informacionSitio.id_InformacionSitio);
+                    MessageBox.Show("Cambios realizados correctamente", "Validación de información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    RefreshTable();
+                }
+
+            }
+        }
+        private void btnClean_Click(object sender, EventArgs e)
+        {
+            txtIdPunto.Clear();
+            textBox1.Clear();
+            txtDireccion.Clear();
+            txtLatitud.Clear();
+            txtLongitud.Clear();
+            txtBarrio.Clear();
+            dgvPuntos.ClearSelection();
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            if (txtIdPunto.Text == string.Empty)
+                return;
+            if (txtLatitud.Text == "" || txtLongitud.Text == "" || txtLatitud.Text == "-" || txtLongitud.Text == "-")
+            {
+                MessageBox.Show(
+                    "Ingrese una latitud y longitud válidas",
+                    "Validación",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+            InformacionSitioEntidad informacionSitio = new InformacionSitioEntidad()
+            {
+                id_InformacionSitio = long.Parse(txtIdPunto.Text),
+                tipoSitio = textBox1.Text,
+                direccion = txtDireccion.Text,
+                latitud = decimal.Parse(txtLatitud.Text),
+                length = decimal.Parse(txtLongitud.Text),
+            };
+
+            if (textBox1.Text.Trim() == dgvPuntos.CurrentRow.Cells["TipoSitio"].Value.ToString().Trim()
+            && txtDireccion.Text.Trim() == dgvPuntos.CurrentRow.Cells["Direccion"].Value.ToString().Trim()
+            && txtLongitud.Text.Trim() == dgvPuntos.CurrentRow.Cells["Longitud"].Value.ToString().Trim()
+            && txtLatitud.Text.Trim() == dgvPuntos.CurrentRow.Cells["Latitud"].Value.ToString().Trim())
+            {
+                MessageBox.Show("No se ha realizado ningún cambio", "Validando actualización", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            else
+            {
+                var verificate = MessageBox.Show("¨¿Estás seguro que deseas actualizar este punto del mapa?", "Verificando información", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (verificate == DialogResult.OK)
+                {
+                    new InformacionSitioController().UpdateInformacion(informacionSitio, informacionSitio.id_InformacionSitio);
+                    MessageBox.Show("Cambios realizados correctamente", "Validación de información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    RefreshTable();
+                    dgvPuntos.ClearSelection();
+                }
+
             }
         }
 
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtIdPunto.Text))
+            {
+                MessageBox.Show("Seleccione un sitio primero.");
+                return;
+            }
+
+            InformacionSitioEntidad informacionSitio = new InformacionSitioEntidad()
+            {
+                id_InformacionSitio = long.Parse(txtIdPunto.Text)
+            };
+
+
+            dgvPuntos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvPuntos.MultiSelect = false;
+
+            if (txtIdPunto.Text == string.Empty)
+                return;
+
+            if (dgvPuntos.SelectedRows.Count == 0)
+                return;
+
+            var verificate =
+                MessageBox.Show("¨¿Estás seguro que deseas eliminar este punto del mapa?", "Verificando información", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+            if (verificate == DialogResult.OK)
+            {
+                // Validar la eliminación del valor de la tabla detalle de sitios (Información sitio y usuarios)
+                new DetalleSitiosController().Delete(informacionSitio.id_InformacionSitio);
+
+                // Eliminación de clasificación de sitios (Información sitio y catálogo de residuos)
+                Delete_Details();
+
+                // Obtener el id de la solicitud asociado con el sitio
+                long id_Solicitud = new SolicitudesController().GetID_Solicitud(informacionSitio.id_InformacionSitio);
+
+                // Eliminación de archivos asociados con la solicitud del usuario.
+                new MultimediaController().DeleteMultimedia(id_Solicitud);
+
+                // Eliminación de solicitudes asociadas con el sitio 
+                new SolicitudesController().DeletebyInformacionSitio(informacionSitio.id_InformacionSitio);
+
+
+                // Eliminación de información del sitio 
+                new InformacionSitioController().DeleteInformacion(informacionSitio, informacionSitio.id_InformacionSitio);
+                MessageBox.Show("Registro eliminado correctamente", "Eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                RefreshTable();
+                dgvPuntos.ClearSelection();
+            }
+        }
         private void grpAcciones_Enter(object sender, EventArgs e)
         {
 
         }
+
+        private void pnlListadoHeader_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void wv2Map_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dgvPuntos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
     }
 }

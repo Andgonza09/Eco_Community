@@ -96,6 +96,32 @@ namespace Controller
             }
             return rowAffected > 0;
         }
+        public long GetID_Solicitud(long id_InformacionSitio)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"Select * FROM Solicitudes WHERE id_InformacionSitio = @id_InformacionSitio";
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cmd.Parameters.AddWithValue("@id_InformacionSitio", id_InformacionSitio);
+
+                cx.Open();
+                object resultado = cmd.ExecuteScalar();
+                cx.Close();
+
+                if (resultado == null)
+                    return 0;
+
+                return Convert.ToInt64(resultado);
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener el ID de la solicitud: " + ex.Message);
+            }
+        }
         public List<(SolicitudesEntidad, string, string, string)> ViewAllRequest()
         {
             List<(SolicitudesEntidad, string,string, string)> Lista_solicitudes = new List<(SolicitudesEntidad, string, string, string)>();
@@ -221,32 +247,6 @@ namespace Controller
             catch (Exception ex)
             {
                 throw new Exception("Error al mostrar la información" + ex.Message);
-            }
-        }
-        public long GetID_Solicitud(long id_InformacionSitio)
-        {
-            SqlConnection cx = conexion.ObtenerConexion();
-            try
-            {
-                string sql = @"Select * FROM Solicitudes WHERE id_InformacionSitio = @id_InformacionSitio";
-                SqlCommand cmd = new SqlCommand(sql, cx);
-
-                cmd.Parameters.AddWithValue("@id_InformacionSitio", id_InformacionSitio);
-
-                cx.Open();
-                object resultado = cmd.ExecuteScalar();
-                cx.Close();
-
-                if (resultado == null)
-                    return 0;
-
-                return Convert.ToInt64(resultado);
-
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener el ID de la solicitud: " + ex.Message);
             }
         }
 

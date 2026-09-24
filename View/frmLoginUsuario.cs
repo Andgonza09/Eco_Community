@@ -99,21 +99,13 @@ namespace View
 
             try
             {
-                MessageBox.Show($"{userLogin.correo_Usuario}, {userLogin.contraseña_Usuario}");
                 userLogin = new UsuarioController().BuscarUsuario(userLogin.correo_Usuario, userLogin.contraseña_Usuario);
 
                 if (userLogin == null)
                 {
-                    MessageBox.Show("Credenciales incorrectas");
+                    MessageBox.Show("Credenciales incorrectas", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-
-                MessageBox.Show(
-                    "Usuario encontrado:\n" +
-                    "ID: " + userLogin.id_Usuario + "\n" +
-                    "Nombre: " + userLogin.nombre_Usuario + "\n" +
-                    "Correo: " + userLogin.correo_Usuario
-                );
 
                 frmSolicitudes solicitudesFrm = new frmSolicitudes(userLogin.id_Usuario);
             }
@@ -127,8 +119,6 @@ namespace View
             string passwordUser = userLogin.contraseña_Usuario;
             string username = userLogin.nombre_Usuario;
             string emailUser = userLogin.correo_Usuario;
-
-            MessageBox.Show($"{passwordUser}", $"{emailUser}");
 
             // validar si los campos están en blanco o null
             if (string.IsNullOrWhiteSpace(txtEmail.Text) || string.IsNullOrWhiteSpace(txtPassword.Text))
@@ -164,7 +154,7 @@ namespace View
                     frmPerfilUsuario profileView = new frmPerfilUsuario(userLogin, containerForm, username, txtPassword.Text);
                     frmSolicitudes frmSolicitudes = new frmSolicitudes(userLogin.id_Usuario);
                     frmInformacionSitios frmBeta = new frmInformacionSitios(userLogin);
-                   // frmInformacionSitio frmInformacion = new frmInformacionSitio(userLogin);
+                    //frmInformacionSitio frmInformacion = new frmInformacionSitio(userLogin);
 
                     // Mostramos el formulario principal
                     containerForm.Show();
@@ -172,8 +162,12 @@ namespace View
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al validar información" + ex.Message, "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                MessageBox.Show(
+                    ex.ToString(),
+                    "ERROR COMPLETO",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -183,6 +177,11 @@ namespace View
         }
 
         private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }

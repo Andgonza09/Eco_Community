@@ -184,7 +184,7 @@ namespace View
 
             lblItems.Location = new Point(176, 23);
             lblItems.Padding = new Padding(20, 0, 0, 0);
-            OpenForm(new frmMisionesRecompensasRegistro(mission, reward));
+            OpenForm(new frmMisionesRecompensas_Registro());
         }
 
         private void btnListMission_Click(object sender, EventArgs e)
@@ -196,7 +196,6 @@ namespace View
 
             lblItems.Location = new Point(176, 23);
             lblItems.Padding = new Padding(20, 0, 0, 0);
-            OpenForm(new frmMisionesRegistradas());
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -221,7 +220,7 @@ namespace View
             lblItems.SendToBack();
 
             lblItems.Padding = new Padding(20, 0, 0, 0);
-            OpenForm(new frmRecompensasRegistradas());
+          
         }
 
         private void pnlSubMenuMissionReward_Paint(object sender, PaintEventArgs e)

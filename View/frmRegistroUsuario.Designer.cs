@@ -82,7 +82,7 @@
             // 
             panel1.Anchor = AnchorStyles.None;
             panel1.AutoSize = true;
-            panel1.BackColor = Color.FromArgb(179, 194, 148);
+            panel1.BackColor = Color.FromArgb(7, 80, 51);
             panel1.Controls.Add(linkLabel1);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(pictureBox4);
@@ -118,6 +118,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Historic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.ForeColor = SystemColors.Control;
             label3.Location = new Point(239, 331);
             label3.Name = "label3";
             label3.Size = new Size(148, 20);
@@ -157,7 +158,7 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Image = Properties.Resources.user;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(97, 46);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(37, 34);
@@ -167,7 +168,7 @@
             // 
             // btnRegister
             // 
-            btnRegister.BackColor = Color.FromArgb(69, 93, 51);
+            btnRegister.BackColor = Color.FromArgb(57, 115, 92);
             btnRegister.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnRegister.ForeColor = SystemColors.Control;
             btnRegister.Location = new Point(161, 261);
@@ -182,6 +183,7 @@
             // 
             checkBox1.AutoSize = true;
             checkBox1.Font = new Font("Segoe UI Historic", 9F);
+            checkBox1.ForeColor = SystemColors.Control;
             checkBox1.Location = new Point(97, 218);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(407, 24);
@@ -234,6 +236,7 @@
             // 
             // panel4
             // 
+            panel4.BackColor = Color.White;
             panel4.Dock = DockStyle.Top;
             panel4.Location = new Point(0, 0);
             panel4.Name = "panel4";
@@ -242,6 +245,7 @@
             // 
             // panel2
             // 
+            panel2.BackColor = Color.White;
             panel2.Dock = DockStyle.Left;
             panel2.Location = new Point(0, 110);
             panel2.Name = "panel2";
@@ -250,17 +254,18 @@
             // 
             // panel3
             // 
+            panel3.BackColor = Color.White;
             panel3.Dock = DockStyle.Right;
             panel3.Location = new Point(912, 110);
             panel3.Name = "panel3";
             panel3.Size = new Size(250, 766);
             panel3.TabIndex = 30;
             // 
-            // RegisterView
+            // frmRegistroUsuario
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
-            BackColor = Color.FromArgb(227, 235, 216);
+            BackColor = Color.White;
             ClientSize = new Size(1162, 876);
             Controls.Add(panel3);
             Controls.Add(panel2);
@@ -271,7 +276,7 @@
             Controls.Add(label1);
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "RegisterView";
+            Name = "frmRegistroUsuario";
             WindowState = FormWindowState.Maximized;
             Load += RegisterView_Load;
             panel1.ResumeLayout(false);

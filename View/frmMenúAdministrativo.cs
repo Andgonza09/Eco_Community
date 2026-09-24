@@ -75,6 +75,16 @@ namespace View
         {
 
         }
+
+        private void tableLayoutPanel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
         /*
 private void CountRequestApproved()
 {

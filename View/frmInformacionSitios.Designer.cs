@@ -29,11 +29,18 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmInformacionSitios));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             pnlHeader = new Panel();
             lblHeaderIcon = new Label();
             lblTitulo = new Label();
             lblSubtitulo = new Label();
             lblMarca = new Label();
+            groupBox2 = new GroupBox();
+            button9 = new Button();
+            button10 = new Button();
+            button11 = new Button();
+            button15 = new Button();
             tlpSuperior = new TableLayoutPanel();
             grpInformacion = new GroupBox();
             tlpInformacion = new TableLayoutPanel();
@@ -52,11 +59,6 @@
             rchtxtAddress = new RichTextBox();
             label1 = new Label();
             grpAcciones = new GroupBox();
-            groupBox1 = new GroupBox();
-            button4 = new Button();
-            button2 = new Button();
-            button5 = new Button();
-            button6 = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
             listViewFile = new ListView();
             columnHeader1 = new ColumnHeader();
@@ -77,6 +79,7 @@
             label3 = new Label();
             dataGridView1 = new DataGridView();
             pnlHeader.SuspendLayout();
+            groupBox2.SuspendLayout();
             tlpSuperior.SuspendLayout();
             grpInformacion.SuspendLayout();
             tlpInformacion.SuspendLayout();
@@ -84,7 +87,6 @@
             tlpUbicacion.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             grpAcciones.SuspendLayout();
-            groupBox1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -98,7 +100,7 @@
             // 
             // pnlHeader
             // 
-            pnlHeader.BackColor = Color.FromArgb(111, 146, 82);
+            pnlHeader.BackColor = Color.FromArgb(7, 80, 51);
             pnlHeader.Controls.Add(lblHeaderIcon);
             pnlHeader.Controls.Add(lblTitulo);
             pnlHeader.Controls.Add(lblSubtitulo);
@@ -108,6 +110,7 @@
             pnlHeader.Name = "pnlHeader";
             pnlHeader.Size = new Size(1420, 105);
             pnlHeader.TabIndex = 2;
+            pnlHeader.Paint += pnlHeader_Paint;
             // 
             // lblHeaderIcon
             // 
@@ -154,6 +157,91 @@
             lblMarca.Text = "Cuidemos\r\nnuestro entorno";
             lblMarca.TextAlign = ContentAlignment.MiddleRight;
             // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(button9);
+            groupBox2.Controls.Add(button10);
+            groupBox2.Controls.Add(button11);
+            groupBox2.Controls.Add(button15);
+            groupBox2.Location = new Point(40, 39);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(265, 207);
+            groupBox2.TabIndex = 49;
+            groupBox2.TabStop = false;
+            // 
+            // button9
+            // 
+            button9.Anchor = AnchorStyles.Right;
+            button9.BackColor = Color.FromArgb(230, 238, 235);
+            button9.Cursor = Cursors.Hand;
+            button9.FlatStyle = FlatStyle.Flat;
+            button9.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold);
+            button9.ForeColor = Color.Black;
+            button9.Image = (Image)resources.GetObject("button9.Image");
+            button9.ImageAlign = ContentAlignment.TopCenter;
+            button9.Location = new Point(137, 110);
+            button9.Name = "button9";
+            button9.Size = new Size(122, 66);
+            button9.TabIndex = 51;
+            button9.Text = "Actualizar";
+            button9.TextAlign = ContentAlignment.BottomCenter;
+            button9.UseVisualStyleBackColor = false;
+            button9.Click += button9_Click;
+            // 
+            // button10
+            // 
+            button10.Anchor = AnchorStyles.Right;
+            button10.BackColor = Color.FromArgb(230, 238, 235);
+            button10.Cursor = Cursors.Hand;
+            button10.FlatStyle = FlatStyle.Flat;
+            button10.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold);
+            button10.ForeColor = Color.Black;
+            button10.Image = (Image)resources.GetObject("button10.Image");
+            button10.ImageAlign = ContentAlignment.TopCenter;
+            button10.Location = new Point(137, 31);
+            button10.Name = "button10";
+            button10.Size = new Size(122, 66);
+            button10.TabIndex = 50;
+            button10.Text = "Eliminar ";
+            button10.TextAlign = ContentAlignment.BottomCenter;
+            button10.UseVisualStyleBackColor = false;
+            button10.Click += button10_Click;
+            // 
+            // button11
+            // 
+            button11.BackColor = Color.FromArgb(57, 115, 92);
+            button11.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button11.ForeColor = SystemColors.Control;
+            button11.Image = (Image)resources.GetObject("button11.Image");
+            button11.ImageAlign = ContentAlignment.TopCenter;
+            button11.Location = new Point(6, 31);
+            button11.Name = "button11";
+            button11.Size = new Size(122, 66);
+            button11.TabIndex = 49;
+            button11.Text = "Guardar";
+            button11.TextAlign = ContentAlignment.BottomCenter;
+            button11.UseVisualStyleBackColor = false;
+            button11.Click += button11_Click;
+            // 
+            // button15
+            // 
+            button15.Anchor = AnchorStyles.Right;
+            button15.BackColor = Color.FromArgb(230, 238, 235);
+            button15.Cursor = Cursors.Hand;
+            button15.FlatStyle = FlatStyle.Flat;
+            button15.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold);
+            button15.ForeColor = Color.Black;
+            button15.Image = (Image)resources.GetObject("button15.Image");
+            button15.ImageAlign = ContentAlignment.TopCenter;
+            button15.Location = new Point(6, 110);
+            button15.Name = "button15";
+            button15.Size = new Size(122, 66);
+            button15.TabIndex = 52;
+            button15.Text = "Limpiar";
+            button15.TextAlign = ContentAlignment.BottomCenter;
+            button15.UseVisualStyleBackColor = false;
+            button15.Click += button15_Click;
+            // 
             // tlpSuperior
             // 
             tlpSuperior.ColumnCount = 3;
@@ -174,11 +262,11 @@
             // 
             // grpInformacion
             // 
-            grpInformacion.BackColor = Color.FromArgb(234, 237, 225);
+            grpInformacion.BackColor = Color.White;
             grpInformacion.Controls.Add(tlpInformacion);
             grpInformacion.Dock = DockStyle.Fill;
             grpInformacion.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            grpInformacion.ForeColor = Color.FromArgb(48, 75, 48);
+            grpInformacion.ForeColor = Color.Black;
             grpInformacion.Location = new Point(0, 0);
             grpInformacion.Margin = new Padding(0, 0, 8, 8);
             grpInformacion.Name = "grpInformacion";
@@ -254,11 +342,11 @@
             // 
             // grpUbicacion
             // 
-            grpUbicacion.BackColor = Color.FromArgb(234, 237, 225);
+            grpUbicacion.BackColor = Color.White;
             grpUbicacion.Controls.Add(tlpUbicacion);
             grpUbicacion.Dock = DockStyle.Fill;
             grpUbicacion.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            grpUbicacion.ForeColor = Color.FromArgb(48, 75, 48);
+            grpUbicacion.ForeColor = Color.Black;
             grpUbicacion.Location = new Point(545, 0);
             grpUbicacion.Margin = new Padding(8, 0, 8, 8);
             grpUbicacion.Name = "grpUbicacion";
@@ -267,6 +355,7 @@
             grpUbicacion.TabIndex = 1;
             grpUbicacion.TabStop = false;
             grpUbicacion.Text = "📍  Ubicación del sitio";
+            grpUbicacion.Enter += grpUbicacion_Enter_1;
             // 
             // tlpUbicacion
             // 
@@ -374,23 +463,23 @@
             // label1
             // 
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label1.BackColor = Color.FromArgb(239, 244, 234);
+            label1.BackColor = Color.FromArgb(57, 115, 92);
             label1.Font = new Font("Segoe UI", 8.2F);
-            label1.ForeColor = Color.FromArgb(79, 106, 71);
+            label1.ForeColor = Color.White;
             label1.Location = new Point(3, 57);
             label1.Name = "label1";
             label1.Size = new Size(358, 38);
             label1.TabIndex = 10;
             label1.Text = "💡  Asegúrate de brindar una dirección clara y referencias\r\n     para una mejor ubicación del sitio.";
-            label1.TextAlign = ContentAlignment.MiddleLeft;
+            label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // grpAcciones
             // 
-            grpAcciones.BackColor = Color.FromArgb(234, 237, 225);
-            grpAcciones.Controls.Add(groupBox1);
+            grpAcciones.BackColor = Color.White;
+            grpAcciones.Controls.Add(groupBox2);
             grpAcciones.Dock = DockStyle.Fill;
             grpAcciones.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            grpAcciones.ForeColor = Color.FromArgb(48, 75, 48);
+            grpAcciones.ForeColor = Color.Black;
             grpAcciones.Location = new Point(1082, 0);
             grpAcciones.Margin = new Padding(8, 0, 0, 8);
             grpAcciones.Name = "grpAcciones";
@@ -398,60 +487,6 @@
             grpAcciones.Size = new Size(332, 274);
             grpAcciones.TabIndex = 2;
             grpAcciones.TabStop = false;
-            grpAcciones.Text = "⚙  Acciones";
-            // 
-            // groupBox1
-            // 
-            groupBox1.Anchor = AnchorStyles.Top;
-            groupBox1.Controls.Add(button4);
-            groupBox1.Controls.Add(button2);
-            groupBox1.Controls.Add(button5);
-            groupBox1.Controls.Add(button6);
-            groupBox1.Location = new Point(67, 42);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(206, 208);
-            groupBox1.TabIndex = 31;
-            groupBox1.TabStop = false;
-            // 
-            // button4
-            // 
-            button4.Image = (Image)resources.GetObject("button4.Image");
-            button4.Location = new Point(16, 111);
-            button4.Name = "button4";
-            button4.Size = new Size(83, 75);
-            button4.TabIndex = 3;
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
-            // 
-            // button2
-            // 
-            button2.Image = (Image)resources.GetObject("button2.Image");
-            button2.Location = new Point(109, 111);
-            button2.Name = "button2";
-            button2.Size = new Size(83, 75);
-            button2.TabIndex = 2;
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
-            // 
-            // button5
-            // 
-            button5.Image = (Image)resources.GetObject("button5.Image");
-            button5.Location = new Point(109, 26);
-            button5.Name = "button5";
-            button5.Size = new Size(83, 75);
-            button5.TabIndex = 1;
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
-            // 
-            // button6
-            // 
-            button6.Image = (Image)resources.GetObject("button6.Image");
-            button6.Location = new Point(16, 26);
-            button6.Name = "button6";
-            button6.Size = new Size(83, 75);
-            button6.TabIndex = 0;
-            button6.UseVisualStyleBackColor = true;
-            button6.Click += button6_Click;
             // 
             // tableLayoutPanel1
             // 
@@ -470,7 +505,7 @@
             // 
             // listViewFile
             // 
-            listViewFile.BackColor = Color.FromArgb(234, 237, 225);
+            listViewFile.BackColor = Color.White;
             listViewFile.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4, columnHeader5 });
             listViewFile.Dock = DockStyle.Fill;
             listViewFile.Font = new Font("Segoe UI Historic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -481,6 +516,7 @@
             listViewFile.TabIndex = 6;
             listViewFile.UseCompatibleStateImageBehavior = false;
             listViewFile.View = System.Windows.Forms.View.Details;
+            listViewFile.SelectedIndexChanged += listViewFile_SelectedIndexChanged;
             // 
             // columnHeader1
             // 
@@ -509,7 +545,7 @@
             // 
             // panel2
             // 
-            panel2.BackColor = Color.FromArgb(234, 237, 225);
+            panel2.BackColor = Color.White;
             panel2.Controls.Add(button3);
             panel2.Controls.Add(button1);
             panel2.Controls.Add(pictureBox1);
@@ -525,16 +561,16 @@
             // button3
             // 
             button3.Anchor = AnchorStyles.Right;
-            button3.BackColor = Color.FromArgb(240, 244, 237);
+            button3.BackColor = Color.White;
             button3.Cursor = Cursors.Hand;
             button3.FlatStyle = FlatStyle.Flat;
             button3.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold);
-            button3.ForeColor = Color.FromArgb(67, 107, 51);
-            button3.Image = Properties.Resources.trash;
+            button3.ForeColor = Color.Black;
+            button3.Image = (Image)resources.GetObject("button3.Image");
             button3.ImageAlign = ContentAlignment.MiddleLeft;
             button3.Location = new Point(1181, 4);
             button3.Name = "button3";
-            button3.Size = new Size(200, 38);
+            button3.Size = new Size(203, 38);
             button3.TabIndex = 28;
             button3.Text = "Eliminar archivo";
             button3.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -544,7 +580,7 @@
             // button1
             // 
             button1.Anchor = AnchorStyles.Right;
-            button1.BackColor = Color.FromArgb(111, 146, 82);
+            button1.BackColor = Color.FromArgb(57, 115, 92);
             button1.Cursor = Cursors.Hand;
             button1.FlatAppearance.BorderSize = 0;
             button1.FlatStyle = FlatStyle.Flat;
@@ -564,7 +600,7 @@
             // pictureBox1
             // 
             pictureBox1.Anchor = AnchorStyles.Left;
-            pictureBox1.Image = Properties.Resources.AttachIcon;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(11, 0);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(48, 44);
@@ -577,7 +613,7 @@
             label2.Anchor = AnchorStyles.Left;
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            label2.ForeColor = Color.FromArgb(48, 75, 48);
+            label2.ForeColor = Color.Black;
             label2.Location = new Point(80, 10);
             label2.Name = "label2";
             label2.Size = new Size(200, 25);
@@ -637,7 +673,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = Color.FromArgb(234, 237, 225);
+            panel1.BackColor = Color.White;
             panel1.Controls.Add(pictureBox2);
             panel1.Controls.Add(label3);
             panel1.Dock = DockStyle.Fill;
@@ -649,7 +685,7 @@
             // pictureBox2
             // 
             pictureBox2.Anchor = AnchorStyles.Left;
-            pictureBox2.Image = Properties.Resources.AttachIcon;
+            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
             pictureBox2.Location = new Point(11, 3);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(48, 44);
@@ -662,7 +698,7 @@
             label3.Anchor = AnchorStyles.Left;
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            label3.ForeColor = Color.FromArgb(48, 75, 48);
+            label3.ForeColor = Color.Black;
             label3.Location = new Point(80, 11);
             label3.Name = "label3";
             label3.Size = new Size(190, 25);
@@ -671,7 +707,23 @@
             // 
             // dataGridView1
             // 
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(7, 80, 51);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.Window;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(57, 115, 92);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(57, 115, 92);
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.GridColor = SystemColors.InactiveBorder;
             dataGridView1.Location = new Point(3, 62);
@@ -696,6 +748,7 @@
             Load += frmBeta_Load;
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
+            groupBox2.ResumeLayout(false);
             tlpSuperior.ResumeLayout(false);
             grpInformacion.ResumeLayout(false);
             tlpInformacion.ResumeLayout(false);
@@ -703,7 +756,6 @@
             tlpUbicacion.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             grpAcciones.ResumeLayout(false);
-            groupBox1.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
@@ -762,10 +814,10 @@
         private Label label3;
         private DataGridView dataGridView1;
         private Button button1;
-        private GroupBox groupBox1;
-        private Button button4;
-        private Button button2;
-        private Button button5;
-        private Button button6;
+        private GroupBox groupBox2;
+        private Button button9;
+        private Button button10;
+        private Button button11;
+        private Button button15;
     }
 }

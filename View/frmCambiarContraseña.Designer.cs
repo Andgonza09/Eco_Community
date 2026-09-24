@@ -67,7 +67,7 @@
             // pictureBox21
             // 
             pictureBox21.Anchor = AnchorStyles.None;
-            pictureBox21.Image = View.Properties.Resources.logo_final;
+            pictureBox21.Image = Properties.Resources.logo_final;
             pictureBox21.Location = new Point(477, 116);
             pictureBox21.Name = "pictureBox21";
             pictureBox21.Size = new Size(215, 132);
@@ -79,7 +79,7 @@
             // 
             panel1.Anchor = AnchorStyles.None;
             panel1.AutoSize = true;
-            panel1.BackColor = Color.FromArgb(179, 194, 148);
+            panel1.BackColor = Color.FromArgb(7, 80, 51);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(pictureBox1);
@@ -99,6 +99,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Historic", 9F, FontStyle.Bold);
+            label3.ForeColor = SystemColors.Control;
             label3.Location = new Point(140, 166);
             label3.Name = "label3";
             label3.Size = new Size(185, 20);
@@ -109,6 +110,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Historic", 9F, FontStyle.Bold);
+            label2.ForeColor = SystemColors.Control;
             label2.Location = new Point(140, 73);
             label2.Name = "label2";
             label2.Size = new Size(143, 20);
@@ -193,7 +195,7 @@
             // 
             // btnVerificateData
             // 
-            btnVerificateData.BackColor = Color.FromArgb(69, 93, 51);
+            btnVerificateData.BackColor = Color.FromArgb(57, 115, 92);
             btnVerificateData.Font = new Font("Segoe UI Historic", 10F, FontStyle.Bold);
             btnVerificateData.ForeColor = SystemColors.Control;
             btnVerificateData.Location = new Point(162, 250);
@@ -213,6 +215,7 @@
             // 
             // panel3
             // 
+            panel3.BackColor = Color.White;
             panel3.Dock = DockStyle.Right;
             panel3.Location = new Point(912, 110);
             panel3.Name = "panel3";
@@ -221,17 +224,18 @@
             // 
             // panel4
             // 
+            panel4.BackColor = Color.White;
             panel4.Dock = DockStyle.Top;
             panel4.Location = new Point(0, 0);
             panel4.Name = "panel4";
             panel4.Size = new Size(1162, 110);
             panel4.TabIndex = 26;
             // 
-            // ChangePasswordView
+            // frmCambiarContraseña
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
-            BackColor = Color.FromArgb(227, 235, 216);
+            BackColor = Color.White;
             ClientSize = new Size(1162, 876);
             Controls.Add(pictureBox21);
             Controls.Add(panel3);
@@ -242,7 +246,7 @@
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "ChangePasswordView";
+            Name = "frmCambiarContraseña";
             WindowState = FormWindowState.Maximized;
             Load += ChangePasswordView_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox21).EndInit();

@@ -260,7 +260,7 @@ namespace View
             lblItems.Text = "Explorar recompensas";
             lblItems.SendToBack();
             lblItems.Padding = new Padding(25, 0, 0, 0);
-            OpenForm(new frmRecompensas());
+           // OpenForm(new frmRecompensas());
         }
 
         private void btnCriteriaGuide_Click(object sender, EventArgs e)
@@ -334,7 +334,7 @@ namespace View
             lblItems.Text = "Listado de misiones";
             lblItems.SendToBack();
             lblItems.Padding = new Padding(0, 0, 0, 0);
-            OpenForm(new frmMisiones());
+          //  OpenForm(new frmMisiones());
         }
 
         private void panelContent_Paint(object sender, PaintEventArgs e)

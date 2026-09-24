@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSolicitudesRegistradas));
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             pnlHeader = new Panel();
             lblHeaderIcon = new Label();
             lblTitulo = new Label();
@@ -60,10 +60,10 @@
             txtNombreUsuario = new TextBox();
             grpAcciones = new GroupBox();
             groupBox1 = new GroupBox();
-            button4 = new Button();
-            button3 = new Button();
-            button2 = new Button();
-            button5 = new Button();
+            button9 = new Button();
+            btnDelete = new Button();
+            button11 = new Button();
+            btnClean = new Button();
             grpListado = new GroupBox();
             dgvSolicitudes = new DataGridView();
             colIdSolicitud = new DataGridViewTextBoxColumn();
@@ -95,7 +95,7 @@
             // 
             // pnlHeader
             // 
-            pnlHeader.BackColor = Color.FromArgb(111, 146, 82);
+            pnlHeader.BackColor = Color.FromArgb(7, 80, 51);
             pnlHeader.Controls.Add(lblHeaderIcon);
             pnlHeader.Controls.Add(lblTitulo);
             pnlHeader.Controls.Add(lblSubtitulo);
@@ -176,7 +176,7 @@
             // 
             // pnlBusqueda
             // 
-            pnlBusqueda.BackColor = Color.FromArgb(246, 248, 243);
+            pnlBusqueda.BackColor = Color.White;
             pnlBusqueda.Controls.Add(button1);
             pnlBusqueda.Controls.Add(txtBuscarId);
             pnlBusqueda.Dock = DockStyle.Fill;
@@ -223,11 +223,11 @@
             // 
             // grpInformacion
             // 
-            grpInformacion.BackColor = Color.FromArgb(227, 235, 216);
+            grpInformacion.BackColor = Color.White;
             grpInformacion.Controls.Add(tlpCampos);
             grpInformacion.Dock = DockStyle.Fill;
             grpInformacion.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            grpInformacion.ForeColor = Color.FromArgb(48, 75, 48);
+            grpInformacion.ForeColor = Color.Black;
             grpInformacion.Location = new Point(0, 0);
             grpInformacion.Margin = new Padding(0, 0, 9, 10);
             grpInformacion.Name = "grpInformacion";
@@ -236,6 +236,7 @@
             grpInformacion.TabIndex = 0;
             grpInformacion.TabStop = false;
             grpInformacion.Text = "▣  Información de la solicitud";
+            grpInformacion.Enter += grpInformacion_Enter;
             // 
             // tlpCampos
             // 
@@ -396,11 +397,11 @@
             // 
             // grpAcciones
             // 
-            grpAcciones.BackColor = Color.FromArgb(227, 235, 216);
+            grpAcciones.BackColor = Color.White;
             grpAcciones.Controls.Add(groupBox1);
             grpAcciones.Dock = DockStyle.Fill;
             grpAcciones.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            grpAcciones.ForeColor = Color.FromArgb(48, 75, 48);
+            grpAcciones.ForeColor = Color.Black;
             grpAcciones.Location = new Point(1083, 0);
             grpAcciones.Margin = new Padding(9, 0, 0, 10);
             grpAcciones.Name = "grpAcciones";
@@ -413,60 +414,91 @@
             // 
             // groupBox1
             // 
-            groupBox1.Anchor = AnchorStyles.Top;
-            groupBox1.Controls.Add(button4);
-            groupBox1.Controls.Add(button3);
-            groupBox1.Controls.Add(button2);
-            groupBox1.Controls.Add(button5);
-            groupBox1.Location = new Point(45, 27);
+            groupBox1.Controls.Add(button9);
+            groupBox1.Controls.Add(btnDelete);
+            groupBox1.Controls.Add(button11);
+            groupBox1.Controls.Add(btnClean);
+            groupBox1.Location = new Point(15, 36);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(206, 203);
-            groupBox1.TabIndex = 1;
+            groupBox1.Size = new Size(265, 172);
+            groupBox1.TabIndex = 49;
             groupBox1.TabStop = false;
             // 
-            // button4
+            // button9
             // 
-            button4.Image = (Image)resources.GetObject("button4.Image");
-            button4.Location = new Point(16, 111);
-            button4.Name = "button4";
-            button4.Size = new Size(83, 75);
-            button4.TabIndex = 3;
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
+            button9.Anchor = AnchorStyles.Right;
+            button9.BackColor = Color.FromArgb(230, 238, 235);
+            button9.Cursor = Cursors.Hand;
+            button9.FlatStyle = FlatStyle.Flat;
+            button9.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold);
+            button9.ForeColor = Color.Black;
+            button9.Image = (Image)resources.GetObject("button9.Image");
+            button9.ImageAlign = ContentAlignment.TopCenter;
+            button9.Location = new Point(136, 93);
+            button9.Name = "button9";
+            button9.Size = new Size(122, 66);
+            button9.TabIndex = 51;
+            button9.Text = "Actualizar";
+            button9.TextAlign = ContentAlignment.BottomCenter;
+            button9.UseVisualStyleBackColor = false;
             // 
-            // button3
+            // btnDelete
             // 
-            button3.Image = (Image)resources.GetObject("button3.Image");
-            button3.Location = new Point(109, 111);
-            button3.Name = "button3";
-            button3.Size = new Size(83, 75);
-            button3.TabIndex = 2;
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
+            btnDelete.Anchor = AnchorStyles.Right;
+            btnDelete.BackColor = Color.FromArgb(230, 238, 235);
+            btnDelete.Cursor = Cursors.Hand;
+            btnDelete.FlatStyle = FlatStyle.Flat;
+            btnDelete.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold);
+            btnDelete.ForeColor = Color.Black;
+            btnDelete.Image = (Image)resources.GetObject("btnDelete.Image");
+            btnDelete.ImageAlign = ContentAlignment.TopCenter;
+            btnDelete.Location = new Point(137, 21);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(122, 66);
+            btnDelete.TabIndex = 50;
+            btnDelete.Text = "Eliminar ";
+            btnDelete.TextAlign = ContentAlignment.BottomCenter;
+            btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
             // 
-            // button2
+            // button11
             // 
-            button2.Image = (Image)resources.GetObject("button2.Image");
-            button2.Location = new Point(109, 26);
-            button2.Name = "button2";
-            button2.Size = new Size(83, 75);
-            button2.TabIndex = 1;
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            button11.BackColor = Color.FromArgb(57, 115, 92);
+            button11.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button11.ForeColor = SystemColors.Control;
+            button11.Image = (Image)resources.GetObject("button11.Image");
+            button11.ImageAlign = ContentAlignment.TopCenter;
+            button11.Location = new Point(8, 21);
+            button11.Name = "button11";
+            button11.Size = new Size(122, 66);
+            button11.TabIndex = 49;
+            button11.Text = "Guardar";
+            button11.TextAlign = ContentAlignment.BottomCenter;
+            button11.UseVisualStyleBackColor = false;
+            button11.Click += button11_Click;
             // 
-            // button5
+            // btnClean
             // 
-            button5.Image = (Image)resources.GetObject("button5.Image");
-            button5.Location = new Point(16, 26);
-            button5.Name = "button5";
-            button5.Size = new Size(83, 75);
-            button5.TabIndex = 0;
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
+            btnClean.Anchor = AnchorStyles.Right;
+            btnClean.BackColor = Color.FromArgb(230, 238, 235);
+            btnClean.Cursor = Cursors.Hand;
+            btnClean.FlatStyle = FlatStyle.Flat;
+            btnClean.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold);
+            btnClean.ForeColor = Color.Black;
+            btnClean.Image = (Image)resources.GetObject("btnClean.Image");
+            btnClean.ImageAlign = ContentAlignment.TopCenter;
+            btnClean.Location = new Point(8, 93);
+            btnClean.Name = "btnClean";
+            btnClean.Size = new Size(122, 66);
+            btnClean.TabIndex = 52;
+            btnClean.Text = "Limpiar";
+            btnClean.TextAlign = ContentAlignment.BottomCenter;
+            btnClean.UseVisualStyleBackColor = false;
+            btnClean.Click += button15_Click;
             // 
             // grpListado
             // 
-            grpListado.BackColor = Color.FromArgb(227, 235, 216);
+            grpListado.BackColor = Color.White;
             grpListado.Controls.Add(dgvSolicitudes);
             grpListado.Controls.Add(pnlListadoHeader);
             grpListado.Dock = DockStyle.Fill;
@@ -485,28 +517,28 @@
             dgvSolicitudes.AllowUserToAddRows = false;
             dgvSolicitudes.AllowUserToDeleteRows = false;
             dgvSolicitudes.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(249, 251, 247);
-            dgvSolicitudes.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(249, 251, 247);
+            dgvSolicitudes.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgvSolicitudes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvSolicitudes.BackgroundColor = Color.White;
             dgvSolicitudes.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(227, 237, 219);
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dataGridViewCellStyle5.ForeColor = Color.FromArgb(48, 75, 48);
-            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(227, 237, 219);
-            dataGridViewCellStyle5.SelectionForeColor = Color.FromArgb(48, 75, 48);
-            dgvSolicitudes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(7, 80, 51);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(57, 115, 92);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dgvSolicitudes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvSolicitudes.ColumnHeadersHeight = 38;
             dgvSolicitudes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvSolicitudes.Columns.AddRange(new DataGridViewColumn[] { colIdSolicitud, colEstado, colFechaSolicitud, colFechaResolucion, colTipoSitio, colDireccion, colNombreUsuario });
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.White;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 8.6F);
-            dataGridViewCellStyle6.ForeColor = Color.FromArgb(48, 75, 48);
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(213, 232, 202);
-            dataGridViewCellStyle6.SelectionForeColor = Color.FromArgb(48, 75, 48);
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dgvSolicitudes.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 8.6F);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(48, 75, 48);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(213, 232, 202);
+            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(48, 75, 48);
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgvSolicitudes.DefaultCellStyle = dataGridViewCellStyle3;
             dgvSolicitudes.Dock = DockStyle.Fill;
             dgvSolicitudes.EnableHeadersVisualStyles = false;
             dgvSolicitudes.GridColor = Color.FromArgb(222, 229, 217);
@@ -519,6 +551,7 @@
             dgvSolicitudes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvSolicitudes.Size = new Size(1364, 358);
             dgvSolicitudes.TabIndex = 0;
+            dgvSolicitudes.CellContentClick += dgvSolicitudes_CellContentClick_1;
             // 
             // colIdSolicitud
             // 
@@ -579,10 +612,12 @@
             pnlListadoHeader.Controls.Add(lblListadoIcon);
             pnlListadoHeader.Controls.Add(lblListadoTitulo);
             pnlListadoHeader.Dock = DockStyle.Top;
+            pnlListadoHeader.ForeColor = Color.Black;
             pnlListadoHeader.Location = new Point(10, 35);
             pnlListadoHeader.Name = "pnlListadoHeader";
             pnlListadoHeader.Size = new Size(1364, 55);
             pnlListadoHeader.TabIndex = 1;
+            pnlListadoHeader.Paint += pnlListadoHeader_Paint;
             // 
             // lblListadoIcon
             // 
@@ -599,7 +634,7 @@
             // 
             lblListadoTitulo.AutoSize = true;
             lblListadoTitulo.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblListadoTitulo.ForeColor = Color.FromArgb(48, 75, 48);
+            lblListadoTitulo.ForeColor = Color.Black;
             lblListadoTitulo.Location = new Point(52, 13);
             lblListadoTitulo.Name = "lblListadoTitulo";
             lblListadoTitulo.Size = new Size(226, 28);
@@ -649,6 +684,8 @@
             Controls.Add(pnlHeader);
             Name = "frmSolicitudesRegistradas";
             Text = "frmSolicitudesRegistradas";
+            WindowState = FormWindowState.Maximized;
+            Load += frmSolicitudesRegistradas_Load;
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
             tlpPrincipal.ResumeLayout(false);
@@ -714,9 +751,9 @@
         private DataGridViewTextBoxColumn colDireccion;
         private DataGridViewTextBoxColumn colNombreUsuario;
         private GroupBox groupBox1;
-        private Button button4;
-        private Button button3;
-        private Button button2;
-        private Button button5;
+        private Button button9;
+        private Button btnDelete;
+        private Button button11;
+        private Button btnClean;
     }
 }

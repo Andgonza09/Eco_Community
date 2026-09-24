@@ -27,6 +27,10 @@ namespace View
 
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.MultiSelect = false;
+            dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromArgb(57, 115, 92);
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.White;
+
         }
         private void frmSolicitudesRegistradas_Shown(object? sender, EventArgs e)
         {
@@ -57,6 +61,12 @@ namespace View
 
             dataGridView1.DataSource = datosGrid;
 
+            // AHORA sí ocultamos el ID
+            if (dataGridView1.Columns.Contains("Id"))
+            {
+                dataGridView1.Columns["Id"].Visible = false;
+            }
+
             dataGridView1.Visible = true;
             dataGridView1.Dock = DockStyle.Fill;
 
@@ -70,10 +80,9 @@ namespace View
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.BackgroundColor = Color.White;
             dataGridView1.BorderStyle = BorderStyle.None;
-            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
 
-            dataGridView1.ColumnHeadersHeight = 38;
-            dataGridView1.RowTemplate.Height = 34;
+            dataGridView1.CellBorderStyle =
+                DataGridViewCellBorderStyle.SingleHorizontal;
         }
 
         private List<int> GetSelectedTypeWasteIds()
@@ -128,6 +137,12 @@ namespace View
                 TipoSitio = s.Item2,
                 Direccion = s.Item3
             }).ToList();
+
+            // Ocultar ID después de crear las columnas
+            if (dataGridView1.Columns.Count > 0)
+            {
+                dataGridView1.Columns[0].Visible = false;
+            }
 
             dataGridView1.DataSource = null;
             dataGridView1.AutoGenerateColumns = true;
@@ -392,38 +407,6 @@ namespace View
             cmbNeighborhood.DataSource = listNeighborhoods;
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            if (!ValidarCampos(out BarrioEntidad selectedNeighborhood, out List<int> idsSeleccionados))
-                return;
-
-            var result = MessageBox.Show("¿Estás seguro que deseas enviar la solicitud?", "Envío de solicitud", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-
-            if (result != DialogResult.OK)
-            {
-                MessageBox.Show("Envío cancelado", "Envío de solicitud", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            CopiarArchivosAdjuntos();
-
-            // Registro de sitio -- Información Sitio
-            long idInformationSite = RegistrarSitio(selectedNeighborhood);
-
-            // Registro de detalles -- Informacion sitio y catálogo de residuos
-            RegistrarDetallesClasificacion(idInformationSite, idsSeleccionados);
-
-            // Registro de usuarios y sitios 
-            RegistrarDetalleUsuarioSitio(idInformationSite, _user.id_Usuario);
-
-
-            long idRequest = RegistrarSolicitud(idInformationSite);
-            RegistrarMultimedia(idRequest);
-            MessageBox.Show("Solicitud enviada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            RefreshTable();
-        }
-
         private void button4_Click(object sender, EventArgs e)
         {
             cmbTypeSite.SelectedIndex = -1;
@@ -502,6 +485,85 @@ namespace View
         private void button2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void pnlHeader_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void grpUbicacion_Enter_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listViewFile_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            if (!ValidarCampos(out BarrioEntidad selectedNeighborhood, out List<int> idsSeleccionados))
+                return;
+
+            var result = MessageBox.Show("¿Estás seguro que deseas enviar la solicitud?", "Envío de solicitud", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+
+            if (result != DialogResult.OK)
+            {
+                MessageBox.Show("Envío cancelado", "Envío de solicitud", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            CopiarArchivosAdjuntos();
+
+            // Registro de sitio -- Información Sitio
+            long idInformationSite = RegistrarSitio(selectedNeighborhood);
+
+            // Registro de detalles -- Informacion sitio y catálogo de residuos
+            RegistrarDetallesClasificacion(idInformationSite, idsSeleccionados);
+
+            // Registro de usuarios y sitios 
+            RegistrarDetalleUsuarioSitio(idInformationSite, _user.id_Usuario);
+
+
+            long idRequest = RegistrarSolicitud(idInformationSite);
+            RegistrarMultimedia(idRequest);
+            MessageBox.Show("Solicitud enviada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            RefreshTable();
+            dataGridView1.ClearSelection();
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            dataGridView1.ClearSelection();
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            DialogResult resultado = MessageBox.Show("¿Estás seguro que deseas eliminar la solicitud del sistema?", "Verificación de información", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+            if (resultado == DialogResult.OK)
+            {
+                // Eliminar solicitud
+                // Eliminamos el id de la tabla multimedia para evitar las dependencias de llaves foráneas de cada tabla
+                new MultimediaController().DeleteMultimedia(idSolicitudSeleccionada);
+                new SolicitudesController().DeleteRequest(idSolicitudSeleccionada);
+                MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                RefreshTable();
+                dataGridView1.ClearSelection();
+            }
+        }
+        private void button6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            dataGridView1.ClearSelection();
         }
     }
 }
