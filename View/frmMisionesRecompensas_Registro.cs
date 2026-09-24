@@ -250,6 +250,7 @@ namespace View
 
             MisionesEntidad misiones = new MisionesEntidad()
             {
+                descripcion = txtDescripcionMision.Text,
                 puntaje = (int)nudPuntaje.Value,
             };
             RecompensaEntidad recompensaEntidad = new RecompensaEntidad()

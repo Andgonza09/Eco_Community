@@ -20,6 +20,8 @@ namespace View
             dgvSolicitudes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvSolicitudes.MultiSelect = false;
 
+            cmbEstado.SelectedIndex = -1;
+
             dgvSolicitudes.DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
             dgvSolicitudes.DefaultCellStyle.SelectionBackColor = Color.FromArgb(57, 115, 92);
             dgvSolicitudes.DefaultCellStyle.SelectionForeColor = Color.White;
@@ -191,41 +193,7 @@ namespace View
                 return;
             }
 
-            /*
-            // Obtenemos del datagridview y convertirlos a un objeto user
-            DataGridViewRow fila = dgvSolicitudes.CurrentRow;
-            object? valorFecha = fila.Cells[colFechaResolucion.Index].Value;
 
-            DateOnly? fechaResolucion = null;
-
-            if (valorFecha == null ||
-                valorFecha == DBNull.Value ||
-                string.IsNullOrWhiteSpace(valorFecha.ToString()))
-            {
-                txtFechaResolucion.Text = "";
-                fechaResolucion = null;
-            }
-            else
-            {
-                fechaResolucion = valorFecha is DateOnly fecha
-                    ? fecha
-                    : DateOnly.FromDateTime(Convert.ToDateTime(valorFecha));
-
-                txtFechaResolucion.Text =
-                    fechaResolucion.Value.ToString("dd/MM/yyyy");
-            }
-
-            SolicitudesEntidad selectedUser = new SolicitudesEntidad()
-            {
-                id_Solicitud = Convert.ToInt64(fila.Cells[colIdSolicitud.Index].Value),
-                estado_Solicitud = fila.Cells[colEstado.Index].Value?.ToString() ?? "",
-                fecha_Solicitud = fila.Cells[colFechaSolicitud.Index].Value is DateOnly fechaSolicitud
-                       ? fechaSolicitud : DateOnly.FromDateTime(Convert.ToDateTime(fila.Cells[colFechaSolicitud.Index].Value)),
-
-                fecha_Resolucion = fechaResolucion
-            };
-
-            frmActualizarSolicitud editRequest = new frmActualizarSolicitud(); */
 
         }
         private void button3_Click_1(object sender, EventArgs e)
@@ -354,6 +322,68 @@ namespace View
         private void button11_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            bool Update;
+            if (cmbEstado.SelectedIndex == -1)
+            {
+                MessageBox.Show("No se pueden realizar cambios debido a que no se ha actualizado el estado de la solicitud");
+                return;
+            }
+
+            //string newStateRequest = string.Empty;
+            if (cmbEstado.SelectedIndex >= 0)
+            {
+                try
+                {
+                    var question = MessageBox.Show("¿Estás seguros que deseas realizar cambios en la información de la solicitud?", "Actualización de datos",
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+                    if (question == DialogResult.OK)
+                    {
+                        string newStateRequest = cmbEstado.Text.Trim();
+                        if (newStateRequest == "Pendiente")
+                        {
+                            MessageBox.Show("No se realizaron cambios en el estado de la solicitud", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else if (newStateRequest == "Rechazada")
+                        {
+                            MessageBox.Show("Solicitud rechazada dentro del sistema  ❌", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            Update = new SolicitudesController().UpdateRequest(idSolicitudSeleccionada, newStateRequest);
+
+                            if (Update)
+                            {
+                                MessageBox.Show("El estado de la solicitud ha sido actualizado" +
+                                    $"Solicitud: {newStateRequest}");
+                                RefreshTable();
+                            }
+                            return;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Solicitud aprobada en el sistema ✅", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            Update = new SolicitudesController().UpdateRequest(idSolicitudSeleccionada, newStateRequest);
+
+                            if (Update)
+                            {
+                                MessageBox.Show("El estado de la solicitud ha sido actualizado" +
+                                    $"Solicitud: {newStateRequest}");
+                                RefreshTable();
+                            }
+                        }
+                         
+                        
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error al actualizar la solicitud: " + ex.Message);
+                }
+            }
         }
     }
 }

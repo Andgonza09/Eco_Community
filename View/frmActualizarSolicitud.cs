@@ -75,39 +75,7 @@ namespace View
         private void button2_Click(object sender, EventArgs e)
         {
 
-            if (cmbStateRequest.SelectedIndex == -1)
-            {
-                MessageBox.Show("No se pueden realizar cambios debido a que no se ha actualizado el estado de la solicitud");
-                return;
-            }
-           
-            //string newStateRequest = string.Empty;
-            if (cmbStateRequest.SelectedIndex >= 0)
-            {
-                try
-                {
-                    var question = MessageBox.Show("¿Estás seguros que deseas realizar cambios en la información de la solicitud?", "Actualización de datos",
-                        MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-
-                    if (question == DialogResult.OK)
-                    {
-                        string newStateRequest = cmbStateRequest.Text.Trim();
-                        long id_Request = long.Parse(txtIdRequest.Text);
-                        bool Update = new SolicitudesController().UpdateRequest(id_Request, newStateRequest);
-                            
-                        if (Update)
-                        {
-                            MessageBox.Show("El estado de la solicitud ha sido actualizado" +
-                                $"Solicitud: {newStateRequest}");
-                        }
-                    }
-                    
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Error al actualizar la solicitud: " + ex.Message);
-                }
-            }
+            
         }
     }
 }

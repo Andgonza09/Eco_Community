@@ -24,8 +24,8 @@ namespace Controller
                 string sql = @"INSERT INTO Misiones(descripcion,puntaje) OUTPUT INSERTED.id_Mision VALUES (@descripcion,@puntaje)";
 
                 SqlCommand cmd = new SqlCommand(sql, cx);
-                cmd.Parameters.AddWithValue(@"descripcion", misiones.descripcion);
-                cmd.Parameters.AddWithValue(@"puntaje", misiones.puntaje);
+                cmd.Parameters.AddWithValue("@descripcion", misiones.descripcion);
+                cmd.Parameters.AddWithValue("@puntaje", misiones.puntaje);
 
                 cx.Open();
                 int id_Mision = Convert.ToInt32(cmd.ExecuteScalar());

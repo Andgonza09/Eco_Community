@@ -19,8 +19,8 @@ namespace Controller
             string sql = @"INSERT INTO DetalleSitios(id_InformacionSitio,id_Usuario) VALUES (@id_InformacionSitio,@id_Usuario)";
 
             SqlCommand cmd = new SqlCommand(sql, cx);
-            cmd.Parameters.AddWithValue(@"id_InformacionSitio", id_InformacionSitio);
-            cmd.Parameters.AddWithValue(@"id_Usuario", id_Usuario);
+            cmd.Parameters.AddWithValue("@id_InformacionSitio", id_InformacionSitio);
+            cmd.Parameters.AddWithValue("@id_Usuario", id_Usuario);
 
 
             cx.Open();

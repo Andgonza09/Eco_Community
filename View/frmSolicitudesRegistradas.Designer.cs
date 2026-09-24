@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSolicitudesRegistradas));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             pnlHeader = new Panel();
             lblHeaderIcon = new Label();
             lblTitulo = new Label();
@@ -441,6 +441,7 @@
             button9.Text = "Actualizar";
             button9.TextAlign = ContentAlignment.BottomCenter;
             button9.UseVisualStyleBackColor = false;
+            button9.Click += button9_Click;
             // 
             // btnDelete
             // 
@@ -517,28 +518,28 @@
             dgvSolicitudes.AllowUserToAddRows = false;
             dgvSolicitudes.AllowUserToDeleteRows = false;
             dgvSolicitudes.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(249, 251, 247);
-            dgvSolicitudes.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(249, 251, 247);
+            dgvSolicitudes.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvSolicitudes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvSolicitudes.BackgroundColor = Color.White;
             dgvSolicitudes.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(7, 80, 51);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(57, 115, 92);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
-            dgvSolicitudes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.BackColor = Color.FromArgb(7, 80, 51);
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(57, 115, 92);
+            dataGridViewCellStyle5.SelectionForeColor = Color.White;
+            dgvSolicitudes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvSolicitudes.ColumnHeadersHeight = 38;
             dgvSolicitudes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvSolicitudes.Columns.AddRange(new DataGridViewColumn[] { colIdSolicitud, colEstado, colFechaSolicitud, colFechaResolucion, colTipoSitio, colDireccion, colNombreUsuario });
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 8.6F);
-            dataGridViewCellStyle3.ForeColor = Color.FromArgb(48, 75, 48);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(213, 232, 202);
-            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(48, 75, 48);
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            dgvSolicitudes.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.White;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 8.6F);
+            dataGridViewCellStyle6.ForeColor = Color.FromArgb(48, 75, 48);
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(213, 232, 202);
+            dataGridViewCellStyle6.SelectionForeColor = Color.FromArgb(48, 75, 48);
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgvSolicitudes.DefaultCellStyle = dataGridViewCellStyle6;
             dgvSolicitudes.Dock = DockStyle.Fill;
             dgvSolicitudes.EnableHeadersVisualStyles = false;
             dgvSolicitudes.GridColor = Color.FromArgb(222, 229, 217);

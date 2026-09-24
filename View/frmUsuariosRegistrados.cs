@@ -168,16 +168,6 @@ namespace View
                 correo_Usuario = fila.Cells[colCorreo.Index].Value?.ToString() ?? "",
                 fecha_Registro = (DateOnly)fila.Cells[colFechaRegistro.Index].Value
             };
-
-            // Mandamos el usuario seleccionado al formulario 
-            frmActualizarInformacionUsuario editInformation = new frmActualizarInformacionUsuario(selectedUser);
-            /*
-             * editInformation.StartPosition = FormStartPosition.CenterScreen;
-
-            editInformation.ShowDialog();
-            this.Show();
-
-            */
         }
 
 
@@ -314,6 +304,9 @@ namespace View
 
         private void button7_Click(object sender, EventArgs e)
         {
+            if (dgvUsuarios.CurrentRow == null)
+                return;
+
             DialogResult resultado = MessageBox.Show("¿Estás seguro que deseas eliminar el usuario del sistema?", "Verificación de información", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
             if (resultado == DialogResult.OK)

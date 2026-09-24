@@ -69,6 +69,7 @@ namespace View
                         frmArchivoCriterios GuideForm = new frmArchivoCriterios(userRegister);
                         frmMenúPrincipal userStartView = new frmMenúPrincipal(userRegister, txtUsername.Text.Trim(), txtPassword.Text.Trim());
                         frmPerfilUsuario profileView = new frmPerfilUsuario(userRegister, containerForm, txtUsername.Text.Trim(), txtPassword.Text.Trim());
+                        frmInformacionSitios informationView = new frmInformacionSitios(userRegister);
 
                         containerForm.Show();
                     }

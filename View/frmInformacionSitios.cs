@@ -252,9 +252,6 @@ namespace View
                 id_Barrio = selectedNeighborhood.id_Barrio
             };
 
-            Console.WriteLine($"{siteInformation.id_Barrio}");
-            //  id_InformacionSitio = new InformacionSitioController().Insert(siteInformation, siteInformation.id_Barrio);
-
             // Detalle Clasificación sitio.
             DetalleClasificacionSitioEntidad detailsInformation = new DetalleClasificacionSitioEntidad();
             new DetalleClasificacionSitioController().Insert(id_InformacionSitio, idsSeleccionados);
