@@ -14,12 +14,12 @@ namespace Controller
     public class UsuarioController
     {
         Conexion conexion = new Conexion();
-        public void Insert(UsuarioEntidad Usuario, int id_Rol)
+        public long Insert(UsuarioEntidad Usuario, int id_Rol)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try
             {
-                string sql = @"INSERT INTO Usuario(nombre_Usuario ,contraseña_Usuario, correo_Usuario, fecha_Registro, id_Roles) VALUES (@nombre_Usuario, @contraseña_Usuario,@correo_Usuario, GETDATE(), @id_Rol)";
+                string sql = @"INSERT INTO Usuario(nombre_Usuario ,contraseña_Usuario, correo_Usuario, fecha_Registro, id_Roles) OUTPUT INSERTED.id_Usuario VALUES (@nombre_Usuario, @contraseña_Usuario,@correo_Usuario, GETDATE(), @id_Rol)";
 
                 SqlCommand cmd = new SqlCommand(sql, cx);
 
@@ -30,8 +30,10 @@ namespace Controller
 
 
                 cx.Open();
-                cmd.ExecuteNonQuery();
+                long id_Usuario = Convert.ToInt64(cmd.ExecuteScalar());
                 cx.Close();
+
+                return id_Usuario;
             }
             catch (Exception ex)
             {
@@ -209,7 +211,7 @@ namespace Controller
             SqlConnection cx = conexion.ObtenerConexion();
             try
             {
-                string sql = @"SELECT COUNT(*) FROM Usuario WHERE correo_Usuario = @Correo AND nombre_Usuario = @NombreUsuario";
+                string sql = @"SELECT COUNT(*) FROM Usuario WHERE correo_Usuario = @Correo OR nombre_Usuario = @NombreUsuario";
                 SqlCommand cmd = new SqlCommand(sql, cx);
 
                 cx.Open();
@@ -224,6 +226,26 @@ namespace Controller
             catch (Exception ex)
             {
                 throw new Exception("Error al agregar el usuario: " + ex.Message);
+            }
+        }
+        public int CountAllUsers()
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"SELECT COUNT(*) FROM Usuario";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cx.Open();
+                int total = Convert.ToInt32(cmd.ExecuteScalar());
+                cx.Close();
+
+                return total;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error en el conteo de solicitudes: " + ex.Message);
             }
         }
     }

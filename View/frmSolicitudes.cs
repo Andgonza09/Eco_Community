@@ -36,6 +36,11 @@ namespace View
             var solicitudes =
                 new SolicitudesController().ViewRequestByUser(idUsuario);
 
+            if (solicitudes.Count == 0)
+            {
+                MessageBox.Show("No hay solicitudes ingresadas en el sistema", "Cantidad de solicitudes", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             foreach (var solicitud in solicitudes)
             {

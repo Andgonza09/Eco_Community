@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSolicitudesRegistradas));
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             pnlHeader = new Panel();
             lblHeaderIcon = new Label();
             lblTitulo = new Label();
@@ -62,7 +62,6 @@
             groupBox1 = new GroupBox();
             button9 = new Button();
             btnDelete = new Button();
-            button11 = new Button();
             btnClean = new Button();
             grpListado = new GroupBox();
             dgvSolicitudes = new DataGridView();
@@ -306,7 +305,7 @@
             // 
             // cmbEstado
             // 
-            cmbEstado.Dock = DockStyle.Fill;
+            cmbEstado.Dock = DockStyle.Top;
             cmbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbEstado.FlatStyle = FlatStyle.Flat;
             cmbEstado.Font = new Font("Segoe UI", 9F);
@@ -416,7 +415,6 @@
             // 
             groupBox1.Controls.Add(button9);
             groupBox1.Controls.Add(btnDelete);
-            groupBox1.Controls.Add(button11);
             groupBox1.Controls.Add(btnClean);
             groupBox1.Location = new Point(15, 36);
             groupBox1.Name = "groupBox1";
@@ -434,7 +432,7 @@
             button9.ForeColor = Color.Black;
             button9.Image = (Image)resources.GetObject("button9.Image");
             button9.ImageAlign = ContentAlignment.TopCenter;
-            button9.Location = new Point(136, 93);
+            button9.Location = new Point(72, 21);
             button9.Name = "button9";
             button9.Size = new Size(122, 66);
             button9.TabIndex = 51;
@@ -453,7 +451,7 @@
             btnDelete.ForeColor = Color.Black;
             btnDelete.Image = (Image)resources.GetObject("btnDelete.Image");
             btnDelete.ImageAlign = ContentAlignment.TopCenter;
-            btnDelete.Location = new Point(137, 21);
+            btnDelete.Location = new Point(136, 93);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(122, 66);
             btnDelete.TabIndex = 50;
@@ -461,22 +459,6 @@
             btnDelete.TextAlign = ContentAlignment.BottomCenter;
             btnDelete.UseVisualStyleBackColor = false;
             btnDelete.Click += btnDelete_Click;
-            // 
-            // button11
-            // 
-            button11.BackColor = Color.FromArgb(57, 115, 92);
-            button11.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button11.ForeColor = SystemColors.Control;
-            button11.Image = (Image)resources.GetObject("button11.Image");
-            button11.ImageAlign = ContentAlignment.TopCenter;
-            button11.Location = new Point(8, 21);
-            button11.Name = "button11";
-            button11.Size = new Size(122, 66);
-            button11.TabIndex = 49;
-            button11.Text = "Guardar";
-            button11.TextAlign = ContentAlignment.BottomCenter;
-            button11.UseVisualStyleBackColor = false;
-            button11.Click += button11_Click;
             // 
             // btnClean
             // 
@@ -518,28 +500,28 @@
             dgvSolicitudes.AllowUserToAddRows = false;
             dgvSolicitudes.AllowUserToDeleteRows = false;
             dgvSolicitudes.AllowUserToResizeRows = false;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(249, 251, 247);
-            dgvSolicitudes.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(249, 251, 247);
+            dgvSolicitudes.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgvSolicitudes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvSolicitudes.BackgroundColor = Color.White;
             dgvSolicitudes.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(7, 80, 51);
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(57, 115, 92);
-            dataGridViewCellStyle5.SelectionForeColor = Color.White;
-            dgvSolicitudes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(7, 80, 51);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(57, 115, 92);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dgvSolicitudes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvSolicitudes.ColumnHeadersHeight = 38;
             dgvSolicitudes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvSolicitudes.Columns.AddRange(new DataGridViewColumn[] { colIdSolicitud, colEstado, colFechaSolicitud, colFechaResolucion, colTipoSitio, colDireccion, colNombreUsuario });
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.White;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 8.6F);
-            dataGridViewCellStyle6.ForeColor = Color.FromArgb(48, 75, 48);
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(213, 232, 202);
-            dataGridViewCellStyle6.SelectionForeColor = Color.FromArgb(48, 75, 48);
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dgvSolicitudes.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 8.6F);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(48, 75, 48);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(213, 232, 202);
+            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(48, 75, 48);
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgvSolicitudes.DefaultCellStyle = dataGridViewCellStyle3;
             dgvSolicitudes.Dock = DockStyle.Fill;
             dgvSolicitudes.EnableHeadersVisualStyles = false;
             dgvSolicitudes.GridColor = Color.FromArgb(222, 229, 217);
@@ -754,7 +736,6 @@
         private GroupBox groupBox1;
         private Button button9;
         private Button btnDelete;
-        private Button button11;
         private Button btnClean;
     }
 }

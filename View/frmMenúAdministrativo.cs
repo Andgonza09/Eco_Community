@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using Controller;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,26 @@ namespace View
             ///CountRequestRejected();
             //CountRequestApproved();
             //CountRequestEarrings();
+
+            int totalMisiones = new MisionesController().CountAllMission();
+            label21.Text = totalMisiones.ToString();
+
+            int totalPuntos = new DetalleSitiosController().CountAllSitesAproved();
+            label19.Text = totalPuntos.ToString();
+
+            int SolicitudesRechazadas = new SolicitudesController().CountAllRequesteRected();
+            label14.Text = SolicitudesRechazadas.ToString();
+
+            int SolicitudesPendientes = new SolicitudesController().CountAllRequestEarrings();
+            label8.Text = SolicitudesPendientes.ToString();
+
+            int SolicitudesAprobadas = new SolicitudesController().CountAllRequestAproved();
+            label12.Text = SolicitudesAprobadas.ToString();
+
+            int totalUsuarios = new UsuarioController().CountAllUsers();
+            label17.Text = totalUsuarios.ToString();
+
+           
         }
 
         private void pnlBedcrums_Paint(object sender, PaintEventArgs e)
@@ -82,6 +103,26 @@ namespace View
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label21_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label19_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label17_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }

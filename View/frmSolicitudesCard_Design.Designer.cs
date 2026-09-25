@@ -103,6 +103,7 @@
             panel4.Name = "panel4";
             panel4.Size = new Size(981, 10);
             panel4.TabIndex = 20;
+            panel4.Paint += panel4_Paint;
             // 
             // tableLayoutPanel1
             // 

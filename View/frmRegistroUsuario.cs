@@ -15,11 +15,21 @@ namespace View
         }
         private void btnRegister_Click(object sender, EventArgs e)
         {
+            UsuarioController user = new UsuarioController();
+
+            int cantidad = user.UsuarioExiste(txtEmail.Text, txtUsername.Text);
+            if (cantidad >= 1)
+            {
+                MessageBox.Show("Usuario ya existe, intentalo de nuevo", "Validación de campos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }               
+
             if (string.IsNullOrWhiteSpace(txtUsername.Text) || string.IsNullOrWhiteSpace(txtPassword.Text) || string.IsNullOrWhiteSpace(txtEmail.Text))
             {
                 MessageBox.Show("Por favor, complete todos los campos", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            
             try
             {
                 if (!checkBox1.Checked)
@@ -58,7 +68,9 @@ namespace View
 
                 try
                 {
-                    new UsuarioController().Insert(userRegister, role.id_Roles);
+                    long id_Usuario = new UsuarioController().Insert(userRegister, role.id_Roles);
+                    userRegister.id_Usuario = id_Usuario;
+
                     var result = MessageBox.Show("Usuario registrado correctamente", "Registro exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     if (result == DialogResult.OK)
@@ -69,7 +81,7 @@ namespace View
                         frmArchivoCriterios GuideForm = new frmArchivoCriterios(userRegister);
                         frmMenúPrincipal userStartView = new frmMenúPrincipal(userRegister, txtUsername.Text.Trim(), txtPassword.Text.Trim());
                         frmPerfilUsuario profileView = new frmPerfilUsuario(userRegister, containerForm, txtUsername.Text.Trim(), txtPassword.Text.Trim());
-                        frmInformacionSitios informationView = new frmInformacionSitios(userRegister);
+                        frmInformacionSitios informationView = new frmInformacionSitios(userRegister, id_Usuario);
 
                         containerForm.Show();
                     }

@@ -38,9 +38,9 @@
             panel24 = new Panel();
             tableLayoutPanel2 = new TableLayoutPanel();
             pnlAddPoints = new Panel();
+            pictureBox1 = new PictureBox();
             label1 = new Label();
             label2 = new Label();
-            pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
             pnlViewMyRequest = new Panel();
             label3 = new Label();
@@ -48,9 +48,9 @@
             pictureBox3 = new PictureBox();
             pictureBox4 = new PictureBox();
             pnlViewMyPoints = new Panel();
+            label7 = new Label();
             label6 = new Label();
             pictureBox5 = new PictureBox();
-            label7 = new Label();
             pictureBox6 = new PictureBox();
             flowLayoutPanel2 = new FlowLayoutPanel();
             flowLayoutPanel1 = new FlowLayoutPanel();
@@ -124,6 +124,7 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1162, 89);
             panel1.TabIndex = 51;
+            panel1.Paint += panel1_Paint;
             // 
             // label5
             // 
@@ -217,6 +218,16 @@
             pnlAddPoints.Size = new Size(312, 384);
             pnlAddPoints.TabIndex = 72;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(22, 6);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(48, 48);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 28;
+            pictureBox1.TabStop = false;
+            // 
             // label1
             // 
             label1.Anchor = AnchorStyles.Top;
@@ -240,16 +251,6 @@
             label2.TabIndex = 30;
             label2.Text = "Registro de solicitudes realizadas";
             label2.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(22, 6);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(48, 48);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 28;
-            pictureBox1.TabStop = false;
             // 
             // pictureBox2
             // 
@@ -337,6 +338,18 @@
             pnlViewMyPoints.Size = new Size(308, 384);
             pnlViewMyPoints.TabIndex = 73;
             // 
+            // label7
+            // 
+            label7.Anchor = AnchorStyles.Top;
+            label7.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.ForeColor = SystemColors.Control;
+            label7.Location = new Point(80, 17);
+            label7.Name = "label7";
+            label7.Size = new Size(158, 47);
+            label7.TabIndex = 28;
+            label7.Text = "Puntos registrados";
+            label7.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // label6
             // 
             label6.Anchor = AnchorStyles.Top;
@@ -359,18 +372,6 @@
             pictureBox5.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox5.TabIndex = 27;
             pictureBox5.TabStop = false;
-            // 
-            // label7
-            // 
-            label7.Anchor = AnchorStyles.Top;
-            label7.Font = new Font("Segoe UI Historic", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.ForeColor = SystemColors.Control;
-            label7.Location = new Point(80, 17);
-            label7.Name = "label7";
-            label7.Size = new Size(158, 47);
-            label7.TabIndex = 28;
-            label7.Text = "Puntos registrados";
-            label7.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // pictureBox6
             // 
@@ -669,6 +670,7 @@
             label19.TabIndex = 17;
             label19.Text = "1";
             label19.TextAlign = ContentAlignment.MiddleCenter;
+            label19.Click += label19_Click;
             // 
             // panel7
             // 
@@ -703,6 +705,7 @@
             label17.TabIndex = 21;
             label17.Text = "10";
             label17.TextAlign = ContentAlignment.MiddleCenter;
+            label17.Click += label17_Click;
             // 
             // pictureBox9
             // 
@@ -759,6 +762,7 @@
             label21.TabIndex = 17;
             label21.Text = "19";
             label21.TextAlign = ContentAlignment.MiddleCenter;
+            label21.Click += label21_Click;
             // 
             // frmMenúAdministrativo
             // 

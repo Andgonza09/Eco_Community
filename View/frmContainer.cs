@@ -175,7 +175,7 @@ namespace View
             lblItems.Padding = new Padding(60, 0, 0, 0);
 
             // Formulario de ubicación del punto
-            frmInformacionSitios view = new frmInformacionSitios(_currentUser);
+            frmInformacionSitios view = new frmInformacionSitios(_currentUser, _currentUser.id_Usuario);
             OpenForm(view);
         }
         /*

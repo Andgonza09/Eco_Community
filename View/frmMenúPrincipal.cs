@@ -33,8 +33,18 @@ namespace View
             ConfigureRoundedControl(pnlViewMyPoints, 15);
             ConfigureRoundedControl(pnlViewMyRequest, 15);
 
-            // CountRequestApproved();
-            // CountRequestEarrings();
+            int total_SolicitudAprobadas = new SolicitudesController().CountRequestApproved(_currentUser.id_Usuario);
+            label12.Text = total_SolicitudAprobadas.ToString() ?? "";
+
+            int total_SolicitudPendientes = new SolicitudesController().CountRequestEarrings(_currentUser.id_Usuario);
+            label1.Text = total_SolicitudPendientes.ToString() ?? "";
+
+            int total_SolicitudRechazadas = new SolicitudesController().CountRequesteRected(_currentUser.id_Usuario);
+            label3.Text = total_SolicitudRechazadas.ToString() ?? "";
+
+            int totalSitiosRegistrados = new DetalleSitiosController().CountSitesAproved(_currentUser.id_Usuario);
+            label5.Text = totalSitiosRegistrados.ToString() ?? "";
+
         }
 
         // Configurar todos los formularios que se encuentran contenidos dentro del container form con el objetivo
@@ -171,39 +181,6 @@ namespace View
 
 
         }
-        /*
-        private void CountRequestApproved()
-        {
-            using SelectQuery query = new SelectQuery();
-
-            string sql = @"SELECT COUNT(*) FROM Solicitudes
-            INNER JOIN Usuario ON Solicitudes.id_UsuarioEstandar = Usuario.id_Usuario WHERE Solicitudes.estado_Solicitud = 'Aprobada'
-            AND Usuario.id_Usuario = @IdUser;";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                new SqlParameter("@IdUser", SqlDbType.BigInt) {Value = _currentUser.IdUser}
-            };
-
-            object? total = query.ExecuteScalar(sql, parameters);
-            label12.Text = total?.ToString() ?? "0";
-        }
-        private void CountRequestEarrings()
-        {
-            using SelectQuery query = new SelectQuery();
-
-            string sql = @"SELECT COUNT(*) FROM Solicitudes
-            INNER JOIN Usuario ON Solicitudes.id_UsuarioEstandar = Usuario.id_Usuario WHERE Solicitudes.estado_Solicitud = 'Pendiente'
-            AND Usuario.id_Usuario = @IdUser;";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                new SqlParameter("@IdUser", SqlDbType.BigInt) {Value = _currentUser.IdUser}
-            };
-
-            object? total = query.ExecuteScalar(sql, parameters);
-            label1.Text = total?.ToString() ?? "0";
-        }*/
 
         private void pictureBox6_Click_1(object sender, EventArgs e)
         {
@@ -301,6 +278,26 @@ namespace View
         }
 
         private void label15_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label12_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
         {
 
         }

@@ -245,5 +245,25 @@ namespace Controller
                 }
             }
         }
+        public int CountAllMission()
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"SELECT COUNT(*) FROM Misiones";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cx.Open();
+                int total = Convert.ToInt32(cmd.ExecuteScalar());
+                cx.Close();
+
+                return total;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error en el conteo de solicitudes: " + ex.Message);
+            }
+        }
     }
 }

@@ -416,9 +416,9 @@
             // 
             pictureBox1.Dock = DockStyle.Right;
             pictureBox1.Image = Properties.Resources.imageStartView;
-            pictureBox1.Location = new Point(761, 525);
+            pictureBox1.Location = new Point(737, 525);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(333, 341);
+            pictureBox1.Size = new Size(357, 341);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 69;
             pictureBox1.TabStop = false;
@@ -456,7 +456,7 @@
             // flowLayoutPanel3
             // 
             flowLayoutPanel3.Dock = DockStyle.Right;
-            flowLayoutPanel3.Location = new Point(739, 525);
+            flowLayoutPanel3.Location = new Point(715, 525);
             flowLayoutPanel3.Name = "flowLayoutPanel3";
             flowLayoutPanel3.Size = new Size(22, 341);
             flowLayoutPanel3.TabIndex = 71;
@@ -480,7 +480,7 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 1.57894742F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 47.36842F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 1.57894742F));
-            tableLayoutPanel2.Size = new Size(647, 341);
+            tableLayoutPanel2.Size = new Size(623, 341);
             tableLayoutPanel2.TabIndex = 78;
             tableLayoutPanel2.Paint += tableLayoutPanel2_Paint_1;
             // 
@@ -493,14 +493,14 @@
             panel20.Dock = DockStyle.Fill;
             panel20.Location = new Point(3, 10);
             panel20.Name = "panel20";
-            panel20.Size = new Size(311, 155);
+            panel20.Size = new Size(299, 155);
             panel20.TabIndex = 73;
             // 
             // label13
             // 
             label13.Anchor = AnchorStyles.None;
             label13.Font = new Font("Segoe UI Historic", 12F, FontStyle.Bold);
-            label13.Location = new Point(144, 68);
+            label13.Location = new Point(138, 68);
             label13.Name = "label13";
             label13.Size = new Size(156, 62);
             label13.TabIndex = 13;
@@ -511,7 +511,7 @@
             // 
             pictureBox13.Anchor = AnchorStyles.None;
             pictureBox13.Image = (Image)resources.GetObject("pictureBox13.Image");
-            pictureBox13.Location = new Point(22, 25);
+            pictureBox13.Location = new Point(16, 25);
             pictureBox13.Name = "pictureBox13";
             pictureBox13.Size = new Size(102, 105);
             pictureBox13.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -522,12 +522,13 @@
             // 
             label12.Anchor = AnchorStyles.None;
             label12.Font = new Font("Segoe UI Historic", 16.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label12.Location = new Point(194, 20);
+            label12.Location = new Point(188, 20);
             label12.Name = "label12";
             label12.Size = new Size(34, 40);
             label12.TabIndex = 0;
             label12.Text = "5";
             label12.TextAlign = ContentAlignment.MiddleCenter;
+            label12.Click += label12_Click_1;
             // 
             // panel2
             // 
@@ -538,14 +539,14 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(3, 176);
             panel2.Name = "panel2";
-            panel2.Size = new Size(311, 155);
+            panel2.Size = new Size(299, 155);
             panel2.TabIndex = 74;
             // 
             // label4
             // 
             label4.Anchor = AnchorStyles.None;
             label4.Font = new Font("Segoe UI Historic", 12F, FontStyle.Bold);
-            label4.Location = new Point(130, 59);
+            label4.Location = new Point(124, 59);
             label4.Name = "label4";
             label4.Size = new Size(170, 74);
             label4.TabIndex = 19;
@@ -556,18 +557,19 @@
             // 
             label3.Anchor = AnchorStyles.None;
             label3.Font = new Font("Segoe UI Historic", 16.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(185, 25);
+            label3.Location = new Point(179, 25);
             label3.Name = "label3";
             label3.Size = new Size(56, 40);
             label3.TabIndex = 18;
             label3.Text = "10";
             label3.TextAlign = ContentAlignment.MiddleCenter;
+            label3.Click += label3_Click;
             // 
             // pictureBox5
             // 
             pictureBox5.Anchor = AnchorStyles.None;
             pictureBox5.Image = (Image)resources.GetObject("pictureBox5.Image");
-            pictureBox5.Location = new Point(22, 25);
+            pictureBox5.Location = new Point(16, 25);
             pictureBox5.Name = "pictureBox5";
             pictureBox5.Size = new Size(102, 105);
             pictureBox5.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -581,16 +583,16 @@
             panel21.Controls.Add(label15);
             panel21.Controls.Add(label1);
             panel21.Dock = DockStyle.Fill;
-            panel21.Location = new Point(332, 10);
+            panel21.Location = new Point(320, 10);
             panel21.Name = "panel21";
-            panel21.Size = new Size(312, 155);
+            panel21.Size = new Size(300, 155);
             panel21.TabIndex = 72;
             // 
             // pictureBox6
             // 
             pictureBox6.Anchor = AnchorStyles.None;
             pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
-            pictureBox6.Location = new Point(23, 25);
+            pictureBox6.Location = new Point(17, 25);
             pictureBox6.Name = "pictureBox6";
             pictureBox6.Size = new Size(102, 105);
             pictureBox6.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -601,7 +603,7 @@
             // 
             label15.Anchor = AnchorStyles.None;
             label15.Font = new Font("Segoe UI Historic", 12F, FontStyle.Bold);
-            label15.Location = new Point(143, 68);
+            label15.Location = new Point(137, 68);
             label15.Name = "label15";
             label15.Size = new Size(158, 62);
             label15.TabIndex = 15;
@@ -613,12 +615,13 @@
             // 
             label1.Anchor = AnchorStyles.None;
             label1.Font = new Font("Segoe UI Historic", 16.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(204, 20);
+            label1.Location = new Point(198, 20);
             label1.Name = "label1";
             label1.Size = new Size(34, 40);
             label1.TabIndex = 14;
             label1.Text = "2";
             label1.TextAlign = ContentAlignment.MiddleCenter;
+            label1.Click += label1_Click;
             // 
             // panel6
             // 
@@ -627,16 +630,16 @@
             panel6.Controls.Add(label2);
             panel6.Controls.Add(label5);
             panel6.Dock = DockStyle.Fill;
-            panel6.Location = new Point(332, 176);
+            panel6.Location = new Point(320, 176);
             panel6.Name = "panel6";
-            panel6.Size = new Size(312, 155);
+            panel6.Size = new Size(300, 155);
             panel6.TabIndex = 75;
             // 
             // pictureBox7
             // 
             pictureBox7.Anchor = AnchorStyles.None;
             pictureBox7.Image = (Image)resources.GetObject("pictureBox7.Image");
-            pictureBox7.Location = new Point(23, 25);
+            pictureBox7.Location = new Point(17, 25);
             pictureBox7.Name = "pictureBox7";
             pictureBox7.Size = new Size(102, 105);
             pictureBox7.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -647,7 +650,7 @@
             // 
             label2.Anchor = AnchorStyles.None;
             label2.Font = new Font("Segoe UI Historic", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(143, 56);
+            label2.Location = new Point(137, 56);
             label2.Name = "label2";
             label2.Size = new Size(158, 74);
             label2.TabIndex = 15;
@@ -659,12 +662,13 @@
             // 
             label5.Anchor = AnchorStyles.None;
             label5.Font = new Font("Segoe UI Historic", 16.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(204, 25);
+            label5.Location = new Point(198, 25);
             label5.Name = "label5";
             label5.Size = new Size(34, 40);
             label5.TabIndex = 14;
             label5.Text = "1";
             label5.TextAlign = ContentAlignment.MiddleCenter;
+            label5.Click += label5_Click;
             // 
             // frmMenúPrincipal
             // 

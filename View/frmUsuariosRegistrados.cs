@@ -312,6 +312,8 @@ namespace View
             if (resultado == DialogResult.OK)
             {
                 // Eliminación de usuario
+                new DetalleConsultaArchivoController().Delete(id_UsuarioSeleccionado);
+                new DetalleSitiosController().DeleteUserInformation(id_UsuarioSeleccionado);
                 new UsuarioController().Delete(id_UsuarioSeleccionado);
                 MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

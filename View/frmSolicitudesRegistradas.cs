@@ -192,9 +192,6 @@ namespace View
             {
                 return;
             }
-
-
-
         }
         private void button3_Click_1(object sender, EventArgs e)
         {
@@ -288,6 +285,11 @@ namespace View
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            if (dgvSolicitudes.CurrentRow == null)
+            {
+                return;
+            }
+
             DialogResult resultado = MessageBox.Show("¿Estás seguro que deseas eliminar la solicitud del sistema?", "Verificación de información", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
             if (resultado == DialogResult.OK)
@@ -311,6 +313,7 @@ namespace View
             txtFechaSolicitud.Clear();
             txtNombreUsuario.Clear();
             txtTipoSitio.Clear();
+
 
         }
 
@@ -373,8 +376,7 @@ namespace View
                                     $"Solicitud: {newStateRequest}");
                                 RefreshTable();
                             }
-                        }
-                         
+                        }      
                         
                     }
 

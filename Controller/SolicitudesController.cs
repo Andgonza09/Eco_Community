@@ -7,6 +7,8 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls.Primitives;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace Controller
@@ -39,9 +41,7 @@ namespace Controller
         {
             try
             {
-                //Crear objeto encargado de ejecutar DELETE
                 SqlConnection ex = conexion.ObtenerConexion();
-                //Consulta para eliminar una solicitud especifica
                 string sql = @"DELETE FROM Solicitudes WHERE id_Solicitud = @idSolitud";
 
                 //Parametros enviados al SQL
@@ -164,7 +164,6 @@ namespace Controller
                 throw new Exception("Error al mostrar todas las solicitudes del sistema" + ex.Message);
             }
 
-
         }
         public List<(SolicitudesEntidad, string, string)> ViewRequestByUser(long id_Usuario)
         {
@@ -249,7 +248,133 @@ namespace Controller
                 throw new Exception("Error al mostrar la información" + ex.Message);
             }
         }
+        public int CountRequestApproved(long id_Usuario) // Solicitudes Aprobadas
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"SELECT COUNT(*) FROM Solicitudes
+                INNER JOIN Usuario ON Solicitudes.id_UsuarioEstandar = Usuario.id_Usuario WHERE Solicitudes.estado_Solicitud = 'Aprobada' AND Usuario.id_Usuario = @IdUser";
 
-        
+                SqlCommand cmd = new SqlCommand(sql, cx);
+                cmd.Parameters.AddWithValue("@IdUser", id_Usuario);
+
+                cx.Open();
+                int total = Convert.ToInt32(cmd.ExecuteScalar());
+                cx.Close();
+
+                return total;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error en el conteo de solicitudes: " + ex.Message);
+            }
+        }
+        public int CountRequestEarrings(long id_Usuario) // Solicitudes Pendientes
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"SELECT COUNT(*) FROM Solicitudes INNER JOIN Usuario ON Solicitudes.id_UsuarioEstandar = Usuario.id_Usuario WHERE Solicitudes.estado_Solicitud = 'Pendiente'
+                AND Usuario.id_Usuario = @IdUser";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+                cmd.Parameters.AddWithValue("@IdUser", id_Usuario);
+
+                cx.Open();
+                int total = Convert.ToInt32(cmd.ExecuteScalar());
+                cx.Close();
+
+                return total;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error en el conteo de solicitudes: " + ex.Message);
+            }
+        }
+        public int CountRequesteRected(long id_Usuario) // Solicitudes rechazadas
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"SELECT COUNT(*) FROM Solicitudes INNER JOIN Usuario ON Solicitudes.id_UsuarioEstandar = Usuario.id_Usuario WHERE Solicitudes.estado_Solicitud = 'Rechazada'
+                AND Usuario.id_Usuario = @IdUser";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+                cmd.Parameters.AddWithValue("@IdUser", id_Usuario);
+
+                cx.Open();
+                int total = Convert.ToInt32(cmd.ExecuteScalar());
+                cx.Close();
+
+                return total;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error en el conteo de solicitudes: " + ex.Message);
+            }
+        }
+        public int CountAllRequestAproved() // Todas las solicitudes aprobadas
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"SELECT COUNT(*) FROM Solicitudes where estado_Solicitud = 'Aprobada'";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cx.Open();
+                int total = Convert.ToInt32(cmd.ExecuteScalar());
+                cx.Close();
+
+                return total;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error en el conteo de solicitudes: " + ex.Message);
+            }
+        }
+        public int CountAllRequestEarrings() // Todas las solicitudes rechazadas
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"SELECT COUNT(*) FROM Solicitudes where estado_Solicitud = 'Pendiente'";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cx.Open();
+                int total = Convert.ToInt32(cmd.ExecuteScalar());
+                cx.Close();
+
+                return total;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error en el conteo de solicitudes: " + ex.Message);
+            }
+        }
+        public int CountAllRequesteRected() // Todas las solicitudes rechazadas
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"SELECT COUNT(*) FROM Solicitudes where estado_Solicitud = 'Rechazada'";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cx.Open();
+                int total = Convert.ToInt32(cmd.ExecuteScalar());
+                cx.Close();
+
+                return total;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error en el conteo de solicitudes: " + ex.Message);
+            }
+        }
+
+
     }
 }
