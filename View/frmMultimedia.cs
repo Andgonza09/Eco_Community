@@ -51,7 +51,8 @@ namespace View
             txtUsuario.Text = fila.Cells[colNombreUsuario.Index].Value?.ToString() ?? "";
             txtSolicitud.Text = fila.Cells[colIdSolicitud.Index].Value?.ToString() ?? "";
 
-            // Extensión
+            // Extensión 
+
             string extension =
                 fila.Cells[colExtension.Index].Value?.ToString() ?? "";
 

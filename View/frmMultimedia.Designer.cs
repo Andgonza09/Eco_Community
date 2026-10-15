@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMultimedia));
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             pnlHeader = new Panel();
             pictureBox3 = new PictureBox();
             lblTitulo = new Label();
@@ -260,12 +260,12 @@
             dgvMultimedia.BackgroundColor = Color.White;
             dgvMultimedia.BorderStyle = BorderStyle.Fixed3D;
             dgvMultimedia.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(7, 80, 51);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(57, 115, 92);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
-            dgvMultimedia.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(7, 80, 51);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(57, 115, 92);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dgvMultimedia.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvMultimedia.ColumnHeadersHeight = 38;
             dgvMultimedia.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvMultimedia.Columns.AddRange(new DataGridViewColumn[] { colIdMultimedia, colArchivo, colTamañoArchivo, colRutaArchivo, colFechaAdjunción, colNombreUsuario, colExtension, colIdSolicitud });
