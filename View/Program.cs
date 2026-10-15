@@ -17,6 +17,7 @@ namespace View
             UsuarioEntidad usuario = new UsuarioEntidad();
 
             Application.Run(new frmLoginUsuario(usuario, usuario.nombre_Usuario, usuario.contraseña_Usuario));
+           // Application.Run(new frmMultimedia());
         }
     }
 }

@@ -28,6 +28,8 @@ namespace View
             pnlSubMenuPoints.Visible = false;
             pnlSubMenuRequest.Visible = false;
             pnlSubMenuMissionReward.Visible = false;
+            pnlMultimedia.Visible = false;
+            pnlGestionResiduos.Visible = false;
 
         } // end method
         public void HideSubMenu()
@@ -40,6 +42,10 @@ namespace View
                 pnlSubMenuRequest.Visible = false;
             if (pnlSubMenuMissionReward.Visible == true)
                 pnlSubMenuMissionReward.Visible = false;
+            if (pnlMultimedia.Visible == true)
+                pnlMultimedia.Visible = false;
+            if (pnlGestionResiduos.Visible == true)
+                pnlGestionResiduos.Visible = false;
 
         }
         private void ShowSubMenú(Panel SubMenu)
@@ -220,7 +226,7 @@ namespace View
             lblItems.SendToBack();
 
             lblItems.Padding = new Padding(20, 0, 0, 0);
-          
+
         }
 
         private void pnlSubMenuMissionReward_Paint(object sender, PaintEventArgs e)
@@ -249,6 +255,95 @@ namespace View
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void btnGestiónBarrios_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(lblItems.Text))
+                lblItems.Text = string.Empty;
+            lblItems.Text = "Gestión de barrios";
+            lblItems.SendToBack();
+            lblItems.Location = new Point(156, 23);
+            lblItems.Padding = new Padding(0, 0, 0, 0);
+            OpenForm(new frmBarrios());
+        }
+
+        private void btnGestiónDistritos_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(lblItems.Text))
+                lblItems.Text = string.Empty;
+            lblItems.Text = "Gestión de distritos";
+            lblItems.SendToBack();
+            lblItems.Location = new Point(156, 23);
+            lblItems.Padding = new Padding(0, 0, 0, 0);
+            OpenForm(new frmDistrito());
+        }
+
+        private void btnGestionResiduos_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(lblItems.Text))
+                lblItems.Text = string.Empty;
+            lblItems.Text = "Gestión de residuos";
+            lblItems.SendToBack();
+            lblItems.Location = new Point(250, 23);
+            lblItems.Padding = new Padding(0, 0, 0, 0);
+            OpenForm(new frmCatalogoResiduos());
+        }
+
+        private void btnGestionMultimedia_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(lblItems.Text))
+                lblItems.Text = string.Empty;
+            lblItems.Text = "Gestión de multimedia";
+            lblItems.SendToBack();
+            lblItems.Location = new Point(200, 23);
+            lblItems.Padding = new Padding(0, 0, 0, 0);
+            OpenForm(new frmMultimedia());
+        }
+
+        private void btnGestiónExtensiones_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(lblItems.Text))
+                lblItems.Text = string.Empty;
+            lblItems.Text = "Gestión de extensiones";
+            lblItems.SendToBack();
+            lblItems.Location = new Point(200, 23);
+            lblItems.Padding = new Padding(0, 0, 0, 0);
+            OpenForm(new frmExtension());
+        }
+
+        private void btnTipoRecompensa_Click(object sender, EventArgs e)
+        {
+
+            if (!string.IsNullOrEmpty(lblItems.Text))
+                lblItems.Text = string.Empty;
+            lblItems.Text = "Gestión de tipo de recompensa";
+            lblItems.SendToBack();
+            lblItems.Location = new Point(200, 23);
+            lblItems.Padding = new Padding(0, 0, 0, 0);
+            OpenForm(new frmTipoRecompensa());
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            ShowSubMenú(pnlGestionResiduos);
+            // Modificar texxto del label para mostrar el menú actual
+            if (!string.IsNullOrEmpty(lblMenu.Text))
+                lblMenu.Text = string.Empty;
+
+            lblItems.Text = string.Empty;
+            lblMenu.Text = "Catálogo de Residuos /";
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            ShowSubMenú(pnlMultimedia);
+            // Modificar texxto del label para mostrar el menú actual
+            if (!string.IsNullOrEmpty(lblMenu.Text))
+                lblMenu.Text = string.Empty;
+
+            lblItems.Text = string.Empty;
+            lblMenu.Text = "Multimedia /";
         }
     }
 }

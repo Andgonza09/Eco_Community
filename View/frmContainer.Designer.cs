@@ -28,7 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmContainer));
             pnlSideBar = new Panel();
+            pnlArchivos = new Panel();
+            btnMisArchivos = new Button();
+            btnMultimedia = new Button();
             panel15 = new Panel();
             pnlSubMenuCriteria = new Panel();
             btnCriteriaGuide = new Button();
@@ -60,6 +64,7 @@
             lblHome = new Label();
             panelContent = new Panel();
             pnlSideBar.SuspendLayout();
+            pnlArchivos.SuspendLayout();
             pnlSubMenuCriteria.SuspendLayout();
             pnlSubMenuReward.SuspendLayout();
             pnlSubMenuMission.SuspendLayout();
@@ -74,6 +79,8 @@
             // pnlSideBar
             // 
             pnlSideBar.BackColor = Color.FromArgb(32, 98, 71);
+            pnlSideBar.Controls.Add(pnlArchivos);
+            pnlSideBar.Controls.Add(btnMultimedia);
             pnlSideBar.Controls.Add(panel15);
             pnlSideBar.Controls.Add(pnlSubMenuCriteria);
             pnlSideBar.Controls.Add(btnLocationCriteria);
@@ -94,6 +101,57 @@
             pnlSideBar.Size = new Size(240, 796);
             pnlSideBar.TabIndex = 47;
             pnlSideBar.Paint += pnlSideBar_Paint;
+            // 
+            // pnlArchivos
+            // 
+            pnlArchivos.BackColor = Color.FromArgb(57, 115, 92);
+            pnlArchivos.Controls.Add(btnMisArchivos);
+            pnlArchivos.Dock = DockStyle.Top;
+            pnlArchivos.Location = new Point(0, 617);
+            pnlArchivos.Name = "pnlArchivos";
+            pnlArchivos.Size = new Size(240, 45);
+            pnlArchivos.TabIndex = 37;
+            // 
+            // btnMisArchivos
+            // 
+            btnMisArchivos.BackColor = Color.FromArgb(57, 115, 92);
+            btnMisArchivos.Cursor = Cursors.Hand;
+            btnMisArchivos.Dock = DockStyle.Top;
+            btnMisArchivos.FlatAppearance.BorderSize = 0;
+            btnMisArchivos.FlatStyle = FlatStyle.Flat;
+            btnMisArchivos.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnMisArchivos.ForeColor = Color.FromArgb(246, 246, 247);
+            btnMisArchivos.Location = new Point(0, 0);
+            btnMisArchivos.Name = "btnMisArchivos";
+            btnMisArchivos.Padding = new Padding(48, 0, 0, 0);
+            btnMisArchivos.Size = new Size(240, 42);
+            btnMisArchivos.TabIndex = 9;
+            btnMisArchivos.Text = "Mis archivos ";
+            btnMisArchivos.TextAlign = ContentAlignment.MiddleLeft;
+            btnMisArchivos.UseVisualStyleBackColor = false;
+            btnMisArchivos.Click += btnMisArchivos_Click;
+            // 
+            // btnMultimedia
+            // 
+            btnMultimedia.BackColor = Color.FromArgb(6, 72, 46);
+            btnMultimedia.Cursor = Cursors.Hand;
+            btnMultimedia.Dock = DockStyle.Top;
+            btnMultimedia.FlatAppearance.BorderSize = 0;
+            btnMultimedia.FlatStyle = FlatStyle.Flat;
+            btnMultimedia.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnMultimedia.ForeColor = Color.FromArgb(246, 246, 247);
+            btnMultimedia.Image = (Image)resources.GetObject("btnMultimedia.Image");
+            btnMultimedia.ImageAlign = ContentAlignment.MiddleLeft;
+            btnMultimedia.Location = new Point(0, 577);
+            btnMultimedia.Name = "btnMultimedia";
+            btnMultimedia.Padding = new Padding(16, 0, 0, 0);
+            btnMultimedia.Size = new Size(240, 40);
+            btnMultimedia.TabIndex = 36;
+            btnMultimedia.Text = "Multimedia";
+            btnMultimedia.TextAlign = ContentAlignment.MiddleRight;
+            btnMultimedia.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnMultimedia.UseVisualStyleBackColor = false;
+            btnMultimedia.Click += btnMultimedia_Click;
             // 
             // panel15
             // 
@@ -124,7 +182,7 @@
             btnCriteriaGuide.Location = new Point(0, 0);
             btnCriteriaGuide.Name = "btnCriteriaGuide";
             btnCriteriaGuide.Padding = new Padding(48, 0, 0, 0);
-            btnCriteriaGuide.Size = new Size(240, 40);
+            btnCriteriaGuide.Size = new Size(240, 39);
             btnCriteriaGuide.TabIndex = 9;
             btnCriteriaGuide.Text = "Guía de ubicación";
             btnCriteriaGuide.TextAlign = ContentAlignment.MiddleLeft;
@@ -437,7 +495,7 @@
             // 
             // lblUsername
             // 
-            lblUsername.Anchor = AnchorStyles.Right;
+            lblUsername.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblUsername.AutoSize = true;
             lblUsername.Font = new Font("Segoe UI Historic", 9F, FontStyle.Bold);
             lblUsername.Location = new Point(1025, 31);
@@ -449,11 +507,11 @@
             // 
             // button21
             // 
-            button21.Anchor = AnchorStyles.Right;
+            button21.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             button21.BackgroundImage = Properties.Resources.User_newIcon2;
             button21.FlatAppearance.BorderSize = 0;
             button21.FlatStyle = FlatStyle.Flat;
-            button21.Location = new Point(937, 9);
+            button21.Location = new Point(889, 9);
             button21.Name = "button21";
             button21.Size = new Size(64, 64);
             button21.TabIndex = 16;
@@ -560,6 +618,7 @@
             WindowState = FormWindowState.Maximized;
             Load += ContainerForm_Load;
             pnlSideBar.ResumeLayout(false);
+            pnlArchivos.ResumeLayout(false);
             pnlSubMenuCriteria.ResumeLayout(false);
             pnlSubMenuReward.ResumeLayout(false);
             pnlSubMenuMission.ResumeLayout(false);
@@ -607,5 +666,8 @@
         private Button button1;
         private Button btnListMission;
         private Panel panelContent;
+        private Panel pnlArchivos;
+        private Button btnMisArchivos;
+        private Button btnMultimedia;
     }
 }

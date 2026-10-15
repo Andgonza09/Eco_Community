@@ -434,6 +434,7 @@
             lblDireccion.TabIndex = 4;
             lblDireccion.Text = "Dirección";
             lblDireccion.TextAlign = ContentAlignment.MiddleLeft;
+            lblDireccion.Click += lblDireccion_Click;
             // 
             // tableLayoutPanel2
             // 
@@ -743,7 +744,7 @@
             Controls.Add(pnlHeader);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "frmInformacionSitios";
-            Text = "frmBeta";
+            Text = "frmInformacionSitio";
             WindowState = FormWindowState.Maximized;
             Load += frmBeta_Load;
             pnlHeader.ResumeLayout(false);

@@ -61,11 +61,11 @@ namespace Controller
             {
                 using (SqlConnection cx = conexion.ObtenerConexion())
                 {
-                    string sql = @"UPDATE Recompensa SET descripcionRecompensa = @descripcionRecompensa,id_Mision = @id_Mision,id_TipoRecompensa = @id_TipoRecompensa WHERE id_Recompensa = @id_Recompensa";
+                    string sql = @"UPDATE Recompensa SET descripcionRecompensa = @descripcionRecompensa,id_TipoRecompensa = @id_TipoRecompensa WHERE id_Recompensa = @id_Recompensa";
 
                     SqlCommand cmd = new SqlCommand(sql, cx);
                     cmd.Parameters.AddWithValue("@descripcionRecompensa", recompensa.descripcionRecompensa);
-                    cmd.Parameters.AddWithValue("@id_Mision", recompensa.id_Mision);
+                    //cmd.Parameters.AddWithValue("@id_Mision", recompensa.id_Mision);
                     cmd.Parameters.AddWithValue("@id_TipoRecompensa", recompensa.id_TipoRecompensa);
                     cmd.Parameters.AddWithValue("@id_Recompensa", recompensa.id_Recompensa);
 
@@ -103,5 +103,26 @@ namespace Controller
                 throw new Exception("Error al eliminar la recompensa: " + ex.Message);
             }
         }
+        public DataTable ListarRecompensas()
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"select r.id_Recompensa, r.descripcionRecompensa, m.descripcion, t.tipoRecompensa From Recompensa AS r 
+                INNER JOIN Misiones AS m ON r.id_Mision = m.id_Mision INNER JOIN TipoRecompensa AS t ON t.id_TipoRecompensa = r.id_TipoRecompensa";
+
+                SqlDataAdapter da = new SqlDataAdapter(sql, cx);
+                DataTable dt = new DataTable();
+
+                da.Fill(dt);
+                return dt;
+                  
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al buscar las misiones: " + ex.Message);
+            }
+        }
+        
     }
 }

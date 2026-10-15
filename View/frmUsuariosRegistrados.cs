@@ -9,6 +9,8 @@ using System.Text;
 using System.Windows.Forms;
 using static System.Net.WebRequestMethods;
 
+
+//TRABAJAR EL DATAGRIED VIEW
 namespace View
 {
     public partial class frmUsuariosRegistrados : Form
@@ -16,7 +18,7 @@ namespace View
         public frmUsuariosRegistrados()
         {
             InitializeComponent();
-            lblRegistros.Text = $"{dgvUsuarios.Rows.Count} usuario(s) registrado(s)";
+
             this.Shown += frmUsuarioRegistrados_shown;
             dgvUsuarios.CellClick += dgvUsuarios_CellClick;
             dgvUsuarios.DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
@@ -32,71 +34,109 @@ namespace View
 
             DataGridViewRow fila = dgvUsuarios.Rows[e.RowIndex];
             id_UsuarioSeleccionado = Convert.ToInt64(fila.Cells[colIdUsuario.Index].Value);
-
-            // Evita error al presionar el encabezado
-            if (e.RowIndex < 0)
-                return;
-
-            // Obtenemos del datagridview y convertirlos a un objeto user
-            fila = dgvUsuarios.CurrentRow;
-
-            UsuarioEntidad selectedUser = new UsuarioEntidad()
-            {
-                id_Usuario = Convert.ToInt64(fila.Cells[colIdUsuario.Index].Value),
-                nombre_Usuario = fila.Cells[colNombreUsuario.Index].Value?.ToString() ?? "",
-                contraseña_Usuario = fila.Cells[colContrasena.Index].Value?.ToString() ?? "",
-                correo_Usuario = fila.Cells[colCorreo.Index].Value?.ToString() ?? "",
-                fecha_Registro = (DateOnly)fila.Cells[colFechaRegistro.Index].Value,
-
-            };
-            string rol = fila.Cells[colRol.Index].Value?.ToString() ?? "";
-            // Llenar los campos
-            txtNameUsuario.Text = selectedUser.nombre_Usuario;
-            txtContrasena.Text = selectedUser.contraseña_Usuario;
-            txtCorreo.Text = selectedUser.correo_Usuario;
-            comboBox1.Text = rol;
+            txtNameUsuario.Text = fila.Cells[colNombreUsuario.Index].Value?.ToString() ?? "";
+            txtContrasena.Text = fila.Cells[colContrasena.Index].Value?.ToString() ?? "";
+            txtCorreo.Text = fila.Cells[colCorreo.Index].Value?.ToString() ?? "";
+            comboBox1.Text = fila.Cells[colRol.Index].Value?.ToString() ?? "";
         }
 
         public void RefreshTable()
         {
-            CargarUsuarios();
+            //CargarUsuarios();
+            ListarUsuarios();
         }
         private void frmUsuarioRegistrados_shown(object? sender, EventArgs e)
         {
-            CargarUsuarios();
+            //CargarUsuarios();
+            ListarUsuarios();
         }
+        private void ConfigurarColumnas()
+        {
+            colIdUsuario.DataPropertyName = "id_Usuario";
+            colNombreUsuario.DataPropertyName = "nombre_Usuario";
+            colContrasena.DataPropertyName = "contraseña_Usuario";
+            colCorreo.DataPropertyName = "correo_Usuario";
+            colFechaRegistro.DataPropertyName = "fecha_Registro";
+            colRol.DataPropertyName = "tipo_Roles";
+
+            dgvUsuarios.AutoGenerateColumns = false;
+        }
+
+        private void ListarUsuarios()
+        {
+            try
+            {
+                ConfigurarColumnas();
+
+                UsuarioController controller = new UsuarioController();
+
+                dgvUsuarios.DataSource = controller.ListarUsuarios();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al mostrar los usuarios: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
         private void CargarUsuarios()
         {
-            UsuarioController controller = new UsuarioController();
-            // Si no escribió nada, mostrar todos
-            if (string.IsNullOrWhiteSpace(txtSearchId.Text))
-            {
-                var datos = controller.ViewAllUsers();
-                var datosGridTodos = datos.Select(x => new
-                {
-                    Id = x.Item1.id_Usuario,
-                    Nombre = x.Item1.nombre_Usuario,
-                    Contrasena = x.Item1.contraseña_Usuario,
-                    Correo = x.Item1.correo_Usuario,
-                    FechaRegistro = x.Item1.fecha_Registro,
-                    Rol = x.Item1.id_Roles == 1 ? "Administrador" : "Usuario Estándar"
-                }).ToList();
+            // Guardar el ID del usuario seleccionado
+            long idAnterior = id_UsuarioSeleccionado;
 
-                // Vincular columnas del diseñador
-                colIdUsuario.DataPropertyName = "Id";
-                colNombreUsuario.DataPropertyName = "Nombre";
-                colContrasena.DataPropertyName = "Contrasena";
-                colCorreo.DataPropertyName = "Correo";
-                colFechaRegistro.DataPropertyName = "FechaRegistro";
-                colRol.DataPropertyName = "Rol";
+            UsuarioController controller = new UsuarioController();
+            dgvUsuarios.DataSource = controller.ListarUsuarios();
+
+            // Buscar nuevamente al usuario seleccionado
+            foreach (DataGridViewRow fila in dgvUsuarios.Rows)
+            {
+                if (fila.IsNewRow)
+                    continue;
+
+                long id = Convert.ToInt64(
+                    fila.Cells[colIdUsuario.Index].Value);
+
+                if (id == idAnterior)
+                {
+                    // Mantener la fila actual
+                    dgvUsuarios.CurrentCell =
+                        fila.Cells[colNombreUsuario.Index];
+
+                    dgvUsuarios.ClearSelection();
+                    fila.Selected = true;
+
+                    // Conservar el ID
+                    id_UsuarioSeleccionado = idAnterior;
+
+                    break;
+                }
+            }
+        }
+
+        private void BuscarUsuario()
+        {
+            try
+            {
+                if (!long.TryParse(txtSearchId.Text.Trim(), out long idUsuario))
+                {
+                    return;
+                }
+
+                UsuarioController controller = new UsuarioController();
 
                 dgvUsuarios.AutoGenerateColumns = false;
 
-                dgvUsuarios.DataSource = null;
-                dgvUsuarios.DataSource = datosGridTodos;
+                dgvUsuarios.DataSource = controller.BuscarUsuarioById(idUsuario);
 
 
-                return;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al buscar el usuario: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
         private void button1_Click(object sender, EventArgs e)
@@ -104,55 +144,15 @@ namespace View
             UsuarioController controller = new UsuarioController();
             if (string.IsNullOrWhiteSpace(txtSearchId.Text))
             {
-                CargarUsuarios();
+                ListarUsuarios();
             }
-            if (dgvUsuarios.CurrentRow == null)
-            {
-                return;
-            }
+            BuscarUsuario();
 
-            // Si escribió algo, validar que sea número
             if (!long.TryParse(txtSearchId.Text, out long id_Usuario))
             {
                 return;
             }
-            else
-            {
-                var datos = controller.BuscarUsuarioById(id_Usuario);
-                var datosGrid = datos.Select(x => new
-                {
-                    Id = x.Item1.id_Usuario,
-                    Nombre = x.Item1.nombre_Usuario,
-                    Contrasena = x.Item1.contraseña_Usuario,
-                    Correo = x.Item1.correo_Usuario,
-                    FechaRegistro = x.Item1.fecha_Registro,
-                    Rol = x.Item1.id_Roles == 1 ? "Administrador" : "Usuario Estándar"
-                }).ToList();
 
-                dgvUsuarios.DataSource = null;
-                dgvUsuarios.Columns.Clear();
-                dgvUsuarios.AutoGenerateColumns = true;
-                dgvUsuarios.DataSource = datosGrid;
-
-                dgvUsuarios.AutoSizeColumnsMode =
-                    DataGridViewAutoSizeColumnsMode.Fill;
-                dgvUsuarios.SelectionMode =
-                    DataGridViewSelectionMode.FullRowSelect;
-                dgvUsuarios.RowHeadersVisible = false;
-
-                dgvUsuarios.BackgroundColor = Color.White;
-                dgvUsuarios.BorderStyle = BorderStyle.None;
-
-                dgvUsuarios.CellBorderStyle =
-                    DataGridViewCellBorderStyle.SingleHorizontal;
-
-                dgvUsuarios.ColumnHeadersHeight = 38;
-                dgvUsuarios.RowTemplate.Height = 34;
-
-                dgvUsuarios.Visible = true;
-            }
-
-            // validamos que exista un usuario seleccionado
             if (dgvUsuarios.CurrentRow == null)
             {
                 return;
@@ -166,7 +166,7 @@ namespace View
                 nombre_Usuario = fila.Cells[colNombreUsuario.Index].Value?.ToString() ?? "",
                 contraseña_Usuario = fila.Cells[colContrasena.Index].Value?.ToString() ?? "",
                 correo_Usuario = fila.Cells[colCorreo.Index].Value?.ToString() ?? "",
-                fecha_Registro = (DateOnly)fila.Cells[colFechaRegistro.Index].Value
+                //fecha_Registro = (DateOnly)fila.Cells[colFechaRegistro.Index].Value
             };
         }
 
@@ -248,78 +248,29 @@ namespace View
             }
         }
 
-        private void tlpPrincipal_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void grpDatos_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tlpSuperior_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void dgvUsuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void lblRegistros_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dtpFechaRegistro_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-        private void frmUsuariosRegistrados_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtSearchId_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pnlHeader_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
         private void button7_Click(object sender, EventArgs e)
         {
             if (dgvUsuarios.CurrentRow == null)
                 return;
 
-            DialogResult resultado = MessageBox.Show("¿Estás seguro que deseas eliminar el usuario del sistema?", "Verificación de información", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-
-            if (resultado == DialogResult.OK)
+            else
             {
-                // Eliminación de usuario
-                new DetalleConsultaArchivoController().Delete(id_UsuarioSeleccionado);
-                new DetalleSitiosController().DeleteUserInformation(id_UsuarioSeleccionado);
-                new UsuarioController().Delete(id_UsuarioSeleccionado);
-                MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult resultado = MessageBox.Show("¿Estás seguro que deseas eliminar el usuario del sistema?", "Verificación de información", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
-                RefreshTable();
-                dgvUsuarios.ClearSelection();
+                if (resultado == DialogResult.OK)
+                {
+                    // Eliminación de usuario
+                    new DetalleConsultaArchivoController().Delete(id_UsuarioSeleccionado);
+                    new DetalleSitiosController().DeleteUserInformation(id_UsuarioSeleccionado);
+                    new UsuarioController().Delete(id_UsuarioSeleccionado);
+                    MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    RefreshTable();
+                    dgvUsuarios.ClearSelection();
+                }
             }
+            
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -389,6 +340,123 @@ namespace View
         }
 
         private void button6_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                //Obtener el ID del usuario seleccionado
+                long idUsuario = Convert.ToInt64(dgvUsuarios.CurrentRow.Cells["colIdUsuario"].Value);
+
+                string username = txtNameUsuario.Text;
+                string password = txtContrasena.Text;
+                string email = txtCorreo.Text.Trim();
+                string rol = comboBox1.SelectedItem?.ToString() ?? "";
+
+                int id_Roles;
+                if (comboBox1.SelectedItem == null)
+                {
+                    return;
+                }
+                if (comboBox1.SelectedItem.ToString() == "Administrador")
+                {
+                    id_Roles = 1;
+                }
+                else
+                {
+                    id_Roles = 2;
+                }
+
+                UsuarioEntidad usuario = new UsuarioEntidad()
+                {
+                    id_Roles = id_Roles
+                };
+
+                if (txtNameUsuario.Text.Length < 8)
+                {
+                    MessageBox.Show("El nombre de usuario tiene que tener un mínimo de 8 caracteres", "Validación de información", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!txtCorreo.Text.EndsWith("@gmail.com", StringComparison.OrdinalIgnoreCase))
+                {
+                    MessageBox.Show("El correo debe de contener la terminación @gmail.com", "Validación de información", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                UsuarioController controller = new UsuarioController();
+                bool actualizado = controller.UpdateUser(idUsuario, username, password, email, id_Roles);
+
+                MessageBox.Show("Usuario actualizado correctamente", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                CargarUsuarios();
+
+                dgvUsuarios.ClearSelection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void txtCorreo_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void tlpPrincipal_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void grpDatos_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tlpSuperior_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void dgvUsuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void lblRegistros_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dtpFechaRegistro_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void frmUsuariosRegistrados_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtSearchId_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pnlHeader_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void grpListado_Enter(object sender, EventArgs e)
         {
 
         }

@@ -44,6 +44,7 @@ namespace Controller
         }
         public bool MissionExists(string descripcion)
         {
+            // Este es mi archivo original 
             try
             {
                 SqlConnection cx = conexion.ObtenerConexion();
@@ -66,85 +67,62 @@ namespace Controller
             }
         }
 
-        //Mostrar todas las misiones 
-        public List<(MisionesEntidad, string, string)> ViewAllMissions()
+        public DataTable ListarMisionesData()
         {
-            List<(MisionesEntidad, string, string)> missionList = new List<(MisionesEntidad, string, string)>();
-
-            SqlConnection cx = conexion.ObtenerConexion();
             try
             {
-                string sql = "Select M.id_Mision, M.descripcion, M.puntaje, R.descripcionRecompensa, T.tipoRecompensa " +
-                    "from Misiones As M INNER JOIN Recompensa AS R ON M.id_Mision = R.id_Mision INNER JOIN TipoRecompensa AS T " +
-                    "ON R.id_TipoRecompensa = T.id_TipoRecompensa";
+                SqlConnection cx = conexion.ObtenerConexion();
+                string sql = @"SELECT TOP 20 M.id_Mision, M.descripcion, M.puntaje, R.id_Recompensa, R.descripcionRecompensa, R.id_TipoRecompensa, T.tipoRecompensa FROM Misiones AS M INNER JOIN Recompensa AS R
+                               ON M.id_Mision = R.id_Mision INNER JOIN TipoRecompensa AS T ON R.id_TipoRecompensa = T.id_TipoRecompensa  ORDER BY M.id_Mision DESC";
 
-                SqlCommand cmd = new SqlCommand(sql, cx);
+                SqlDataAdapter da = new SqlDataAdapter(sql, cx);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
 
-                cx.Open();
-                SqlDataReader result = cmd.ExecuteReader();
-
-                while (result.Read())
-                {
-                    string descripcionRecompensa = result["descripcionRecompensa"].ToString();
-                    string tipoRecompensa = result["tipoRecompensa"].ToString();
-
-                    MisionesEntidad mission = new MisionesEntidad();
-                    mission.id_Mision = Convert.ToInt32(result["id_Mision"]);
-                    mission.descripcion = result["descripcion"].ToString();
-                    mission.puntaje = Convert.ToInt32(result["puntaje"]);
-
-                    missionList.Add((mission, descripcionRecompensa, tipoRecompensa));
-                }
-
-                result.Close();
-                cx.Close();
-
-                return missionList;
+                return dt;
             }
             catch (Exception ex)
             {
-                if (cx.State == System.Data.ConnectionState.Open)
-                    cx.Close();
+                throw new Exception("Error al mostrar las misiones: " + ex.Message);
+            }
+        }
+        public DataTable ListarMisiones_Tarjetas()
+        {
+            try
+            {
+                SqlConnection cx = conexion.ObtenerConexion();
+                string sql = @"SELECT id_Mision, descripcion, puntaje FROM Misiones";
 
+                SqlDataAdapter da = new SqlDataAdapter(sql, cx);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
                 throw new Exception("Error al mostrar las misiones: " + ex.Message);
             }
         }
 
-        //Buscar mision por ID
-        public List<(MisionesEntidad, string, string)> FindById(int idMision)
+        public DataTable BuscarMisionPorId(int idMision)
         {
-            SqlConnection cx = conexion.ObtenerConexion();
-            List<(MisionesEntidad, string, string)> ListaMisiones = new List<(MisionesEntidad, string, string)>();
             try
             {
-                string sql =  @"SELECT M.id_Mision, M.descripcion, M.puntaje, R.descripcionRecompensa, T.tipoRecompensa
-                        FROM Misiones AS M INNER JOIN Recompensa AS R ON M.id_Mision = R.id_Mision INNER JOIN TipoRecompensa AS T
-                        ON R.id_TipoRecompensa = T.id_TipoRecompensa WHERE M.id_Mision = @IdMision"; 
+                SqlConnection cx = conexion.ObtenerConexion();
+                string sql = @"SELECT M.id_Mision, M.descripcion, M.puntaje, R.id_Recompensa, R.descripcionRecompensa, R.id_TipoRecompensa, T.tipoRecompensa
+                               FROM Misiones AS M
+                               INNER JOIN Recompensa AS R ON M.id_Mision = R.id_Mision
+                               INNER JOIN TipoRecompensa AS T ON R.id_TipoRecompensa = T.id_TipoRecompensa
+                               WHERE M.id_Mision = @IdMision";
 
-                SqlCommand cmd = new SqlCommand(sql, cx);
+                SqlDataAdapter da = new SqlDataAdapter(sql, cx);
+                da.SelectCommand.Parameters.AddWithValue("@IdMision", idMision);
 
-                cmd.Parameters.AddWithValue("@IdMision", idMision);
-                cx.Open();
-                using SqlDataReader reader = cmd.ExecuteReader();
+                DataTable dt = new DataTable();
+                da.Fill(dt);
 
-                while (reader.Read())
-                {
-                    string descripcionRecompensa = reader.GetString(reader.GetOrdinal("descripcionRecompensa"));
-                    string tipoRecompensa = reader.GetString(reader.GetOrdinal("tipoRecompensa"));
-
-                    MisionesEntidad misiones = new MisionesEntidad()
-                    {
-
-                        id_Mision = Convert.ToInt32(reader["id_Mision"]),
-                        descripcion = reader["descripcion"].ToString() ?? string.Empty,
-                        puntaje = Convert.ToInt32(reader["puntaje"])
-
-                    };
-                    ListaMisiones.Add((misiones, descripcionRecompensa, tipoRecompensa));
-                }
-                cx.Close();
-                return ListaMisiones;
-
+                return dt;
             }
             catch (Exception ex)
             {
@@ -192,7 +170,6 @@ namespace Controller
             try
             {
                 cx.Open();
-
                 SqlTransaction transaction = cx.BeginTransaction();
 
                 try
@@ -251,7 +228,6 @@ namespace Controller
             try
             {
                 string sql = @"SELECT COUNT(*) FROM Misiones";
-
                 SqlCommand cmd = new SqlCommand(sql, cx);
 
                 cx.Open();
@@ -265,5 +241,6 @@ namespace Controller
                 throw new Exception("Error en el conteo de solicitudes: " + ex.Message);
             }
         }
+        
     }
 }

@@ -76,7 +76,6 @@
             lblListadoIcon = new Label();
             lblListadoTitulo = new Label();
             pnlFooter = new Panel();
-            lblRegistros = new Label();
             lblFooterMensaje = new Label();
             pnlHeader.SuspendLayout();
             tlpPrincipal.SuspendLayout();
@@ -305,6 +304,7 @@
             // 
             // cmbEstado
             // 
+            cmbEstado.BackColor = Color.Gainsboro;
             cmbEstado.Dock = DockStyle.Top;
             cmbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbEstado.FlatStyle = FlatStyle.Flat;
@@ -627,24 +627,12 @@
             // pnlFooter
             // 
             pnlFooter.BackColor = Color.FromArgb(246, 248, 243);
-            pnlFooter.Controls.Add(lblRegistros);
             pnlFooter.Controls.Add(lblFooterMensaje);
             pnlFooter.Dock = DockStyle.Fill;
             pnlFooter.Location = new Point(21, 805);
             pnlFooter.Name = "pnlFooter";
             pnlFooter.Size = new Size(1378, 28);
             pnlFooter.TabIndex = 3;
-            // 
-            // lblRegistros
-            // 
-            lblRegistros.AutoSize = true;
-            lblRegistros.Font = new Font("Segoe UI", 8.5F);
-            lblRegistros.ForeColor = Color.FromArgb(48, 75, 48);
-            lblRegistros.Location = new Point(5, 8);
-            lblRegistros.Name = "lblRegistros";
-            lblRegistros.Size = new Size(188, 20);
-            lblRegistros.TabIndex = 0;
-            lblRegistros.Text = "0 solicitud(es) registrada(s)";
             // 
             // lblFooterMensaje
             // 
@@ -685,7 +673,6 @@
             pnlListadoHeader.ResumeLayout(false);
             pnlListadoHeader.PerformLayout();
             pnlFooter.ResumeLayout(false);
-            pnlFooter.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -721,7 +708,6 @@
         private Label lblListadoIcon;
         private Label lblListadoTitulo;
         private Panel pnlFooter;
-        private Label lblRegistros;
         private Label lblFooterMensaje;
         private Button button1;
         private Label lbNombreUsuario;

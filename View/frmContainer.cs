@@ -1,4 +1,5 @@
-﻿using Model.Eco_Community;
+﻿using Controller;
+using Model.Eco_Community;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -75,6 +76,7 @@ namespace View
             pnlSubMenuMission.Visible = false;
             pnlSubMenuReward.Visible = false;
             pnlSubMenuCriteria.Visible = false;
+            pnlArchivos.Visible = false;
         } // end method
         public void HideSubMenu()
         {
@@ -88,6 +90,8 @@ namespace View
                 pnlSubMenuReward.Visible = false;
             if (pnlSubMenuCriteria.Visible == true)
                 pnlSubMenuCriteria.Visible = false;
+            if (pnlArchivos.Visible == true)
+                pnlArchivos.Visible = false;
         }
         private void ShowSubMenú(Panel SubMenu)
         {
@@ -203,7 +207,7 @@ namespace View
 
         private void btnMyPoints_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void btnPointsRegister_Click(object sender, EventArgs e)
@@ -260,7 +264,7 @@ namespace View
             lblItems.Text = "Explorar recompensas";
             lblItems.SendToBack();
             lblItems.Padding = new Padding(25, 0, 0, 0);
-           // OpenForm(new frmRecompensas());
+            OpenForm(new frmRecompensa());
         }
 
         private void btnCriteriaGuide_Click(object sender, EventArgs e)
@@ -334,7 +338,7 @@ namespace View
             lblItems.Text = "Listado de misiones";
             lblItems.SendToBack();
             lblItems.Padding = new Padding(0, 0, 0, 0);
-          //  OpenForm(new frmMisiones());
+            OpenForm(new frmMisiones());
         }
 
         private void panelContent_Paint(object sender, PaintEventArgs e)
@@ -426,7 +430,7 @@ namespace View
 
             lblItems.Text = string.Empty;
             lblMenu.Text = "Perfil de usuario";
-            lblItems.Padding = new Padding(0, 0, 0, 0);
+            lblItems.Padding = new Padding(100, 0, 0, 0);
             frmPerfilUsuario profileView = new frmPerfilUsuario(_currentUser, this, _username, _password);
             OpenForm(profileView);
         }
@@ -456,5 +460,29 @@ namespace View
         {
 
         }
+        private void btnMultimedia_Click(object sender, EventArgs e)
+        {
+            ShowSubMenú(pnlArchivos);
+
+            // Modificar texxto del label para mostrar el menú actual
+            if (!string.IsNullOrEmpty(lblMenu.Text))
+                lblMenu.Text = string.Empty;
+
+            lblItems.Text = string.Empty;
+            lblMenu.Text = "Multimedia /";
+        }
+        private void btnMisArchivos_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(lblItems.Text))
+                lblItems.Text = string.Empty;
+            lblItems.Text = "Mis archivos";
+            lblItems.SendToBack();
+            lblItems.Padding = new Padding(10, 0, 0, 0);
+
+            frmMultimedia_Evidencias frmMultimedia_Evidencias = new frmMultimedia_Evidencias(_currentUser.id_Usuario);
+            OpenForm(frmMultimedia_Evidencias);
+        }
+
+        
     }
 }

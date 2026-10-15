@@ -34,12 +34,10 @@
             lblHeaderIcon = new Label();
             lblTitulo = new Label();
             lblSubtitulo = new Label();
-            lblMensajeAmbiental = new Label();
             txtSearchId = new TextBox();
             button1 = new Button();
             groupBox1 = new GroupBox();
             pnlFooter = new Panel();
-            lblRegistros = new Label();
             lblFooterMensaje = new Label();
             grpListado = new GroupBox();
             dgvUsuarios = new DataGridView();
@@ -52,7 +50,6 @@
             pnlListadoHeader = new Panel();
             lblListadoIcon = new Label();
             lblListadoTitulo = new Label();
-            txtBuscarId = new TextBox();
             tlpSuperior = new TableLayoutPanel();
             grpDatos = new GroupBox();
             tlpCampos = new TableLayoutPanel();
@@ -91,7 +88,6 @@
             pnlHeader.Controls.Add(lblHeaderIcon);
             pnlHeader.Controls.Add(lblTitulo);
             pnlHeader.Controls.Add(lblSubtitulo);
-            pnlHeader.Controls.Add(lblMensajeAmbiental);
             pnlHeader.Dock = DockStyle.Top;
             pnlHeader.Location = new Point(0, 0);
             pnlHeader.Name = "pnlHeader";
@@ -132,18 +128,6 @@
             lblSubtitulo.TabIndex = 2;
             lblSubtitulo.Text = "Conoce y gestiona la información ingresada por los usuarios en el sistema";
             // 
-            // lblMensajeAmbiental
-            // 
-            lblMensajeAmbiental.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            lblMensajeAmbiental.Font = new Font("Segoe UI", 10F, FontStyle.Italic);
-            lblMensajeAmbiental.ForeColor = Color.White;
-            lblMensajeAmbiental.Location = new Point(3665, 19);
-            lblMensajeAmbiental.Name = "lblMensajeAmbiental";
-            lblMensajeAmbiental.Size = new Size(225, 56);
-            lblMensajeAmbiental.TabIndex = 3;
-            lblMensajeAmbiental.Text = "Usuarios seguros,\ncomunidad sostenible";
-            lblMensajeAmbiental.TextAlign = ContentAlignment.MiddleRight;
-            // 
             // txtSearchId
             // 
             txtSearchId.Location = new Point(54, 19);
@@ -178,7 +162,6 @@
             // pnlFooter
             // 
             pnlFooter.BackColor = Color.FromArgb(246, 248, 243);
-            pnlFooter.Controls.Add(lblRegistros);
             pnlFooter.Controls.Add(lblFooterMensaje);
             pnlFooter.Dock = DockStyle.Fill;
             pnlFooter.Location = new Point(21, 740);
@@ -186,24 +169,12 @@
             pnlFooter.Size = new Size(1378, 28);
             pnlFooter.TabIndex = 2;
             // 
-            // lblRegistros
-            // 
-            lblRegistros.AutoSize = true;
-            lblRegistros.Font = new Font("Segoe UI", 8.5F);
-            lblRegistros.ForeColor = Color.FromArgb(48, 75, 48);
-            lblRegistros.Location = new Point(5, 8);
-            lblRegistros.Name = "lblRegistros";
-            lblRegistros.Size = new Size(173, 20);
-            lblRegistros.TabIndex = 0;
-            lblRegistros.Text = "0 usuario(s) registrado(s)";
-            lblRegistros.Click += lblRegistros_Click;
-            // 
             // lblFooterMensaje
             // 
             lblFooterMensaje.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblFooterMensaje.Font = new Font("Segoe UI", 8.5F, FontStyle.Italic);
             lblFooterMensaje.ForeColor = Color.FromArgb(67, 107, 51);
-            lblFooterMensaje.Location = new Point(3456, 6);
+            lblFooterMensaje.Location = new Point(10, 6);
             lblFooterMensaje.Name = "lblFooterMensaje";
             lblFooterMensaje.Size = new Size(310, 22);
             lblFooterMensaje.TabIndex = 1;
@@ -225,6 +196,7 @@
             grpListado.Size = new Size(1384, 465);
             grpListado.TabIndex = 1;
             grpListado.TabStop = false;
+            grpListado.Enter += grpListado_Enter;
             // 
             // dgvUsuarios
             // 
@@ -298,6 +270,7 @@
             // 
             // colRol
             // 
+            colRol.DataPropertyName = "tipo_Roles";
             colRol.HeaderText = "Rol";
             colRol.MinimumWidth = 6;
             colRol.Name = "colRol";
@@ -308,7 +281,6 @@
             pnlListadoHeader.BackColor = Color.White;
             pnlListadoHeader.Controls.Add(lblListadoIcon);
             pnlListadoHeader.Controls.Add(lblListadoTitulo);
-            pnlListadoHeader.Controls.Add(txtBuscarId);
             pnlListadoHeader.Dock = DockStyle.Top;
             pnlListadoHeader.Location = new Point(10, 35);
             pnlListadoHeader.Name = "pnlListadoHeader";
@@ -319,7 +291,7 @@
             // 
             lblListadoIcon.Font = new Font("Segoe UI Symbol", 18F, FontStyle.Bold);
             lblListadoIcon.ForeColor = Color.FromArgb(67, 107, 51);
-            lblListadoIcon.Location = new Point(3, 7);
+            lblListadoIcon.Location = new Point(8, 7);
             lblListadoIcon.Name = "lblListadoIcon";
             lblListadoIcon.Size = new Size(46, 40);
             lblListadoIcon.TabIndex = 0;
@@ -331,22 +303,11 @@
             lblListadoTitulo.AutoSize = true;
             lblListadoTitulo.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             lblListadoTitulo.ForeColor = Color.Black;
-            lblListadoTitulo.Location = new Point(52, 13);
+            lblListadoTitulo.Location = new Point(55, 14);
             lblListadoTitulo.Name = "lblListadoTitulo";
             lblListadoTitulo.Size = new Size(205, 28);
             lblListadoTitulo.TabIndex = 1;
             lblListadoTitulo.Text = "Usuarios registrados";
-            // 
-            // txtBuscarId
-            // 
-            txtBuscarId.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtBuscarId.BorderStyle = BorderStyle.FixedSingle;
-            txtBuscarId.Font = new Font("Segoe UI", 9F);
-            txtBuscarId.Location = new Point(3438, 12);
-            txtBuscarId.Name = "txtBuscarId";
-            txtBuscarId.PlaceholderText = "Buscar por ID de usuario...";
-            txtBuscarId.Size = new Size(300, 27);
-            txtBuscarId.TabIndex = 2;
             // 
             // tlpSuperior
             // 
@@ -437,6 +398,7 @@
             txtCorreo.Name = "txtCorreo";
             txtCorreo.Size = new Size(367, 27);
             txtCorreo.TabIndex = 5;
+            txtCorreo.TextChanged += txtCorreo_TextChanged;
             // 
             // lbRol
             // 
@@ -461,7 +423,6 @@
             txtContrasena.Name = "txtContrasena";
             txtContrasena.Size = new Size(368, 27);
             txtContrasena.TabIndex = 11;
-            txtContrasena.UseSystemPasswordChar = true;
             // 
             // comboBox1
             // 
@@ -612,7 +573,6 @@
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             pnlFooter.ResumeLayout(false);
-            pnlFooter.PerformLayout();
             grpListado.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).EndInit();
             pnlListadoHeader.ResumeLayout(false);
@@ -633,25 +593,13 @@
         private Label lblHeaderIcon;
         private Label lblTitulo;
         private Label lblSubtitulo;
-        private Label lblMensajeAmbiental;
         private TextBox txtSearchId;
         private Button button1;
         private GroupBox groupBox1;
         private Panel pnlFooter;
-        private Label lblRegistros;
         private Label lblFooterMensaje;
         private GroupBox grpListado;
         private DataGridView dgvUsuarios;
-        private DataGridViewTextBoxColumn colIdUsuario;
-        private DataGridViewTextBoxColumn colNombreUsuario;
-        private DataGridViewTextBoxColumn colContrasena;
-        private DataGridViewTextBoxColumn colCorreo;
-        private DataGridViewTextBoxColumn colFechaRegistro;
-        private DataGridViewTextBoxColumn colRol;
-        private Panel pnlListadoHeader;
-        private Label lblListadoIcon;
-        private Label lblListadoTitulo;
-        private TextBox txtBuscarId;
         private TableLayoutPanel tlpSuperior;
         private GroupBox grpDatos;
         private TableLayoutPanel tlpCampos;
@@ -670,5 +618,14 @@
         private Button button6;
         private Button btnDelete;
         private Button button8;
+        private DataGridViewTextBoxColumn colIdUsuario;
+        private DataGridViewTextBoxColumn colNombreUsuario;
+        private DataGridViewTextBoxColumn colContrasena;
+        private DataGridViewTextBoxColumn colCorreo;
+        private DataGridViewTextBoxColumn colFechaRegistro;
+        private DataGridViewTextBoxColumn colRol;
+        private Panel pnlListadoHeader;
+        private Label lblListadoIcon;
+        private Label lblListadoTitulo;
     }
 }

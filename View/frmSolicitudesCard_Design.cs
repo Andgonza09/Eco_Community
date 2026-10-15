@@ -21,6 +21,7 @@ namespace View
         private bool mouseEncima = false;
         private long _idUsuario;
         private long id_Solicitud;
+
         private readonly Color colorNormal =
             Color.FromArgb(244, 248, 238);
         private readonly Color colorHover =
@@ -276,7 +277,11 @@ namespace View
             if (resultado == DialogResult.OK)
             {
                 // Eliminamos el id de la tabla multimedia para evitar las dependencias de llaves foráneas de cada tabla
-                new MultimediaController().DeleteMultimedia(id_Solicitud);
+                new MultimediaController().DeleteMultimedia_ByRequest(id_Solicitud);
+
+                // Demás métodos de eliminación de información
+
+
                 new SolicitudesController().DeleteRequest(id_Solicitud);
                 MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

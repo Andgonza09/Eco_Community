@@ -9,7 +9,7 @@ namespace Eco_Community.Model
 {
     public class Conexion
     {
-        private readonly string cadenaConexion = @"Server=AAGF09;Database=Eco_Community; Integrated Security=True;TrustServerCertificate=True";
+        private readonly string cadenaConexion = @"Server=localhost;Database=Eco_Community; Integrated Security=True;TrustServerCertificate=True";
         public SqlConnection ObtenerConexion()
         {
             return new SqlConnection(cadenaConexion);

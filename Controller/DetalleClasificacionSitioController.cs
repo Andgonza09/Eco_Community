@@ -48,7 +48,7 @@ namespace Controller
                 SqlCommand cmd = new SqlCommand(sql, cx);
 
                 cmd.Parameters.AddWithValue("@id_InformacionSitio", id_informacionSitio);
-    
+
                 cx.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -57,9 +57,9 @@ namespace Controller
                     int id_Catalogo = reader.GetInt32(reader.GetOrdinal("id_CatalogoResiduos"));
                     idS_CatalogoResiduos.Add(id_Catalogo);
                 }
-               
+
                 cx.Close();
-                return idS_CatalogoResiduos;        
+                return idS_CatalogoResiduos;
             }
             catch (Exception ex)
             {
@@ -83,11 +83,65 @@ namespace Controller
                     cmd.ExecuteNonQuery();
                 }
                 cx.Close();
-                
+
             }
             catch (Exception ex)
             {
                 throw new Exception("Error en la eliminación de datos: " + ex.Message);
+            }
+        }
+        public void Update(long id_InformacionSitio, List<int> idS_CatalogoResiduos)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+
+            try
+            {
+                cx.Open();
+
+                // Eliminamos los tipos de residuos anteriores
+                string deleteSql = @"DELETE FROM DetalleClasificacionSitio
+                      WHERE id_InformacionSitio = @id_InformacionSitio";
+
+                SqlCommand deleteCmd = new SqlCommand(deleteSql, cx);
+
+                deleteCmd.Parameters.AddWithValue(
+                    "@id_InformacionSitio",
+                    id_InformacionSitio
+                );
+
+                deleteCmd.ExecuteNonQuery();
+
+                // Insertamos los nuevos tipos de residuos
+                foreach (int idCatalogoResiduo in idS_CatalogoResiduos)
+                {
+                    string insertSql = @"INSERT INTO DetalleClasificacionSitio
+                         (id_InformacionSitio, id_CatalogoResiduos)
+                         VALUES
+                         (@id_InformacionSitio, @id_CatalogoResiduos)";
+
+                    SqlCommand insertCmd = new SqlCommand(insertSql, cx);
+
+                    insertCmd.Parameters.AddWithValue(
+                        "@id_InformacionSitio",
+                        id_InformacionSitio
+                    );
+
+                    insertCmd.Parameters.AddWithValue(
+                        "@id_CatalogoResiduos",
+                        idCatalogoResiduo
+                    );
+
+                    insertCmd.ExecuteNonQuery();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception("Error al actualizar los tipos de residuos: " + ex.Message);
+            }
+            finally
+            {
+                cx.Close();
             }
         }
     }

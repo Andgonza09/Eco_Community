@@ -1,65 +1,137 @@
-﻿using System;
+﻿using Eco_Community.Model;
+using Microsoft.Data.SqlClient;
+using Model;
+using Model.Eco_Community;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Eco_Community.Model;
-using Model.Eco_Community;
-using Microsoft.Data.SqlClient;
-using Model;
 
 namespace Controller
 {
     public class CatalogoResiduosController
     {
         Conexion conexion = new Conexion();
-        public void Insert(CatalogoResiduosEntidad catalogoresiduos)
+        public int Insert(CatalogoResiduosEntidad catalogoresiduos)
         {
             SqlConnection cx = conexion.ObtenerConexion();
-            string sql = @"INSERT INTO CatalogoResiduos(tipoResiduo) VALUES (@tipoResiduo)";
+            string sql = @"INSERT INTO CatalogoResiduos(tipoResiduo) OUTPUT INSERTED.id_CatalogoResiduos VALUES (@tipoResiduo)";
+
 
             SqlCommand cmd = new SqlCommand(sql, cx);
-            cmd.Parameters.AddWithValue(@"tipoResiduo", catalogoresiduos.tipoResiduo);
+            cmd.Parameters.AddWithValue("@tipoResiduo", catalogoresiduos.tipoResiduo);
 
             cx.Open();
-
-            cmd.ExecuteNonQuery();
-
+            int id_Catalogo = Convert.ToInt32(cmd.ExecuteScalar());
             cx.Close();
 
+            return id_Catalogo;
+
+        }
+        public void Update(int id_Catalogo, string tipoResiduos)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"UPDATE CatalogoResiduos SET tipoResiduo = @tipoResiduos WHERE id_CatalogoResiduos = @id_Catalogo";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+                cmd.Parameters.AddWithValue("@id_Catalogo", id_Catalogo);
+                cmd.Parameters.AddWithValue("@tipoResiduos", tipoResiduos);
+
+                cx.Open();
+                cmd.ExecuteNonQuery();
+                cx.Close();
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al actualizar la información: " + ex.Message);
+            }
+        }
+        public void Delete(int id_Catalogo)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+
+            try
+            {
+                string sql = @"DELETE FROM CatalogoResiduos WHERE id_CatalogoResiduos = @id_Catalogo";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+                cmd.Parameters.AddWithValue("@id_Catalogo", id_Catalogo);
+
+                cx.Open();
+                cmd.ExecuteNonQuery();
+                cx.Close();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al eliminar la información: " + ex.Message);
+            }
+        }
+        public bool ExisteCatalogo(string tipoResiduos)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"SELECT COUNT(*) FROM CatalogoResiduos WHERE tipoResiduo = @tipoResiduos";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+                cmd.Parameters.AddWithValue("@tipoResiduos", tipoResiduos);
+
+                cx.Open();
+                int cantidad = Convert.ToInt32(cmd.ExecuteScalar());
+                cx.Close();
+
+                return cantidad > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al realizar la búsqueda: " + ex.Message);
+            }
         }
 
-        public List<CatalogoResiduosEntidad> ViewAllWaste()
+        public DataTable ListarCatalogo()
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"SELECT * FROM CatalogoResiduos";
+                SqlDataAdapter da = new SqlDataAdapter(sql, cx);
+
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar los elementos del catálogo de residuos: " + ex.Message);
+            }
+        }
+        public DataTable BuscarResiduoPorId(int id_Catalogo)
         {
             try
             {
                 SqlConnection cx = conexion.ObtenerConexion();
-                string sql = @"SELECT * FROM CatalogoResiduos";
 
-                SqlCommand cmd = new SqlCommand(sql, cx);
+                string sql = @"SELECT id_CatalogoResiduos,tipoResiduo FROM CatalogoResiduos WHERE id_CatalogoResiduos = @id_Catalogo";
 
-                cx.Open();
-                SqlDataReader result = cmd.ExecuteReader();
-                if (!result.HasRows)
-                {
-                    throw new Exception("No se han encontrado datos pertenecientes al catálogo de residuo");
-                }
+                SqlDataAdapter da = new SqlDataAdapter(sql, cx);
+                da.SelectCommand.Parameters.AddWithValue("@id_Catalogo", id_Catalogo);
 
-                List<CatalogoResiduosEntidad> listWaste = new List<CatalogoResiduosEntidad>();
-                while (result.Read())
-                {
-                    listWaste.Add(new CatalogoResiduosEntidad()
-                    {
-                        id_CatalogoResiduos = result.GetInt32(result.GetOrdinal("id_CatalogoResiduos")),
-                        tipoResiduo = result.GetString(1)
-                    });
-                }
-                cx.Close();
-                return listWaste;
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                return dt;
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al cargar la información: " + ex.Message, ex);
+                throw new Exception("Error al buscar el distrito: " + ex.Message, ex);
             }
         }
     }

@@ -187,12 +187,7 @@ namespace View
                         return;
                     }
 
-                    bool updateResult = new UsuarioController().UpdateUser(
-                            newUsername,
-                            newPassword,
-                            _currentUser.correo_Usuario,
-                            _currentUser.fecha_Registro.ToString("yyyy-MM-dd")
-                        );
+                    bool updateResult = new UsuarioController().UpdateUser(_currentUser.id_Usuario,newUsername, newPassword, _currentUser.correo_Usuario, _currentUser.id_Roles);//fecha_Registro.ToString("yyyy-MM-dd"));
 
                     if (updateResult)
                     {

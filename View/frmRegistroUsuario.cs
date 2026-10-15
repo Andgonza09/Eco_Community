@@ -82,6 +82,7 @@ namespace View
                         frmMenúPrincipal userStartView = new frmMenúPrincipal(userRegister, txtUsername.Text.Trim(), txtPassword.Text.Trim());
                         frmPerfilUsuario profileView = new frmPerfilUsuario(userRegister, containerForm, txtUsername.Text.Trim(), txtPassword.Text.Trim());
                         frmInformacionSitios informationView = new frmInformacionSitios(userRegister, id_Usuario);
+                        frmMultimedia_Evidencias multimediaView = new frmMultimedia_Evidencias(userRegister.id_Usuario);
 
                         containerForm.Show();
                     }

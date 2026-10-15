@@ -338,7 +338,6 @@
             cmbTipoRecompensa.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbTipoRecompensa.FlatStyle = FlatStyle.Flat;
             cmbTipoRecompensa.Font = new Font("Segoe UI", 10F);
-            cmbTipoRecompensa.Items.AddRange(new object[] { "Insignia", "Subida de nivel", "Logros", "Puntos adicionales" });
             cmbTipoRecompensa.Location = new Point(12, 248);
             cmbTipoRecompensa.Margin = new Padding(0, 3, 0, 3);
             cmbTipoRecompensa.Name = "cmbTipoRecompensa";

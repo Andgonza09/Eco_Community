@@ -106,6 +106,7 @@
             // 
             linkLabel1.AutoSize = true;
             linkLabel1.Font = new Font("Segoe UI Historic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            linkLabel1.LinkColor = Color.Navy;
             linkLabel1.Location = new Point(218, 351);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(200, 20);

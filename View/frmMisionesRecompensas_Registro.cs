@@ -9,6 +9,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
+
+//TRABAJAR EL DATAGRIED VIEW
 namespace View
 {
     public partial class frmMisionesRecompensas_Registro : Form
@@ -16,6 +18,9 @@ namespace View
         public frmMisionesRecompensas_Registro()
         {
             InitializeComponent();
+            CargarTiposRecompensa();
+            ConfigureGrid();
+
             this.Shown += frmMisionesRegistradas_shown;
             dgvMisiones.CellClick += dgvMisiones_CellClick;
             dgvMisiones.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -24,6 +29,25 @@ namespace View
             dgvMisiones.DefaultCellStyle.SelectionBackColor = Color.FromArgb(57, 115, 92);
             dgvMisiones.DefaultCellStyle.SelectionForeColor = Color.White;
 
+        }
+        private void CargarTiposRecompensa()
+        {
+            TipoRecompensaController controller = new TipoRecompensaController();
+
+            cmbTipoRecompensa.DataSource = controller.ListarTipoRecompensa();
+            cmbTipoRecompensa.DisplayMember = "tipoRecompensa";
+            cmbTipoRecompensa.ValueMember = "id_TipoRecompensa";
+            cmbTipoRecompensa.SelectedIndex = -1;
+        }
+        private void ConfigureGrid()
+        {
+            dgvMisiones.AutoGenerateColumns = false;
+
+            colIdMision.DataPropertyName = "id_Mision";
+            colDescripcion.DataPropertyName = "descripcion";
+            colPuntaje.DataPropertyName = "puntaje";
+            colRecompensa.DataPropertyName = "descripcionRecompensa";
+            colTipoRecompensa.DataPropertyName = "tipoRecompensa";
         }
         public void RefreshTable()
         {
@@ -36,37 +60,11 @@ namespace View
         private void CargarMisiones()
         {
             MisionesController controller = new MisionesController();
-            // Si no escribió nada, mostrar todos
-            if (string.IsNullOrWhiteSpace(txtSearchId.Text))
-            {
-                var datos = controller.ViewAllMissions();
-                var datosGridTodos = datos.Select(x => new
-                {
-                    Id_Misión = x.Item1.id_Mision,
-                    Descripción = x.Item1.descripcion,
-                    Puntaje = x.Item1.puntaje,
-                    Recompensa = x.Item2,
-                    TipoRecompensa = x.Item3,
-
-                }).ToList();
-
-                // Vincular columnas del diseñador
-                colIdMision.DataPropertyName = "Id_Misión";
-                colDescripcion.DataPropertyName = "Descripción";
-                colPuntaje.DataPropertyName = "Puntaje";
-                colRecompensa.DataPropertyName = "Recompensa";
-                colTipoRecompensa.DataPropertyName = "TipoRecompensa";
-
-                dgvMisiones.AutoGenerateColumns = false;
-
-                dgvMisiones.DataSource = null;
-                dgvMisiones.DataSource = datosGridTodos;
-
-
-                return;
-            }
+            dgvMisiones.DataSource = controller.ListarMisionesData();
         }
+
         public int id_MisionSeleccionada = 0;
+        public int id_RecompensaSeleccionada = 0;
         private void dgvMisiones_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0)
@@ -88,134 +86,48 @@ namespace View
                 descripcion = fila.Cells[colDescripcion.Index].Value?.ToString() ?? "",
                 puntaje = (int)fila.Cells[colPuntaje.Index].Value,
             };
+
             // Llenar los campos
             txtDescripcionMision.Text = selectedMisiones.descripcion;
             nudPuntaje.Value = selectedMisiones.puntaje;
-            txtDescripcionRecompensa.Text = fila.Cells[colRecompensa.Index].Value?.ToString() ?? "";
 
             string descripcionRecompensa = fila.Cells[colRecompensa.Index].Value?.ToString() ?? "";
-            string tipoRecompensa = fila.Cells[colTipoRecompensa.Index].Value?.ToString() ?? "";
             txtDescripcionRecompensa.Text = descripcionRecompensa;
-            cmbTipoRecompensa.Text = tipoRecompensa;
 
-        }
-        private void grpRecompensa_Enter(object sender, EventArgs e)
-        {
 
-        }
-
-        private void dgvMisiones_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void grpMisiones_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtDescripcionRecompensa_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void frmMisionesRecompensas_Registro_Load(object sender, EventArgs e)
-        {
+            if (fila.DataBoundItem is DataRowView rowView)
+            {
+                id_RecompensaSeleccionada = Convert.ToInt32(rowView["id_Recompensa"]);
+                int idTipoRecompensa = Convert.ToInt32(rowView["id_TipoRecompensa"]);
+                cmbTipoRecompensa.SelectedValue = idTipoRecompensa;
+            }
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MisionesController controller = new MisionesController();
             if (string.IsNullOrWhiteSpace(txtSearchId.Text))
             {
                 CargarMisiones();
-            }
-            if (dgvMisiones.CurrentRow == null)
-            {
                 return;
             }
 
-            // Si escribió algo, validar que sea número
             if (!int.TryParse(txtSearchId.Text, out int id_Misión))
             {
+                MessageBox.Show("Ingresa un ID numérico válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            else
+
+            MisionesController controller = new MisionesController();
+            DataTable resultado = controller.BuscarMisionPorId(id_Misión);
+
+            if (resultado.Rows.Count == 0)
             {
-                var datos = controller.FindById(id_Misión);
-                var datosGridID = datos.Select(x => new
-                {
-                    Id_Misión = x.Item1.id_Mision,
-                    Descripción = x.Item1.descripcion,
-                    Puntaje = x.Item1.puntaje,
-                    Recompensa = x.Item2,
-                    TipoRecompensa = x.Item3,
-
-                }).ToList();
-
-                dgvMisiones.DataSource = null;
-                dgvMisiones.Columns.Clear();
-                dgvMisiones.AutoGenerateColumns = true;
-                dgvMisiones.DataSource = datosGridID;
-
-                dgvMisiones.AutoSizeColumnsMode =
-                    DataGridViewAutoSizeColumnsMode.Fill;
-                dgvMisiones.SelectionMode =
-                    DataGridViewSelectionMode.FullRowSelect;
-                dgvMisiones.RowHeadersVisible = false;
-
-                dgvMisiones.BackgroundColor = Color.White;
-                dgvMisiones.BorderStyle = BorderStyle.None;
-
-                dgvMisiones.CellBorderStyle =
-                    DataGridViewCellBorderStyle.SingleHorizontal;
-
-                dgvMisiones.ColumnHeadersHeight = 38;
-                dgvMisiones.RowTemplate.Height = 34;
-
-                dgvMisiones.Visible = true;
+                MessageBox.Show("No se encontró ninguna misión con ese ID.", "Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
-            // validamos que exista un usuario seleccionado
-            if (dgvMisiones.CurrentRow == null)
-            {
-                return;
-            }
-        }
-
-        private void pnlHeader_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgvMisiones_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void grpMision_Enter(object sender, EventArgs e)
-        {
-
+            dgvMisiones.DataSource = resultado;
+            
         }
 
         private void button11_Click(object sender, EventArgs e)
@@ -325,7 +237,121 @@ namespace View
 
         private void button9_Click(object sender, EventArgs e)
         {
-            dgvMisiones.ClearSelection();
+            try
+            {
+                if (id_MisionSeleccionada == 0 || id_RecompensaSeleccionada == 0)
+                {
+                    MessageBox.Show("Selecciona una misión primero.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtDescripcionMision.Text) || string.IsNullOrWhiteSpace(txtDescripcionRecompensa.Text))
+                {
+                    MessageBox.Show("Completa todos los campos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (cmbTipoRecompensa.SelectedValue == null)
+                {
+                    MessageBox.Show("Seleccione un tipo de recompensa.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (nudPuntaje.Value == 0)
+                {
+                    MessageBox.Show("No se puede actualizar una misión sin puntaje", "Validación de información", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                MisionesEntidad mision = new MisionesEntidad()
+                {
+                    id_Mision = id_MisionSeleccionada,
+                    descripcion = txtDescripcionMision.Text,
+                    puntaje = (int)nudPuntaje.Value
+                };
+
+                RecompensaEntidad recompensa = new RecompensaEntidad()
+                {
+                    id_Recompensa = id_RecompensaSeleccionada,
+                    descripcionRecompensa = txtDescripcionRecompensa.Text,
+                    id_TipoRecompensa = Convert.ToInt32(cmbTipoRecompensa.SelectedValue)
+                };
+
+                MisionesController controller = new MisionesController();
+                RecompensaController recompensaController = new RecompensaController();
+
+                controller.UpdateMission(mision);
+                recompensaController.UpdateReward(recompensa);
+
+                MessageBox.Show("Registro actualizado correctamente", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                RefreshTable();
+                dgvMisiones.ClearSelection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+        private void grpRecompensa_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvMisiones_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void grpMisiones_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtDescripcionRecompensa_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void frmMisionesRecompensas_Registro_Load(object sender, EventArgs e)
+        {
+
+        }
+        private void pnlHeader_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvMisiones_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void grpMision_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+
     }
+
 }

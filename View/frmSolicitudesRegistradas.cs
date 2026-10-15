@@ -8,6 +8,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
+
+//TRABAJAR EL DATAGRIEDVIEW
 namespace View
 {
     public partial class frmSolicitudesRegistradas : Form
@@ -15,6 +17,7 @@ namespace View
         public frmSolicitudesRegistradas()
         {
             InitializeComponent();
+            ConfigureGrid();
             this.Shown += frmUsuarioRegistrados_shown;
             dgvSolicitudes.CellClick += dgvSolicitudes_CellClick;
             dgvSolicitudes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -26,6 +29,19 @@ namespace View
             dgvSolicitudes.DefaultCellStyle.SelectionBackColor = Color.FromArgb(57, 115, 92);
             dgvSolicitudes.DefaultCellStyle.SelectionForeColor = Color.White;
 
+        }
+
+        private void ConfigureGrid()
+        {
+            dgvSolicitudes.AutoGenerateColumns = false;
+
+            colIdSolicitud.DataPropertyName = "id_Solicitud";
+            colEstado.DataPropertyName = "estado_Solicitud";
+            colFechaSolicitud.DataPropertyName = "fecha_Solicitud";
+            colFechaResolucion.DataPropertyName = "fecha_Resolucion";
+            colNombreUsuario.DataPropertyName = "nombre_Usuario";
+            colTipoSitio.DataPropertyName = "tipoSitio";
+            colDireccion.DataPropertyName = "direccion";
         }
         private long idSolicitudSeleccionada = 0;
         private void dgvSolicitudes_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -95,13 +111,15 @@ namespace View
         {
             CargarUsuarios();
         }
-        private void CargarUsuarios()
+        private void CargarUsuarios() //---
         {
             SolicitudesController controller = new SolicitudesController();
-            // Si no escribió nada, mostrar todos
+            dgvSolicitudes.DataSource = controller.ListarSolicitudes();
+           
+            /* Si no escribió nada, mostrar todos
             if (string.IsNullOrWhiteSpace(txtBuscarId.Text))
             {
-                var datos = controller.ViewAllRequest();
+                var datos = controller.ListarSolicitudes();
                 var datosGridTodos = datos.Select(x => new
                 {
                     Id = x.Item1.id_Solicitud,
@@ -129,69 +147,33 @@ namespace View
 
 
                 return;
-            }
+            */
+          
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            SolicitudesController controller = new SolicitudesController();
             if (string.IsNullOrWhiteSpace(txtBuscarId.Text))
             {
                 CargarUsuarios();
-            }
-            if (dgvSolicitudes.CurrentRow == null)
-            {
-                MessageBox.Show("Seleccione un usuario primero.");
                 return;
             }
 
-            // Si escribió algo, validar que sea número
             if (!long.TryParse(txtBuscarId.Text, out long id_Solicitud))
             {
+                MessageBox.Show("Ingresa un ID numérico válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            else
+
+            SolicitudesController controller = new SolicitudesController();
+            DataTable resultado = controller.BuscarSolicitudPorId(id_Solicitud);
+
+            if (resultado.Rows.Count == 0)
             {
-                var datos = controller.ViewRequestByID(id_Solicitud);
-                var datosGrid = datos.Select(x => new
-                {
-                    Id = x.Item1.id_Solicitud,
-                    Estado = x.Item1.estado_Solicitud,
-                    FechaSolicitud = x.Item1.fecha_Solicitud,
-                    FechaResolucion = x.Item1.fecha_Resolucion,
-                    NombreUsuario = x.Item2,
-                    TipoSitio = x.Item3,
-                    Direccion = x.Item4
-                }).ToList();
-
-                dgvSolicitudes.DataSource = null;
-                dgvSolicitudes.Columns.Clear();
-                dgvSolicitudes.AutoGenerateColumns = true;
-                dgvSolicitudes.DataSource = datosGrid;
-
-                dgvSolicitudes.AutoSizeColumnsMode =
-                    DataGridViewAutoSizeColumnsMode.Fill;
-                dgvSolicitudes.SelectionMode =
-                    DataGridViewSelectionMode.FullRowSelect;
-                dgvSolicitudes.RowHeadersVisible = false;
-
-                dgvSolicitudes.BackgroundColor = Color.White;
-                dgvSolicitudes.BorderStyle = BorderStyle.None;
-
-                dgvSolicitudes.CellBorderStyle =
-                    DataGridViewCellBorderStyle.SingleHorizontal;
-
-                dgvSolicitudes.ColumnHeadersHeight = 38;
-                dgvSolicitudes.RowTemplate.Height = 34;
-
-                dgvSolicitudes.Visible = true;
+                MessageBox.Show("No se encontró ninguna solicitud con ese ID.", "Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
-            // validamos que exista un usuario seleccionado
-            if (dgvSolicitudes.CurrentRow == null)
-            {
-                return;
-            }
+            dgvSolicitudes.DataSource = resultado;
         }
         private void button3_Click_1(object sender, EventArgs e)
         {
@@ -296,7 +278,7 @@ namespace View
             {
                 // Eliminar solicitud
                 // Eliminamos el id de la tabla multimedia para evitar las dependencias de llaves foráneas de cada tabla
-                new MultimediaController().DeleteMultimedia(idSolicitudSeleccionada);
+                new MultimediaController().DeleteMultimedia_ByRequest(idSolicitudSeleccionada);
                 new SolicitudesController().DeleteRequest(idSolicitudSeleccionada);
                 MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -329,63 +311,110 @@ namespace View
 
         private void button9_Click(object sender, EventArgs e)
         {
-            bool Update;
-            if (cmbEstado.SelectedIndex == -1)
+            try
             {
-                MessageBox.Show("No se pueden realizar cambios debido a que no se ha actualizado el estado de la solicitud");
-                return;
+                if (cmbEstado.SelectedIndex == -1)
+                {
+                    MessageBox.Show("No se pueden realizar cambios debido a que no se ha actualizado el estado de la solicitud");
+                    return;
+                }
+
+                if (dgvSolicitudes.CurrentRow == null)
+                {
+                    MessageBox.Show("Selecciona una solicitud primero.");
+                    return;
+                }
+
+                // Obtener el id_Solicitud de la fila seleccionada
+                long idSolicitud = Convert.ToInt64(dgvSolicitudes.CurrentRow.Cells[colIdSolicitud.Index].Value);
+
+                string newStateRequest = cmbEstado.Text.Trim();
+
+                var question = MessageBox.Show("¿Estás seguros que deseas realizar cambios en la información de la solicitud?","Actualización de datos",MessageBoxButtons.OKCancel,MessageBoxIcon.Question);
+
+                if (question != DialogResult.OK)
+                    return;
+
+                if (newStateRequest == "Pendiente")
+                {
+                    MessageBox.Show("No se realizaron cambios en el estado de la solicitud", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                else if (newStateRequest == "Rechazada")
+                {
+                    MessageBox.Show("Solicitud rechazada dentro del sistema  ❌", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Solicitud aprobada en el sistema ✅", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                SolicitudesController controller = new SolicitudesController();
+                controller.UpdateRequest(idSolicitud, newStateRequest);
+
+                MessageBox.Show("Registro actualizado correctamente", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Refrescar el DataGridView
+                RefreshTable();
             }
-
-            //string newStateRequest = string.Empty;
-            if (cmbEstado.SelectedIndex >= 0)
+            catch (Exception ex)
             {
-                try
-                {
-                    var question = MessageBox.Show("¿Estás seguros que deseas realizar cambios en la información de la solicitud?", "Actualización de datos",
-                        MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-
-                    if (question == DialogResult.OK)
-                    {
-                        string newStateRequest = cmbEstado.Text.Trim();
-                        if (newStateRequest == "Pendiente")
-                        {
-                            MessageBox.Show("No se realizaron cambios en el estado de la solicitud", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        else if (newStateRequest == "Rechazada")
-                        {
-                            MessageBox.Show("Solicitud rechazada dentro del sistema  ❌", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            Update = new SolicitudesController().UpdateRequest(idSolicitudSeleccionada, newStateRequest);
-
-                            if (Update)
-                            {
-                                MessageBox.Show("El estado de la solicitud ha sido actualizado" +
-                                    $"Solicitud: {newStateRequest}");
-                                RefreshTable();
-                            }
-                            return;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Solicitud aprobada en el sistema ✅", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                            Update = new SolicitudesController().UpdateRequest(idSolicitudSeleccionada, newStateRequest);
-
-                            if (Update)
-                            {
-                                MessageBox.Show("El estado de la solicitud ha sido actualizado" +
-                                    $"Solicitud: {newStateRequest}");
-                                RefreshTable();
-                            }
-                        }      
-                        
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Error al actualizar la solicitud: " + ex.Message);
-                }
+                MessageBox.Show("Error al actualizar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        /*if (cmbEstado.SelectedIndex == -1)
+        {
+            MessageBox.Show("No se pueden realizar cambios debido a que no se ha actualizado el estado de la solicitud");
+            return;
+        }
+
+        //string newStateRequest = string.Empty;
+        if (cmbEstado.SelectedIndex >= 0)
+        {
+            try
+            {
+                var question = MessageBox.Show("¿Estás seguros que deseas realizar cambios en la información de la solicitud?", "Actualización de datos",
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+                if (question == DialogResult.OK)
+                {
+                    string newStateRequest = cmbEstado.Text.Trim();
+                    if (newStateRequest == "Pendiente")
+                    {
+                        MessageBox.Show("No se realizaron cambios en el estado de la solicitud", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (newStateRequest == "Rechazada")
+                    {
+                        MessageBox.Show("Solicitud rechazada dentro del sistema  ❌", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        new SolicitudesController().UpdateRequest(idSolicitudSeleccionada, newStateRequest);
+
+                            MessageBox.Show("El estado de la solicitud ha sido actualizado" +
+                                $"Solicitud: {newStateRequest}");
+                            RefreshTable();
+
+                        return;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Solicitud aprobada en el sistema ✅", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        new SolicitudesController().UpdateRequest(idSolicitudSeleccionada, newStateRequest);
+
+                            MessageBox.Show("El estado de la solicitud ha sido actualizado" +
+                                $"Solicitud: {newStateRequest}");
+                            RefreshTable();
+
+                    }      
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al actualizar la solicitud: " + ex.Message);
+            }
+        }*/
     }
+    
 }
+

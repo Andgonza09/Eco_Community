@@ -77,6 +77,7 @@
             // 
             linkLabel2.AutoSize = true;
             linkLabel2.Font = new Font("Segoe UI Historic", 9F, FontStyle.Bold);
+            linkLabel2.LinkColor = Color.Navy;
             linkLabel2.Location = new Point(224, 180);
             linkLabel2.Name = "linkLabel2";
             linkLabel2.Size = new Size(272, 20);
@@ -89,6 +90,7 @@
             // 
             linkLabel1.AutoSize = true;
             linkLabel1.Font = new Font("Segoe UI Historic", 9F, FontStyle.Bold);
+            linkLabel1.LinkColor = Color.Navy;
             linkLabel1.Location = new Point(249, 323);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(130, 20);

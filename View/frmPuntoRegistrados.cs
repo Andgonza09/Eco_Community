@@ -344,7 +344,7 @@ namespace View
                 long id_Solicitud = new SolicitudesController().GetID_Solicitud(informacionSitio.id_InformacionSitio);
 
                 // Eliminación de archivos asociados con la solicitud del usuario.
-                new MultimediaController().DeleteMultimedia(id_Solicitud);
+                new MultimediaController().DeleteMultimedia_ByRequest(id_Solicitud);
 
                 // Eliminación de solicitudes asociadas con el sitio 
                 new SolicitudesController().DeletebyInformacionSitio(informacionSitio.id_InformacionSitio);
@@ -400,7 +400,6 @@ namespace View
                     MessageBox.Show("Cambios realizados correctamente", "Validación de información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RefreshTable();
                 }
-
             }
         }
         private void btnClean_Click(object sender, EventArgs e)
@@ -498,7 +497,7 @@ namespace View
                 long id_Solicitud = new SolicitudesController().GetID_Solicitud(informacionSitio.id_InformacionSitio);
 
                 // Eliminación de archivos asociados con la solicitud del usuario.
-                new MultimediaController().DeleteMultimedia(id_Solicitud);
+                new MultimediaController().DeleteMultimedia_ByRequest(id_Solicitud);
 
                 // Eliminación de solicitudes asociadas con el sitio 
                 new SolicitudesController().DeletebyInformacionSitio(informacionSitio.id_InformacionSitio);

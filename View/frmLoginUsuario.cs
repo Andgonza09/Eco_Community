@@ -130,7 +130,7 @@ namespace View
             {
                 if ((txtEmail.Text == "administrador123_andres@gmail.com" && txtPassword.Text == "Admin123Andres") ||
                     (txtEmail.Text == "administrador456_joshua@gmail.com" && txtPassword.Text == "Admin456Joshua") ||
-                    (txtEmail.Text == "administrador789_bryan@gmail.com" && txtPassword.Text == "Admin789Bryan"))
+                    (txtEmail.Text == "administrador789_bryan@gmail.com" && txtPassword.Text == "Admin789Bryan") || userLogin.id_Roles == 1)
                 {
                     MessageBox.Show("Bienvenido Admin", "Verificación de usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Hide();
@@ -154,6 +154,7 @@ namespace View
                     frmPerfilUsuario profileView = new frmPerfilUsuario(userLogin, containerForm, username, txtPassword.Text);
                     frmSolicitudes frmSolicitudes = new frmSolicitudes(userLogin.id_Usuario);
                     frmInformacionSitios frmBeta = new frmInformacionSitios(userLogin, userLogin.id_Usuario);
+                    frmMultimedia_Evidencias multimediaView = new frmMultimedia_Evidencias(userLogin.id_Usuario);
                     //frmInformacionSitio frmInformacion = new frmInformacionSitio(userLogin);
 
                     // Mostramos el formulario principal
