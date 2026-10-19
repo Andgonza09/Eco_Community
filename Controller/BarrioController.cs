@@ -30,26 +30,7 @@ namespace Controller
 
             cx.Close();
         }
-        public string ObtenerNombreBarrio(int idBarrio)
-        {
-            try
-            {
-                SqlConnection cx = conexion.ObtenerConexion();
 
-                string sql = @"SELECT nombre_barrio FROM Barrio WHERE id_barrio = @IdBarrio";
-
-                SqlCommand cmd = new SqlCommand(sql, cx);
-                cmd.Parameters.AddWithValue("@IdBarrio", idBarrio);
-
-                object resultado = cmd.ExecuteScalar();
-
-                return resultado?.ToString();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener el barrio: " + ex.Message);
-            }
-        }
         public DataTable ListarBarriosPorDistrito(int id_Distrito)
         {
             try
@@ -149,6 +130,27 @@ namespace Controller
                 SqlCommand cmd = new SqlCommand(sql, cx);
 
                 cmd.Parameters.AddWithValue("@id_Barrio", id_Barrio);
+
+                cx.Open();
+                cmd.ExecuteNonQuery();
+                cx.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al eliminar el barrio: " + ex.Message, ex);
+            }
+        }
+        public void Delete_byDistritoId(int id_Distrito)
+        {
+            try
+            {
+                SqlConnection cx = conexion.ObtenerConexion();
+
+                string sql = @"DELETE FROM Barrio WHERE id_Distrito = @id_Distrito";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cmd.Parameters.AddWithValue("@id_Distrito", id_Distrito);
 
                 cx.Open();
                 cmd.ExecuteNonQuery();

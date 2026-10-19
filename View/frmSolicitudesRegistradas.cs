@@ -111,43 +111,10 @@ namespace View
         {
             CargarUsuarios();
         }
-        private void CargarUsuarios() //---
+        private void CargarUsuarios() 
         {
             SolicitudesController controller = new SolicitudesController();
             dgvSolicitudes.DataSource = controller.ListarSolicitudes();
-           
-            /* Si no escribió nada, mostrar todos
-            if (string.IsNullOrWhiteSpace(txtBuscarId.Text))
-            {
-                var datos = controller.ListarSolicitudes();
-                var datosGridTodos = datos.Select(x => new
-                {
-                    Id = x.Item1.id_Solicitud,
-                    Estado = x.Item1.estado_Solicitud,
-                    FechaSolicitud = x.Item1.fecha_Solicitud,
-                    FechaResolucion = x.Item1.fecha_Resolucion,
-                    NombreUsuario = x.Item2,
-                    TipoSitio = x.Item3,
-                    Direccion = x.Item4
-                }).ToList();
-
-                // Vincular columnas del diseñador
-                colIdSolicitud.DataPropertyName = "Id";
-                colEstado.DataPropertyName = "Estado";
-                colFechaSolicitud.DataPropertyName = "FechaSolicitud";
-                colFechaResolucion.DataPropertyName = "FechaResolucion";
-                colNombreUsuario.DataPropertyName = "NombreUsuario";
-                colTipoSitio.DataPropertyName = "TipoSitio";
-                colDireccion.DataPropertyName = "Direccion";
-
-                dgvSolicitudes.AutoGenerateColumns = false;
-
-                dgvSolicitudes.DataSource = null;
-                dgvSolicitudes.DataSource = datosGridTodos;
-
-
-                return;
-            */
           
         }
 
@@ -277,10 +244,30 @@ namespace View
             if (resultado == DialogResult.OK)
             {
                 // Eliminar solicitud
+
+                // Obtenemos la información del sitio
+                InformacionSitioEntidad informacionSitio = new InformacionSitioEntidad();
+                long idInformacionSitio = new SolicitudesController().ObtenerIdDelSitio_ByRequest(idSolicitudSeleccionada);
+
+                // Eliminar detalles de clasificación
+                DetalleClasificacionSitioController detalleClasificacion = new DetalleClasificacionSitioController();
+                detalleClasificacion.DeleteDetailsClasificacion(idInformacionSitio, detalleClasificacion.GetIds_CatalogoResiduosByInformacion(idInformacionSitio));
+
+                // Eliminar detalles del sitio
+                DetalleSitiosController detalleSitio = new DetalleSitiosController();
+                detalleSitio.Delete(idInformacionSitio);
+
                 // Eliminamos el id de la tabla multimedia para evitar las dependencias de llaves foráneas de cada tabla
                 new MultimediaController().DeleteMultimedia_ByRequest(idSolicitudSeleccionada);
+                
                 new SolicitudesController().DeleteRequest(idSolicitudSeleccionada);
                 MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+                // Eliminación de informacion del sitio.
+                InformacionSitioController informacionSitioController = new InformacionSitioController();
+                informacionSitioController.DeleteInformacion(informacionSitio, idInformacionSitio);
+
 
                 RefreshTable();
             }
@@ -362,58 +349,6 @@ namespace View
                 MessageBox.Show("Error al actualizar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        /*if (cmbEstado.SelectedIndex == -1)
-        {
-            MessageBox.Show("No se pueden realizar cambios debido a que no se ha actualizado el estado de la solicitud");
-            return;
-        }
-
-        //string newStateRequest = string.Empty;
-        if (cmbEstado.SelectedIndex >= 0)
-        {
-            try
-            {
-                var question = MessageBox.Show("¿Estás seguros que deseas realizar cambios en la información de la solicitud?", "Actualización de datos",
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-
-                if (question == DialogResult.OK)
-                {
-                    string newStateRequest = cmbEstado.Text.Trim();
-                    if (newStateRequest == "Pendiente")
-                    {
-                        MessageBox.Show("No se realizaron cambios en el estado de la solicitud", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else if (newStateRequest == "Rechazada")
-                    {
-                        MessageBox.Show("Solicitud rechazada dentro del sistema  ❌", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        new SolicitudesController().UpdateRequest(idSolicitudSeleccionada, newStateRequest);
-
-                            MessageBox.Show("El estado de la solicitud ha sido actualizado" +
-                                $"Solicitud: {newStateRequest}");
-                            RefreshTable();
-
-                        return;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Solicitud aprobada en el sistema ✅", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                        new SolicitudesController().UpdateRequest(idSolicitudSeleccionada, newStateRequest);
-
-                            MessageBox.Show("El estado de la solicitud ha sido actualizado" +
-                                $"Solicitud: {newStateRequest}");
-                            RefreshTable();
-
-                    }      
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al actualizar la solicitud: " + ex.Message);
-            }
-        }*/
     }
     
 }

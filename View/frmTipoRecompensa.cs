@@ -156,9 +156,28 @@ namespace View
 
             try
             {
+                // 1. Obtener los ids de las misiones (la recompensa aún existe)
+                List<int> idS_Mision = new MisionesController().ObtenerIds_AsociadoTipoRecompensa(id);
+
+                // 2. Eliminar los detalles de usuarios de esas misiones
+                foreach (int id_Mision in idS_Mision)
+                {
+                    new Detalle_MisionController().DeleteByMission(id_Mision);
+                }
+                // 3. Eliminar la recompensa (la que une tipo y misión)
+                new RecompensaController().DeleteByTipoRecompensaID(id);
+
+                // 4. Eliminar las misiones, ahora por la lista de ids
+                foreach (int id_Mision in idS_Mision)
+                {
+                    new MisionesController().DeleteMission(id_Mision);   // método por id_Mision
+                }
+
+                // 5. Eliminar el tipo
                 controller.Delete(id);
 
-                MessageBox.Show("Tipo de recompensa eliminado correctamente.", "Eliminación exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Tipo de recompensa eliminado correctamente.", "Eliminación exitosa",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 LimpiarCampos();
                 ListarTipoRecompensa();

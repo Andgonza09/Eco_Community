@@ -51,7 +51,7 @@ namespace View
                 {
                     nombre_Usuario = txtUsername.Text.Trim(),
                     contraseña_Usuario = txtPassword.Text.Trim(),
-                    correo_Usuario = txtEmail.Text.Trim(),
+                    correo_Usuario = txtEmail.Text.ToLower(),
                     fecha_Registro = DateOnly.FromDateTime(DateTime.Now),
                 };
 
@@ -82,6 +82,7 @@ namespace View
                         frmMenúPrincipal userStartView = new frmMenúPrincipal(userRegister, txtUsername.Text.Trim(), txtPassword.Text.Trim());
                         frmPerfilUsuario profileView = new frmPerfilUsuario(userRegister, containerForm, txtUsername.Text.Trim(), txtPassword.Text.Trim());
                         frmInformacionSitios informationView = new frmInformacionSitios(userRegister, id_Usuario);
+                        frmMisiones frmMisiones = new frmMisiones(userRegister.id_Usuario);
                         frmMultimedia_Evidencias multimediaView = new frmMultimedia_Evidencias(userRegister.id_Usuario);
 
                         containerForm.Show();
@@ -119,10 +120,10 @@ namespace View
         {
             UsuarioEntidad userRegister = new UsuarioEntidad();
             UsuarioController usuario = new UsuarioController();
-            usuario.BuscarUsuario(txtEmail.Text.Trim(), txtPassword.Text.Trim());
+            usuario.BuscarUsuario(txtEmail.Text.ToLower(), txtPassword.Text.Trim());
 
             this.Hide();
-            frmLoginUsuario loginForm = new frmLoginUsuario(userRegister, txtEmail.Text.Trim(), txtPassword.Text.Trim());
+            frmLoginUsuario loginForm = new frmLoginUsuario(userRegister, txtEmail.Text.ToLower(), txtPassword.Text.Trim());
             loginForm.Show();
         }
         private void RegisterView_Load(object sender, EventArgs e)

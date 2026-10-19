@@ -61,16 +61,11 @@ namespace Controller
 
             try
             {
-                string sql = @"
-            DELETE FROM Multimedia
-            WHERE id_Multimedia = @idMultimedia";
+                string sql = @"DELETE FROM Multimedia WHERE id_Multimedia = @idMultimedia";
 
                 SqlCommand cmd = new SqlCommand(sql, cx);
 
-                cmd.Parameters.AddWithValue(
-                    "@idMultimedia",
-                    idMultimedia
-                );
+                cmd.Parameters.AddWithValue("@idMultimedia", idMultimedia);
 
                 cx.Open();
                 cmd.ExecuteNonQuery();
@@ -84,6 +79,58 @@ namespace Controller
                 );
             }
         }
+        // Método para eliminar la multimedia mediante el id del usuario relacionado con las solicitudes
+        public void DeleteMultimedia_PorUsuario(long id_Usuario)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+
+            try
+            {
+                string sql = @"DELETE M FROM Multimedia AS M INNER JOIN Solicitudes AS S ON S.id_Solicitud = M.id_Solicitud
+                INNER JOIN Usuario AS U ON U.id_Usuario = S.id_UsuarioEstandar WHERE U.id_Usuario = @id_Usuario";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cmd.Parameters.AddWithValue("@id_Usuario", id_Usuario);
+
+                cx.Open();
+                cmd.ExecuteNonQuery();
+                cx.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    "Error al eliminar el archivo multimedia: "
+                    + ex.Message
+                );
+            }
+        }
+
+        public void DeleteMultimedia_PorExtension(int id_Extension)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+
+            try
+            {
+                string sql = @"DELETE FROM Multimedia WHERE id_Extension = @idExtension";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cmd.Parameters.AddWithValue("@idExtension", id_Extension);
+
+                cx.Open();
+                cmd.ExecuteNonQuery();
+                cx.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    "Error al eliminar el archivo multimedia: "
+                    + ex.Message
+                );
+            }
+        }
+
         public void UpdateMultimedia(long id_Multimedia, string nombre_Archivo, string ruta_Archivo, string tamañonArchivo, int extension, DateOnly fecha_Adjunción)
         {
             SqlConnection cx = conexion.ObtenerConexion();

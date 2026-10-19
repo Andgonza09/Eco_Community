@@ -276,13 +276,37 @@ namespace View
 
             if (resultado == DialogResult.OK)
             {
+                // Obtener el id del sitio asociado a la información y a las solicitudes enviadas
+                SolicitudesController solicitudesController = new SolicitudesController();
+
+                InformacionSitioEntidad informacionSitio = new InformacionSitioEntidad();
+                long id_InformacionSitio = solicitudesController.ObtenerIdDelSitio_ByRequest(id_Solicitud);
+
+                if (id_InformacionSitio <= 0)
+                {
+                    MessageBox.Show("No se encontró el sitio asociado.");
+                    return;
+                }
+
                 // Eliminamos el id de la tabla multimedia para evitar las dependencias de llaves foráneas de cada tabla
                 new MultimediaController().DeleteMultimedia_ByRequest(id_Solicitud);
 
                 // Demás métodos de eliminación de información
+                solicitudesController.DeleteRequest(id_Solicitud);
 
+                // Eliminación de Detalles del sitio
+                new DetalleSitiosController().Delete(id_InformacionSitio);
 
-                new SolicitudesController().DeleteRequest(id_Solicitud);
+                // Eliminación de los detalles de clasificación del sitio.
+                DetalleClasificacionSitioController detalleClasificacionSitio = new DetalleClasificacionSitioController();
+                List<int> ListaResiduos = detalleClasificacionSitio.GetIds_CatalogoResiduosByInformacion(id_InformacionSitio);
+
+                detalleClasificacionSitio.DeleteDetailsClasificacion(id_InformacionSitio, ListaResiduos);
+
+                // Eliminación de la información del sitio 
+                InformacionSitioController informacionSitioController = new InformacionSitioController();
+                informacionSitioController.DeleteInformacion(informacionSitio, id_InformacionSitio);
+
                 MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Avisar al formulario principal

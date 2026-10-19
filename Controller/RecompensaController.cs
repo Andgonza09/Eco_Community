@@ -103,6 +103,25 @@ namespace Controller
                 throw new Exception("Error al eliminar la recompensa: " + ex.Message);
             }
         }
+        public void DeleteByTipoRecompensaID(int id_TipoRecompensa)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"DELETE FROM Recompensa WHERE id_TipoRecompensa = @id_Tipo";
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cmd.Parameters.AddWithValue("@id_Tipo", id_TipoRecompensa);
+                cx.Open();
+                cmd.ExecuteNonQuery();
+                cx.Close();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al realizar la eliminación del detalle de la misión: " + ex.Message);
+            }
+        }
         public DataTable ListarRecompensas()
         {
             SqlConnection cx = conexion.ObtenerConexion();

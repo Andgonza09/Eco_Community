@@ -487,12 +487,13 @@
             btnSearch.Size = new Size(48, 48);
             btnSearch.TabIndex = 3;
             btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += btnSearch_Click;
             // 
             // txtSearchId
             // 
             txtSearchId.Location = new Point(10, 12);
             txtSearchId.Name = "txtSearchId";
-            txtSearchId.PlaceholderText = "Ingresa el nombre del barrio que deseas buscar";
+            txtSearchId.PlaceholderText = "Ingresa el id del barrio que desea buscar";
             txtSearchId.Size = new Size(389, 27);
             txtSearchId.TabIndex = 2;
             // 

@@ -148,12 +148,14 @@ namespace View
                     MessageBox.Show("Login exitoso", "Verificación de información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // Si el login es exitoso, ocultamos este formulario y así mismo, mandar los valores obtenidos del usuario a formularios que
-                    // necesiten dicha información (Mostrar label el nombre, o bien poner tener contenedores con dichos valores
+                    // necesiten dicha información (Mostrar label el nombre, o bien poder tener contenedores con dichos valores
                     this.Hide();
                     frmContainer containerForm = new frmContainer(userLogin, userLogin.id_Usuario, username, txtPassword.Text);
                     frmPerfilUsuario profileView = new frmPerfilUsuario(userLogin, containerForm, username, txtPassword.Text);
                     frmSolicitudes frmSolicitudes = new frmSolicitudes(userLogin.id_Usuario);
                     frmInformacionSitios frmBeta = new frmInformacionSitios(userLogin, userLogin.id_Usuario);
+
+                    frmMisiones frmMisiones = new frmMisiones(userLogin.id_Usuario);
                     frmMultimedia_Evidencias multimediaView = new frmMultimedia_Evidencias(userLogin.id_Usuario);
                     //frmInformacionSitio frmInformacion = new frmInformacionSitio(userLogin);
 

@@ -23,26 +23,34 @@ namespace View
         private long _idUsuario;
         public frmInformacionSitios(UsuarioEntidad user, long id_Usuario)
         {
-             InitializeComponent();
-
-             LoadTypeWaste();
-             this.Shown += frmSolicitudesRegistradas_Shown;
-             this.Load += frmBeta_Load;
+            InitializeComponent();
 
 
-             LoadDistrict();
-             _idUsuario = id_Usuario;
-             _user = user;
+            cmbNeighborhood.SelectedIndexChanged -= cmbNeighborhood_SelectedIndexChanged;
+            cmbDistrict.SelectedIndexChanged -= cmbDistrict_SelectedIndexChanged_1;
 
-             dataGridView1.CellClick += dataGridView1_CellClick;
-             dataGridView1.SelectionChanged += dataGridView1_SelectionChanged_1;
-             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-             dataGridView1.MultiSelect = false;
-             dataGridView1.ReadOnly = true;
-             dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-             dataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromArgb(57, 115, 92);
-             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.White;
-             dataGridView1.DataSource = new SolicitudesController().ListarSolicitudes();
+            // Mantener únicamente el cambio manual de distrito
+            cmbDistrict.SelectionChangeCommitted -= cmbDistrict_SelectionChangeCommitted;
+            cmbDistrict.SelectionChangeCommitted += cmbDistrict_SelectionChangeCommitted;
+
+            LoadTypeWaste();
+            this.Shown += frmSolicitudesRegistradas_Shown;
+            this.Load += frmBeta_Load;
+
+
+            LoadDistrict();
+            _idUsuario = id_Usuario;
+            _user = user;
+
+            dataGridView1.CellClick += dataGridView1_CellClick;
+            dataGridView1.SelectionChanged += dataGridView1_SelectionChanged_1;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.MultiSelect = false;
+            dataGridView1.ReadOnly = true;
+            dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromArgb(57, 115, 92);
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.White;
+            dataGridView1.DataSource = new SolicitudesController().ListarSolicitudes();
 
         }
         private void frmSolicitudesRegistradas_Shown(object? sender, EventArgs e)
@@ -98,7 +106,7 @@ namespace View
                 ckListTypeWaste.DataSource = listWaste;
                 ckListTypeWaste.DisplayMember = "tipoResiduo";
                 ckListTypeWaste.ValueMember = "id_CatalogoResiduos";
-                
+
             }
             catch (Exception ex)
             {
@@ -175,7 +183,7 @@ namespace View
                 cmbDistrict.SelectedIndex == -1 || listViewFile.Items.Count == 0 ||
                 ckListTypeWaste.CheckedItems.Count == 0)
             {
-                MessageBox.Show( "Complete todos los campos para enviar la solicitud.", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Complete todos los campos para enviar la solicitud.", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
@@ -309,24 +317,22 @@ namespace View
         }
         private int ObtenerIdExtension(string extension)
         {
-            extension = extension.ToLower();
+            ExtensionController controller = new ExtensionController();
+            DataTable dt = controller.ObtenerExtensiones();
 
-            if (extension == ".png")
-                return 1;
+            foreach (DataRow fila in dt.Rows)
+            {
+                string extensionBD = fila["tipo_Extension"].ToString();
 
-            if (extension == ".jpeg")
-                return 2;
+                if (extensionBD.Trim().TrimStart('.')
+                    .Equals(extension.Trim().TrimStart('.'),
+                            StringComparison.OrdinalIgnoreCase))
+                {
+                    return Convert.ToInt32(fila["id_Extension"]);
+                }
+            }
 
-            if (extension == ".jpg")
-                return 3;
-
-            if (extension == ".pdf")
-                return 4;
-
-            if (extension == ".mp4")
-                return 5;
-
-            return 0;
+            throw new Exception("La extensión no existe en la base de datos: " + extension);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -472,15 +478,13 @@ namespace View
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0)
-             return;
+                return;
 
-           
-
-             try
-             {
-                 // Seleccionar toda la fila
-                 dataGridView1.ClearSelection();
-                 dataGridView1.Rows[e.RowIndex].Selected = true;
+            try
+            {
+                // Seleccionar toda la fila
+                dataGridView1.ClearSelection();
+                dataGridView1.Rows[e.RowIndex].Selected = true;
 
                 // Obtener el ID de la solicitud
                 object valorId = dataGridView1.Rows[e.RowIndex].Cells["id_Solicitud"].Value;
@@ -491,60 +495,58 @@ namespace View
                 idSolicitudSeleccionada = Convert.ToInt64(valorId);
 
                 // Obtener el ID de la información del sitio
-                SolicitudesController solicitudController =new SolicitudesController();
+                SolicitudesController solicitudController = new SolicitudesController();
 
-                 long idInformacionSitio = solicitudController.GetIdInformacionSitio(idSolicitudSeleccionada);
+                long idInformacionSitio = solicitudController.ObtenerIdDelSitio_ByRequest(idSolicitudSeleccionada);
 
-                 if (idInformacionSitio <= 0)
-                 {
-                     MessageBox.Show("No se encontró la información del sitio.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                     return;
-                 }
+                if (idInformacionSitio <= 0)
+                {
+                    MessageBox.Show("No se encontró la información del sitio.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
-                 // Obtener información del sitio
-                 InformacionSitioController informacionController = new InformacionSitioController();
+                // Obtener información del sitio
+                InformacionSitioController informacionController = new InformacionSitioController();
 
-                 InformacionSitioEntidad informacion = informacionController.GetInformacionById(idInformacionSitio);
+                InformacionSitioEntidad informacion = informacionController.GetInformacionById(idInformacionSitio);
 
-                 // Cargar tipo de sitio
-                 cmbTypeSite.Text = informacion.tipoSitio;
+                // Cargar tipo de sitio
+                cmbTypeSite.Text = informacion.tipoSitio;
 
-                 // Cargar dirección
-                 rchtxtAddress.Text = informacion.direccion;
+                // Cargar dirección
+                rchtxtAddress.Text = informacion.direccion;
 
-                 // Obtener el barrio
-                 BarrioController barrioController = new BarrioController();
-                 BarrioEntidad barrio = barrioController.GetBarrioById(informacion.id_Barrio);
+                // Obtener el barrio
+                BarrioController barrioController = new BarrioController();
+                BarrioEntidad barrio = barrioController.GetBarrioById(informacion.id_Barrio);
 
-                 // Seleccionar distrito
-                 cmbDistrict.SelectedValue = barrio.id_Distrito;
+                cmbDistrict.SelectedValue = barrio.id_Distrito;
+                CargarBarrios(barrio.id_Distrito);
+                cmbNeighborhood.SelectedValue = barrio.id_Barrio;
 
-                 // Seleccionar barrio
-                 cmbNeighborhood.SelectedValue = barrio.id_Barrio;
+                // Obtener los tipos de residuos
+                DetalleClasificacionSitioController detalleController = new DetalleClasificacionSitioController();
 
-                 // Obtener los tipos de residuos
-                 DetalleClasificacionSitioController detalleController = new DetalleClasificacionSitioController();
+                List<int> idsResiduos = detalleController.GetIds_CatalogoResiduosByInformacion(idInformacionSitio);
 
-                 List<int> idsResiduos = detalleController.GetIds_CatalogoResiduosByInformacion(idInformacionSitio);
+                // Desmarcar todos los residuos
+                for (int i = 0; i < ckListTypeWaste.Items.Count; i++)
+                {
+                    ckListTypeWaste.SetItemChecked(i, false);
+                }
 
-                 // Desmarcar todos los residuos
-                 for (int i = 0; i < ckListTypeWaste.Items.Count; i++)
-                 {
-                     ckListTypeWaste.SetItemChecked(i, false);
-                 }
-
-                 // Marcar los residuos correspondientes
-                 for (int i = 0; i < ckListTypeWaste.Items.Count; i++)
-                 {
-                     DataRowView data_Catalogo = (DataRowView)ckListTypeWaste.Items[i];
+                // Marcar los residuos correspondientes
+                for (int i = 0; i < ckListTypeWaste.Items.Count; i++)
+                {
+                    DataRowView data_Catalogo = (DataRowView)ckListTypeWaste.Items[i];
                     int id_Residuo = Convert.ToInt32(data_Catalogo["id_CatalogoResiduos"]);
 
-                     if (idsResiduos.Contains(id_Residuo))
-                     {
-                         ckListTypeWaste.SetItemChecked(i, true);
-                     }
-                 }
-             }
+                    if (idsResiduos.Contains(id_Residuo))
+                    {
+                        ckListTypeWaste.SetItemChecked(i, true);
+                    }
+                }
+            }
             catch (Exception ex)
             {
                 MessageBox.Show(
@@ -558,7 +560,7 @@ namespace View
 
         private void button11_Click(object sender, EventArgs e)
         {
-            if(!ValidarCampos(out BarrioEntidad selectedNeighborhood, out List<int> idsSeleccionados))
+            if (!ValidarCampos(out BarrioEntidad selectedNeighborhood, out List<int> idsSeleccionados))
             {
                 return;
             }
@@ -685,7 +687,7 @@ namespace View
                     SolicitudesController solicitudController = new SolicitudesController();
 
                     long idInformacionSitio =
-                        solicitudController.GetIdInformacionSitio(
+                        solicitudController.ObtenerIdDelSitio_ByRequest(
                             idSolicitudSeleccionada
                         );
 
@@ -704,7 +706,7 @@ namespace View
                     // Actualizar tipo de sitio, dirección y barrio
                     InformacionSitioController informacionController = new InformacionSitioController();
 
-                    bool informacionActualizada = informacionController.Update(idInformacionSitio, cmbTypeSite.Text, rchtxtAddress.Text, idBarrio);
+                    bool informacionActualizada = informacionController.UpdateInformacion(idInformacionSitio, cmbTypeSite.Text, rchtxtAddress.Text, idBarrio);
 
                     if (!informacionActualizada)
                     {
@@ -763,11 +765,27 @@ namespace View
 
             try
             {
+                InformacionSitioEntidad informacionSitio = new InformacionSitioEntidad();
+                long id_InformacionSitio = new SolicitudesController().ObtenerIdDelSitio_ByRequest(idSolicitudSeleccionada);
+
                 // Primero eliminamos los archivos multimedia relacionados
                 new MultimediaController().DeleteMultimedia_ByRequest(idSolicitudSeleccionada);
 
                 // Después eliminamos la solicitud
                 new SolicitudesController().DeleteRequest(idSolicitudSeleccionada);
+
+                // Eliminación de Detalles del sitio
+                new DetalleSitiosController().Delete(id_InformacionSitio);
+
+                // Eliminación de los detalles de clasificación del sitio.
+                DetalleClasificacionSitioController detalleClasificacionSitio = new DetalleClasificacionSitioController();
+                List<int> ListaResiduos = detalleClasificacionSitio.GetIds_CatalogoResiduosByInformacion(id_InformacionSitio);
+
+                detalleClasificacionSitio.DeleteDetailsClasificacion(id_InformacionSitio, ListaResiduos);
+
+                // Eliminación de la información del sitio 
+                InformacionSitioController informacionSitioController = new InformacionSitioController();
+                informacionSitioController.DeleteInformacion(informacionSitio, id_InformacionSitio);
 
                 MessageBox.Show("Solicitud eliminada correctamente.", "Confirmación de eliminación",
                     MessageBoxButtons.OK,
@@ -862,7 +880,7 @@ namespace View
                 // Obtener el ID de la información del sitio
                 SolicitudesController solicitudController = new SolicitudesController();
 
-                long idInformacionSitio = solicitudController.GetIdInformacionSitio(idSolicitudSeleccionada);
+                long idInformacionSitio = solicitudController.ObtenerIdDelSitio_ByRequest(idSolicitudSeleccionada);
 
                 if (idInformacionSitio <= 0)
                     return;
@@ -934,7 +952,7 @@ namespace View
             }
         }
 
-    
+
         private void button6_Click(object sender, EventArgs e)
         {
 
@@ -945,7 +963,7 @@ namespace View
         }
         private void frmBeta_Load(object sender, EventArgs e)
         {
-            
+
         }
         private void LimpiarCampos()
         {
@@ -1022,7 +1040,7 @@ namespace View
                 // Obtener el ID de la información del sitio
                 SolicitudesController solicitudController = new SolicitudesController();
 
-                long idInformacionSitio = solicitudController.GetIdInformacionSitio(idSolicitudSeleccionada);
+                long idInformacionSitio = solicitudController.ObtenerIdDelSitio_ByRequest(idSolicitudSeleccionada);
 
                 if (idInformacionSitio <= 0)
                     return;
@@ -1117,6 +1135,27 @@ namespace View
         private void lblDireccion_Click(object sender, EventArgs e)
         {
 
+        }
+        private void CargarBarrios(int idDistrict)
+        {
+            DataTable listNeighborhoods =
+                new BarrioController().ListarBarriosPorDistrito(idDistrict);
+
+            cmbNeighborhood.DataSource = null;
+            cmbNeighborhood.DisplayMember = "nombre_Barrio";
+            cmbNeighborhood.ValueMember = "id_Barrio";
+            cmbNeighborhood.DataSource = listNeighborhoods;
+            cmbNeighborhood.SelectedIndex = -1;
+        }
+
+        private void cmbDistrict_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (cmbDistrict.SelectedItem is not DataRowView rowView)
+                return;
+
+            int idDistrict = Convert.ToInt32(rowView["id_Distrito"]);
+
+            CargarBarrios(idDistrict);
         }
     }
 }

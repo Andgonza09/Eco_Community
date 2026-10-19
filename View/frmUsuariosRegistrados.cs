@@ -222,7 +222,7 @@ namespace View
             {
                 nombre_Usuario = txtNameUsuario.Text,
                 contraseña_Usuario = txtContrasena.Text,
-                correo_Usuario = txtCorreo.Text,
+                correo_Usuario = txtCorreo.Text.ToLower(),
                 id_Roles = id_Roles
             };
             try
@@ -260,16 +260,40 @@ namespace View
 
                 if (resultado == DialogResult.OK)
                 {
-                    // Eliminación de usuario
+                    // --> Eliminación de FK y tablas relacionadas con la información del usuario
+
+                    // Eliminación de la relación entre Usuario y la tabla Misión.
+                    new Detalle_MisionController().DeleteByUser(id_UsuarioSeleccionado);
+
+                    // Eliminación de la relación entre Usuario y la tabla Criterios de ubicación.
                     new DetalleConsultaArchivoController().Delete(id_UsuarioSeleccionado);
+
+                    // Eliminación de la relación entre Usuario y los detalles de sitios asociados.
                     new DetalleSitiosController().DeleteUserInformation(id_UsuarioSeleccionado);
+
+                    // Eliminación de la relación la tabla informacion sitio y detalles de clasificación de sitios
+                    new DetalleClasificacionSitioController().DeleteDetailsClasificacion_ByUser(id_UsuarioSeleccionado);
+
+                    // Eliminación de Multimedia asociado con los usuarios del sistema
+                    new MultimediaController().DeleteMultimedia_PorUsuario(id_UsuarioSeleccionado);
+
+                    // Eliminación de las solicitudes asociadas con el usuario.
+                    new SolicitudesController().DeleteRequest_ByUser(id_UsuarioSeleccionado);
+                
+                    // Eliminación de los sitios asociados con los usuarios en el sistema.
+                    new InformacionSitioController().DeleteInformacionSitio_ByUser(id_UsuarioSeleccionado);
+
+
+                    // Eliminación total del usuario
                     new UsuarioController().Delete(id_UsuarioSeleccionado);
-                    MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Usuario eliminado correctamente del sistema", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     RefreshTable();
                     dgvUsuarios.ClearSelection();
+                    button14_Click(sender, e);
                 }
             }
+
             
         }
 
@@ -297,13 +321,14 @@ namespace View
             {
                 nombre_Usuario = txtNameUsuario.Text,
                 contraseña_Usuario = txtContrasena.Text,
-                correo_Usuario = txtCorreo.Text,
+                correo_Usuario = txtCorreo.Text.ToLower(),
                 id_Roles = id_Roles
             };
+
             try
             {
 
-                int Cantidad = controller.UsuarioExiste(txtCorreo.Text, txtNameUsuario.Text);
+                int Cantidad = controller.UsuarioExiste(txtCorreo.Text.ToLower(), txtNameUsuario.Text);
 
                 if (Cantidad > 0)
                 {
@@ -349,7 +374,7 @@ namespace View
 
                 string username = txtNameUsuario.Text;
                 string password = txtContrasena.Text;
-                string email = txtCorreo.Text.Trim();
+                string email = txtCorreo.Text.ToLower();
                 string rol = comboBox1.SelectedItem?.ToString() ?? "";
 
                 int id_Roles;

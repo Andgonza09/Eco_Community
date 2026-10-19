@@ -1,8 +1,6 @@
-﻿using Microsoft.Data.SqlClient;
-using Controller;
+﻿using Controller;
+using Microsoft.Data.SqlClient;
 using Model.Eco_Community;
-
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace View
 {
@@ -299,6 +298,52 @@ namespace View
 
         private void label3_Click(object sender, EventArgs e)
         {
+
+        }
+        public void OpenForm(Form form)
+        {
+            // Obtener el contenedor donde está el menú principal
+            Control contenedor = this.Parent;
+
+            if (contenedor == null)
+                return;
+
+            form.TopLevel = false;
+            form.FormBorderStyle = FormBorderStyle.None;
+            form.WindowState = FormWindowState.Normal;
+            form.StartPosition = FormStartPosition.Manual;
+
+            form.AutoSize = false;
+            form.AutoScroll = false;
+            form.MinimumSize = new Size(0, 0);
+            form.MaximumSize = new Size(0, 0);
+            form.Dock = DockStyle.Fill;
+
+            // Agregar el nuevo formulario al mismo contenedor
+            contenedor.Controls.Add(form);
+
+            form.Show();
+            form.BringToFront();
+
+        }
+        private void pictureBox16_Click(object sender, EventArgs e)
+        {
+            string titulo = "Puntos de residuos /";
+            string subtitulo = " Registrar nuevo punto /";
+
+            // Obtener el contenedor principal
+            frmContainer contenedor = this.Parent?.FindForm() as frmContainer;
+
+            if (contenedor != null)
+            {
+                contenedor.CambiarTitulo(titulo, subtitulo);
+            }
+
+            // Abrir el formulario de información de sitios
+            frmInformacionSitios frm = new frmInformacionSitios(_currentUser,_currentUser.id_Usuario);
+
+            OpenForm(frm);
+
 
         }
     }

@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Text.Json;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace View
@@ -61,7 +62,14 @@ namespace View
         }
         public void RefreshTable()
         {
+            // Actualizar DataGridView
             CargarPuntos();
+
+            // Recargar el mapa
+            if (wv2Map.CoreWebView2 != null)
+            {
+                wv2Map.CoreWebView2.Reload();
+            }
         }
         private void frmPuntosRegistrados_Shown(object? sender, EventArgs e)
         {
@@ -72,7 +80,6 @@ namespace View
             InformacionSitioController controller = new InformacionSitioController();
 
             var datos = controller.ViewAllPoints();
-
             var datosGrid = datos.Select(x => new
             {
                 Id = x.Item1.id_InformacionSitio,
@@ -137,14 +144,8 @@ namespace View
 
             wv2Map.CoreWebView2.NavigationCompleted += async (s, args) =>
             {
-
                 if (!args.IsSuccess)
                 {
-                    MessageBox.Show(
-                        "Falló la navegación: " +
-                        args.WebErrorStatus
-                    );
-
                     return;
                 }
 
@@ -396,7 +397,7 @@ namespace View
                 var verificate = MessageBox.Show("¨¿Estás seguro que deseas actualizar este punto del mapa?", "Verificando información", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                 if (verificate == DialogResult.OK)
                 {
-                    new InformacionSitioController().UpdateInformacion(informacionSitio, informacionSitio.id_InformacionSitio);
+                    new InformacionSitioController().UpdateCoordenadas(informacionSitio, informacionSitio.id_InformacionSitio);
                     MessageBox.Show("Cambios realizados correctamente", "Validación de información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RefreshTable();
                 }
@@ -432,8 +433,8 @@ namespace View
                 id_InformacionSitio = long.Parse(txtIdPunto.Text),
                 tipoSitio = textBox1.Text,
                 direccion = txtDireccion.Text,
-                latitud = decimal.Parse(txtLatitud.Text),
-                length = decimal.Parse(txtLongitud.Text),
+                latitud = decimal.Parse(txtLatitud.Text, CultureInfo.InvariantCulture),
+                length = decimal.Parse(txtLongitud.Text, CultureInfo.InvariantCulture),
             };
 
             if (textBox1.Text.Trim() == dgvPuntos.CurrentRow.Cells["TipoSitio"].Value.ToString().Trim()
@@ -441,7 +442,7 @@ namespace View
             && txtLongitud.Text.Trim() == dgvPuntos.CurrentRow.Cells["Longitud"].Value.ToString().Trim()
             && txtLatitud.Text.Trim() == dgvPuntos.CurrentRow.Cells["Latitud"].Value.ToString().Trim())
             {
-                MessageBox.Show("No se ha realizado ningún cambio", "Validando actualización", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("No se ha realizado ningún cambio", "Validando actualización", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -450,7 +451,7 @@ namespace View
                 var verificate = MessageBox.Show("¨¿Estás seguro que deseas actualizar este punto del mapa?", "Verificando información", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                 if (verificate == DialogResult.OK)
                 {
-                    new InformacionSitioController().UpdateInformacion(informacionSitio, informacionSitio.id_InformacionSitio);
+                    new InformacionSitioController().UpdateCoordenadas(informacionSitio, informacionSitio.id_InformacionSitio);
                     MessageBox.Show("Cambios realizados correctamente", "Validación de información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RefreshTable();
                     dgvPuntos.ClearSelection();

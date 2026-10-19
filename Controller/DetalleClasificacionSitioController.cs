@@ -66,6 +66,29 @@ namespace Controller
                 throw new Exception("Error al obtener la información del catálogo: " + ex.Message);
             }
         }
+        public void DeleteDetailsClasificacion_ByUser(long id_Usuario)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+               
+                string sql = @"DELETE De FROM DetalleClasificacionSitio AS De INNER JOIN Solicitudes AS S
+                ON S.id_InformacionSitio = De.id_InformacionSitio INNER JOIN Usuario AS U ON U.id_Usuario = S.id_UsuarioEstandar
+                WHERE U.id_Usuario = @id_Usuario";
+
+                SqlCommand cmd = new SqlCommand(sql, cx);
+                cmd.Parameters.AddWithValue("@id_Usuario", id_Usuario);
+
+                cx.Open();
+                cmd.ExecuteNonQuery();
+                cx.Close();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error en la eliminación de datos: " + ex.Message);
+            }
+        }
         public void DeleteDetailsClasificacion(long id_InformacionSitio, List<int> idS_CatalogoResiduos)
         {
             SqlConnection cx = conexion.ObtenerConexion();
@@ -104,33 +127,20 @@ namespace Controller
 
                 SqlCommand deleteCmd = new SqlCommand(deleteSql, cx);
 
-                deleteCmd.Parameters.AddWithValue(
-                    "@id_InformacionSitio",
-                    id_InformacionSitio
-                );
+                deleteCmd.Parameters.AddWithValue("@id_InformacionSitio", id_InformacionSitio);
 
                 deleteCmd.ExecuteNonQuery();
 
                 // Insertamos los nuevos tipos de residuos
                 foreach (int idCatalogoResiduo in idS_CatalogoResiduos)
                 {
-                    string insertSql = @"INSERT INTO DetalleClasificacionSitio
-                         (id_InformacionSitio, id_CatalogoResiduos)
-                         VALUES
-                         (@id_InformacionSitio, @id_CatalogoResiduos)";
+                    string insertSql = @"INSERT INTO DetalleClasificacionSitio (id_InformacionSitio, id_CatalogoResiduos)
+                         VALUES (@id_InformacionSitio, @id_CatalogoResiduos)";
 
                     SqlCommand insertCmd = new SqlCommand(insertSql, cx);
 
-                    insertCmd.Parameters.AddWithValue(
-                        "@id_InformacionSitio",
-                        id_InformacionSitio
-                    );
-
-                    insertCmd.Parameters.AddWithValue(
-                        "@id_CatalogoResiduos",
-                        idCatalogoResiduo
-                    );
-
+                    insertCmd.Parameters.AddWithValue("@id_InformacionSitio", id_InformacionSitio);
+                    insertCmd.Parameters.AddWithValue("@id_CatalogoResiduos", idCatalogoResiduo);
                     insertCmd.ExecuteNonQuery();
                 }
             }

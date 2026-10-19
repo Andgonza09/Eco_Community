@@ -42,6 +42,36 @@ namespace Controller
 
 
         }
+        public List<int> ObtenerIds_AsociadoTipoRecompensa(int id_TipoRecompensa)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            List<int> idSListaMisiones = new List<int>();
+            try
+            {
+                string sql = @"Select Misiones.id_Mision From Misiones INNER JOIN Recompensa
+                ON Recompensa.id_Mision = Misiones.id_Mision INNER JOIN TipoRecompensa ON TipoRecompensa.id_TipoRecompensa = Recompensa.id_TipoRecompensa
+                where TipoRecompensa.id_TipoRecompensa = @id_Tipo";
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cmd.Parameters.AddWithValue("@id_Tipo", id_TipoRecompensa);
+
+                cx.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int id_Mision = reader.GetInt32(reader.GetOrdinal("id_Mision"));
+                    idSListaMisiones.Add(id_Mision);
+                }
+
+                cx.Close();
+                return idSListaMisiones;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener la información del catálogo: " + ex.Message);
+            }
+        }
         public bool MissionExists(string descripcion)
         {
             // Este es mi archivo original 
@@ -179,18 +209,14 @@ namespace Controller
 
                     SqlCommand cmdDetails = new SqlCommand(sqlDetails, cx, transaction);
                     cmdDetails.Parameters.AddWithValue("@id_Mision", idMision);
-
                     cmdDetails.ExecuteNonQuery();
-
 
                     // Eliminar recompensas de la misión
                     string sqlRewards = @"DELETE FROM Recompensa WHERE id_Mision = @id_Mision";
-
                     SqlCommand cmdRewards = new SqlCommand(sqlRewards, cx, transaction);
 
                     cmdRewards.Parameters.AddWithValue("@id_Mision", idMision);
                     cmdRewards.ExecuteNonQuery();
-
 
                     // Eliminar la misión
                     string sqlMission = @"DELETE FROM Misiones WHERE id_Mision = @id_Mision";
@@ -220,6 +246,26 @@ namespace Controller
                 {
                     cx.Close();
                 }
+            }
+        }
+        public void DeleteMisionByTipoRecompensa(int id_TipoRecompensa)
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            try
+            {
+                string sql = @"DELETE M FROM Misiones AS M INNER JOIN Recompensa AS R ON M.id_Mision = R.id_Mision INNER JOIN 
+                TipoRecompensa AS T ON T.id_TipoRecompensa = R.id_TipoRecompensa WHERE T.id_TipoRecompensa = @id_Tipo";
+                SqlCommand cmd = new SqlCommand(sql, cx);
+
+                cmd.Parameters.AddWithValue("@id_Tipo", id_TipoRecompensa);
+                cx.Open();
+                cmd.ExecuteNonQuery();
+                cx.Close();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al realizar la eliminación de la misión: " + ex.Message);
             }
         }
         public int CountAllMission()

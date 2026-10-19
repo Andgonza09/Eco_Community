@@ -196,5 +196,38 @@ namespace View
 
             cmbDistrito.Text = fila.Cells[ColDistrito.Index].Value?.ToString() ?? "";
         }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtSearchId.Text))
+                {
+                    dgvBarrios.DataSource = new BarrioController().ListarBarrios();
+                    return;
+                }
+
+                if (!int.TryParse(txtSearchId.Text, out int idBarrio))
+                {
+                    MessageBox.Show("Ingresa un ID numérico válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                BarrioController controller = new BarrioController();
+                DataTable resultado = controller.BuscarBarrioById(idBarrio);
+
+                if (resultado.Rows.Count == 0)
+                {
+                    MessageBox.Show("No se encontró ningún distrito con ese ID.", "Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                dgvBarrios.DataSource = resultado;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al buscar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
     }
 }

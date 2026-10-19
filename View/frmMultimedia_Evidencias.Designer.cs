@@ -51,7 +51,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 2F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 98F));
-            tableLayoutPanel1.Size = new Size(1100, 787);
+            tableLayoutPanel1.Size = new Size(1038, 787);
             tableLayoutPanel1.TabIndex = 49;
             // 
             // flowLayoutPanel1
@@ -62,7 +62,7 @@
             flowLayoutPanel1.Location = new Point(3, 18);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Padding = new Padding(15, 0, 0, 0);
-            flowLayoutPanel1.Size = new Size(1094, 766);
+            flowLayoutPanel1.Size = new Size(1032, 766);
             flowLayoutPanel1.TabIndex = 43;
             flowLayoutPanel1.Paint += flowLayoutPanel1_Paint;
             // 
@@ -116,16 +116,15 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(62, 787);
             panel2.TabIndex = 48;
-       
             // 
             // frmMultimedia_Evidencias
             // 
             AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
             ClientSize = new Size(1162, 876);
-            Controls.Add(panel2);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(panel1);
+            Controls.Add(panel2);
             Controls.Add(panel10);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "frmMultimedia_Evidencias";

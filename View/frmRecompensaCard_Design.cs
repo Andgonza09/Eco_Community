@@ -16,7 +16,7 @@ namespace View
         }
         public void CargarDatos(int id_Recompensa, string descripcion_Recompensa, string descripcion_Mision, string tipoRecompensa)
         {
-            lblNRecompensa.Text = "Nº de Recompensa: " + id_Recompensa.ToString();
+            lblNRecompensa.Text = "Nº Recompensa: " + id_Recompensa.ToString();
             lblDescripcion.Text = "Descripcion Recompensa: " + descripcion_Recompensa;
             lblMisionAsociada.Text = "Misión asociada: " + descripcion_Mision;
             lblTipoRecompensa.Text = "Tipo Recompensa: " + tipoRecompensa;
@@ -27,6 +27,11 @@ namespace View
         }
 
         private void lblMisionAsociada_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblNRecompensa_Click(object sender, EventArgs e)
         {
 
         }

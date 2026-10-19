@@ -210,16 +210,16 @@ namespace View
 
         private void button10_Click(object sender, EventArgs e)
         {
-            DialogResult resultado = MessageBox.Show("¿Estás seguro que deseas eliminar la solicitud del sistema?", "Verificación de información", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            DialogResult resultado = MessageBox.Show("¿Estás seguro que deseas eliminar la Misión del sistema?", "Verificación de información", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
             if (resultado == DialogResult.OK)
             {
                 // Eliminar solicitud
                 // Eliminamos el id de la tabla recompensa para evitar las dependencias de llaves foráneas de cada tabla
                 new RecompensaController().DeleteReward(id_MisionSeleccionada);
-
+                new Detalle_MisionController().DeleteByMission(id_MisionSeleccionada);
                 new MisionesController().DeleteMission(id_MisionSeleccionada);
-                MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Misión eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 RefreshTable();
                 dgvMisiones.ClearSelection();

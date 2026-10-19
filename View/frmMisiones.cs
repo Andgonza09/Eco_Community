@@ -11,9 +11,11 @@ namespace View
 {
     public partial class frmMisiones : Form
     {
-        public frmMisiones()
+        private long _id_Usuario;
+        public frmMisiones(long id_Usuario)
         {
             InitializeComponent();
+            _id_Usuario = id_Usuario;
         }
         private void CargarMisiones()
         {
@@ -28,7 +30,8 @@ namespace View
 
                 tarjeta.CargarDatos(Convert.ToInt32(fila["id_Mision"]),
                 fila["descripcion"].ToString() ?? "",
-                (Convert.ToInt32(fila["puntaje"])));
+                (Convert.ToInt32(fila["puntaje"])),
+                _id_Usuario);
 
                 flowLayoutPanel1.Controls.Add(tarjeta);
             }

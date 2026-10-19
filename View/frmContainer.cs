@@ -116,6 +116,7 @@ namespace View
 
         private void btnPointsWaste_Click(object sender, EventArgs e)
         {
+           
             ShowSubMenú(pnlSubMenuPointsWaste);
 
             // Modificar texxto del label para mostrar el menú actual
@@ -181,29 +182,9 @@ namespace View
             // Formulario de ubicación del punto
             frmInformacionSitios view = new frmInformacionSitios(_currentUser, _currentUser.id_Usuario);
             OpenForm(view);
+
+
         }
-        /*
-        private void ShowAttachMultimedia()
-        {
-            lblItems.Text = "Registrar nuevo punto /  Adjunción Multimedia";
-            lblItems.SendToBack();
-            lblItems.Padding = new Padding(60, 0, 0, 0);
-
-            // Formulario de adjunción Multimedia
-            AttachMultimediaView viewAttach = new AttachMultimediaView();
-
-            viewAttach.NextClickedBack += (s, e) =>
-            {
-                var result = MessageBox.Show("¿Desea regresar a la ubicación del punto?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                {
-                    ShowSiteLocation();
-                }
-
-            };
-
-            OpenForm(viewAttach);
-        }*/
 
         private void btnMyPoints_Click(object sender, EventArgs e)
         {
@@ -338,7 +319,7 @@ namespace View
             lblItems.Text = "Listado de misiones";
             lblItems.SendToBack();
             lblItems.Padding = new Padding(0, 0, 0, 0);
-            OpenForm(new frmMisiones());
+            OpenForm(new frmMisiones(_currentUser.id_Usuario));
         }
 
         private void panelContent_Paint(object sender, PaintEventArgs e)
@@ -483,6 +464,15 @@ namespace View
             OpenForm(frmMultimedia_Evidencias);
         }
 
-        
+        public void CambiarTitulo(string titulo, string subtitulo)
+        {
+            lblMenu.Text = titulo;
+            lblItems.Text = subtitulo;
+
+            // Modificar propiedades del Label
+            lblItems.Padding = new Padding(60, 0, 0, 0);
+            lblItems.SendToBack();
+        }
+
     }
 }

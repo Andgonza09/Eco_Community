@@ -52,19 +52,20 @@
             lblNRecompensa.AutoEllipsis = true;
             lblNRecompensa.Font = new Font("Segoe UI Historic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblNRecompensa.ForeColor = Color.White;
-            lblNRecompensa.Location = new Point(294, 13);
+            lblNRecompensa.Location = new Point(294, 14);
             lblNRecompensa.Name = "lblNRecompensa";
-            lblNRecompensa.Size = new Size(164, 25);
+            lblNRecompensa.Size = new Size(194, 62);
             lblNRecompensa.TabIndex = 30;
             lblNRecompensa.Text = "N Recompensas";
             lblNRecompensa.TextAlign = ContentAlignment.MiddleLeft;
+            lblNRecompensa.Click += lblNRecompensa_Click;
             // 
             // lblDescripcion
             // 
             lblDescripcion.AutoEllipsis = true;
             lblDescripcion.Font = new Font("Segoe UI Historic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblDescripcion.ForeColor = Color.White;
-            lblDescripcion.Location = new Point(294, 76);
+            lblDescripcion.Location = new Point(294, 94);
             lblDescripcion.Name = "lblDescripcion";
             lblDescripcion.Size = new Size(335, 79);
             lblDescripcion.TabIndex = 31;
@@ -76,9 +77,9 @@
             lblTipoRecompensa.AutoEllipsis = true;
             lblTipoRecompensa.Font = new Font("Segoe UI Historic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTipoRecompensa.ForeColor = Color.White;
-            lblTipoRecompensa.Location = new Point(510, 13);
+            lblTipoRecompensa.Location = new Point(529, 7);
             lblTipoRecompensa.Name = "lblTipoRecompensa";
-            lblTipoRecompensa.Size = new Size(213, 51);
+            lblTipoRecompensa.Size = new Size(213, 76);
             lblTipoRecompensa.TabIndex = 32;
             lblTipoRecompensa.Text = "Tipo Recompensa";
             lblTipoRecompensa.TextAlign = ContentAlignment.MiddleLeft;
@@ -88,7 +89,7 @@
             lblMisionAsociada.AutoEllipsis = true;
             lblMisionAsociada.Font = new Font("Segoe UI Historic", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblMisionAsociada.ForeColor = Color.White;
-            lblMisionAsociada.Location = new Point(294, 166);
+            lblMisionAsociada.Location = new Point(294, 173);
             lblMisionAsociada.Name = "lblMisionAsociada";
             lblMisionAsociada.Size = new Size(335, 122);
             lblMisionAsociada.TabIndex = 33;

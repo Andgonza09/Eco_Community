@@ -553,7 +553,7 @@ namespace View
 
 
                     // Obtenemos la información del sitio
-                    long idInformacionSitio = new SolicitudesController().GetIdInformacionSitio(idSolicitud);
+                    long idInformacionSitio = new SolicitudesController().ObtenerIdDelSitio_ByRequest(idSolicitud);
 
 
                     // Eliminar detalles de clasificación

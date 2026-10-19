@@ -35,6 +35,7 @@
             lblPuntaje = new Label();
             lblNSolicitud = new Label();
             lbCompletado = new Label();
+            lblPorcentaje = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -50,6 +51,7 @@
             // 
             // progressBar1
             // 
+            progressBar1.BackColor = Color.FromArgb(81, 133, 112);
             progressBar1.Location = new Point(450, 277);
             progressBar1.Name = "progressBar1";
             progressBar1.Size = new Size(242, 42);
@@ -107,12 +109,25 @@
             lbCompletado.Text = "0/1";
             lbCompletado.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // lblPorcentaje
+            // 
+            lblPorcentaje.AutoEllipsis = true;
+            lblPorcentaje.Font = new Font("Segoe UI Historic", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblPorcentaje.ForeColor = Color.White;
+            lblPorcentaje.Location = new Point(357, 277);
+            lblPorcentaje.Name = "lblPorcentaje";
+            lblPorcentaje.Size = new Size(77, 42);
+            lblPorcentaje.TabIndex = 31;
+            lblPorcentaje.Text = "%";
+            lblPorcentaje.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // frmMisionesCard_Design
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             BackColor = Color.FromArgb(81, 133, 112);
+            Controls.Add(lblPorcentaje);
             Controls.Add(lbCompletado);
             Controls.Add(lblNSolicitud);
             Controls.Add(lblPuntaje);
@@ -134,5 +149,6 @@
         private Label lblPuntaje;
         private Label lblNSolicitud;
         private Label lbCompletado;
+        private Label lblPorcentaje;
     }
 }

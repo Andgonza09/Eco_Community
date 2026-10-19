@@ -398,6 +398,7 @@
             cmbDistrict.Size = new Size(354, 28);
             cmbDistrict.TabIndex = 13;
             cmbDistrict.SelectedIndexChanged += cmbDistrict_SelectedIndexChanged_1;
+            cmbDistrict.SelectionChangeCommitted += cmbDistrict_SelectionChangeCommitted;
             // 
             // lblDistrito
             // 

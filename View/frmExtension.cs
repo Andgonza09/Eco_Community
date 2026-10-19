@@ -1,4 +1,5 @@
 ﻿using Controller;
+using Microsoft.Web.WebView2.Core;
 using Model.Eco_Community;
 using System;
 using System.Collections.Generic;
@@ -167,15 +168,66 @@ namespace View
 
             try
             {
-                controller.Delete(idExtension);
+                SolicitudesController solicitudesController = new SolicitudesController();
+                MultimediaController multimediaController = new MultimediaController();
 
+                // Obtener las solicitudes que utilizan esta extensión
+                List<long> listaSolicitudes = solicitudesController.ObtenerIdsSolicitudes_PorIdExtension(idExtension).Distinct().ToList();
+                // 35, 40
+
+                // Eliminar los archivos multimedia de la extensión
+                multimediaController.DeleteMultimedia_PorExtension(idExtension);
+
+                foreach (long id_Solicitud in listaSolicitudes)
+                {
+                    // Verificar si la solicitud todavía tiene archivos
+                    int cantidadArchivos = multimediaController.CountMultimediaByRequestId(id_Solicitud);
+
+                    // Si tiene otros archivos, conservar la solicitud
+                    if (cantidadArchivos > 0)
+                        continue;
+
+                    // Obtener el sitio asociado
+                    long id_InformacionSitio = solicitudesController.ObtenerIdDelSitio_ByRequest(id_Solicitud);
+
+                    if (id_InformacionSitio <= 0)
+                        throw new Exception("No se encontró el sitio de la solicitud.");
+
+                    // Eliminar detalles del sitio
+                    DetalleSitiosController detalleSitiosController = new DetalleSitiosController();
+                    detalleSitiosController.Delete(id_InformacionSitio);
+
+                    // Obtener residuos del sitio
+                    DetalleClasificacionSitioController detalleClasificacion = new DetalleClasificacionSitioController();
+
+                    List<int> lista_Catalogo = detalleClasificacion.GetIds_CatalogoResiduosByInformacion(id_InformacionSitio);
+
+                    // Eliminar clasificación
+                    detalleClasificacion.DeleteDetailsClasificacion(id_InformacionSitio, lista_Catalogo);
+
+                    // Eliminar solicitud
+                    solicitudesController.DeleteRequest(id_Solicitud);
+
+                    // Eliminar información del sitio
+                    InformacionSitioEntidad informacionSitio = new InformacionSitioEntidad();
+
+                    InformacionSitioController informacionSitioController = new InformacionSitioController();
+                    informacionSitioController.DeleteInformacion(informacionSitio, id_InformacionSitio);
+                }
+
+                // Eliminar finalmente la extensión
+                controller.Delete(idExtension);
                 MessageBox.Show("Extensión eliminada correctamente.", "Eliminación exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 btnClear_Click(sender, e);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("No se pudo eliminar la extensión. Puede estar relacionada con otros registros.\n\n" + ex.Message, "Error de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "No se pudo eliminar la extensión.\n\n" + ex.Message,
+                    "Error de eliminación",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
