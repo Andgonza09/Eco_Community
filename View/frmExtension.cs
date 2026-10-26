@@ -92,7 +92,7 @@ namespace View
 
             try
             {
-                DataTable resultado = controller.BuscarExtensionById(idExtension);
+                DataTable resultado = controller.BuscarExtension_PorId(idExtension);
 
                 if (resultado.Rows.Count == 0)
                 {
@@ -137,7 +137,7 @@ namespace View
                     tipo_Extension = tipoExtension
                 };
 
-                controller.Insert(extension);
+                controller.InsertarExtensiones(extension);
 
                 MessageBox.Show("Extensión registrada correctamente.", "Registro exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -176,47 +176,47 @@ namespace View
                 // 35, 40
 
                 // Eliminar los archivos multimedia de la extensión
-                multimediaController.DeleteMultimedia_PorExtension(idExtension);
+                multimediaController.EliminarMultimedia_PorIdExtension(idExtension);
 
                 foreach (long id_Solicitud in listaSolicitudes)
                 {
                     // Verificar si la solicitud todavía tiene archivos
-                    int cantidadArchivos = multimediaController.CountMultimediaByRequestId(id_Solicitud);
+                    int cantidadArchivos = multimediaController.ContarMultimedia_PorIdSolicitud(id_Solicitud);
 
                     // Si tiene otros archivos, conservar la solicitud
                     if (cantidadArchivos > 0)
                         continue;
 
                     // Obtener el sitio asociado
-                    long id_InformacionSitio = solicitudesController.ObtenerIdDelSitio_ByRequest(id_Solicitud);
+                    long id_InformacionSitio = solicitudesController.ObtenerIdDelSitio_PorIdSolicitud(id_Solicitud);
 
                     if (id_InformacionSitio <= 0)
                         throw new Exception("No se encontró el sitio de la solicitud.");
 
                     // Eliminar detalles del sitio
                     DetalleSitiosController detalleSitiosController = new DetalleSitiosController();
-                    detalleSitiosController.Delete(id_InformacionSitio);
+                    detalleSitiosController.EliminarDetallesSitios_PorIdInformacionSitio(id_InformacionSitio);
 
                     // Obtener residuos del sitio
                     DetalleClasificacionSitioController detalleClasificacion = new DetalleClasificacionSitioController();
 
-                    List<int> lista_Catalogo = detalleClasificacion.GetIds_CatalogoResiduosByInformacion(id_InformacionSitio);
+                    List<int> lista_Catalogo = detalleClasificacion.ObtenerIdsCatalogoResiduos_PorIdInformacionSitio(id_InformacionSitio);
 
                     // Eliminar clasificación
-                    detalleClasificacion.DeleteDetailsClasificacion(id_InformacionSitio, lista_Catalogo);
+                    detalleClasificacion.EliminarDetallesClasificacion(id_InformacionSitio, lista_Catalogo);
 
                     // Eliminar solicitud
-                    solicitudesController.DeleteRequest(id_Solicitud);
+                    solicitudesController.EliminarSolicitudes(id_Solicitud);
 
                     // Eliminar información del sitio
                     InformacionSitioEntidad informacionSitio = new InformacionSitioEntidad();
 
                     InformacionSitioController informacionSitioController = new InformacionSitioController();
-                    informacionSitioController.DeleteInformacion(informacionSitio, id_InformacionSitio);
+                    informacionSitioController.EliminarInformacionSitio(informacionSitio, id_InformacionSitio);
                 }
 
                 // Eliminar finalmente la extensión
-                controller.Delete(idExtension);
+                controller.EliminarExtensiones(idExtension);
                 MessageBox.Show("Extensión eliminada correctamente.", "Eliminación exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 btnClear_Click(sender, e);
@@ -268,7 +268,7 @@ namespace View
 
             try
             {
-                controller.Update(idExtension, txtExtension.Text.Trim());
+                controller.ActualizarExtensiones(idExtension, txtExtension.Text.Trim());
 
                 MessageBox.Show("Extensión actualizada correctamente.", "Actualización exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

@@ -15,7 +15,7 @@ namespace Controller
     public class BarrioController
     {
         Conexion conexion = new Conexion();
-        public void Insert(BarrioEntidad barrios)
+        public void InsertarBarrios(BarrioEntidad barrios)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             string sql = @"INSERT INTO Barrio(nombre_Barrio,id_Distrito) VALUES (@nombre_Barrio,@id_Distrito)";
@@ -53,7 +53,7 @@ namespace Controller
                 throw new Exception("Error al mostrar la información: " + ex.Message, ex);
             }
         }
-        public BarrioEntidad GetBarrioById(long id_Barrio)
+        public BarrioEntidad ObtenerIdBarrio(long id_Barrio)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace Controller
             }
         }
 
-        public void Delete(int id_Barrio)
+        public void Eliminar(int id_Barrio)
         {
             try
             {
@@ -140,7 +140,7 @@ namespace Controller
                 throw new Exception("Error al eliminar el barrio: " + ex.Message, ex);
             }
         }
-        public void Delete_byDistritoId(int id_Distrito)
+        public void EliminarBarrio_PorIdDistrito(int id_Distrito)
         {
             try
             {
@@ -162,7 +162,7 @@ namespace Controller
             }
         }
 
-        public void Update(int id_Barrio, string nombre_Barrio, int id_Distrito)
+        public void ActualizarBarrio(int id_Barrio, string nombre_Barrio, int id_Distrito)
         {
             try
             {
@@ -186,7 +186,7 @@ namespace Controller
             }
         }
 
-        public DataTable BuscarBarrioById(int id_Barrio)
+        public DataTable BuscarBarrio_PorId(int id_Barrio)
         {
             try
             {

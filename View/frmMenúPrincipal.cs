@@ -32,16 +32,16 @@ namespace View
             ConfigureRoundedControl(pnlViewMyPoints, 15);
             ConfigureRoundedControl(pnlViewMyRequest, 15);
 
-            int total_SolicitudAprobadas = new SolicitudesController().CountRequestApproved(_currentUser.id_Usuario);
+            int total_SolicitudAprobadas = new SolicitudesController().ContarSolicitudesAprobadas_PorUsuario(_currentUser.id_Usuario);
             label12.Text = total_SolicitudAprobadas.ToString() ?? "";
 
-            int total_SolicitudPendientes = new SolicitudesController().CountRequestEarrings(_currentUser.id_Usuario);
+            int total_SolicitudPendientes = new SolicitudesController().ContarSolicitudesPendientes_PorUsuario(_currentUser.id_Usuario);
             label1.Text = total_SolicitudPendientes.ToString() ?? "";
 
-            int total_SolicitudRechazadas = new SolicitudesController().CountRequesteRected(_currentUser.id_Usuario);
+            int total_SolicitudRechazadas = new SolicitudesController().ContarSolicitudesRechazadas_PorUsuario(_currentUser.id_Usuario);
             label3.Text = total_SolicitudRechazadas.ToString() ?? "";
 
-            int totalSitiosRegistrados = new DetalleSitiosController().CountSitesAproved(_currentUser.id_Usuario);
+            int totalSitiosRegistrados = new DetalleSitiosController().ContarSitios_Aprobados(_currentUser.id_Usuario);
             label5.Text = totalSitiosRegistrados.ToString() ?? "";
 
         }

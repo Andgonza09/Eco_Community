@@ -15,7 +15,7 @@ namespace Controller
     {
         Conexion conexion = new Conexion();
 
-        public void Insert(MultimediaEntidad multimedia, long id_Solicitud, int id_Extension)
+        public void InsertarMultimedia(MultimediaEntidad multimedia, long id_Solicitud, int id_Extension)
         {
             SqlConnection cx = conexion.ObtenerConexion();
 
@@ -34,7 +34,7 @@ namespace Controller
             cx.Close();
         }
         // Método para eliminar del todo el último archivo multimedia de una solicitud específica
-        public void DeleteMultimedia_ByRequest(long id_Solicitud)
+        public void EliminarMultimedia_PorIdSolicitud(long id_Solicitud)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try
@@ -55,7 +55,7 @@ namespace Controller
             }
         }
         // Método para eliminar un archivo multimedia específico por su ID
-        public void DeleteMultimediaById(long idMultimedia)
+        public void EliminarMultimedia(long idMultimedia)
         {
             SqlConnection cx = conexion.ObtenerConexion();
 
@@ -80,7 +80,7 @@ namespace Controller
             }
         }
         // Método para eliminar la multimedia mediante el id del usuario relacionado con las solicitudes
-        public void DeleteMultimedia_PorUsuario(long id_Usuario)
+        public void EliminarMultimedia_PorIdUsuario(long id_Usuario)
         {
             SqlConnection cx = conexion.ObtenerConexion();
 
@@ -106,7 +106,7 @@ namespace Controller
             }
         }
 
-        public void DeleteMultimedia_PorExtension(int id_Extension)
+        public void EliminarMultimedia_PorIdExtension(int id_Extension)
         {
             SqlConnection cx = conexion.ObtenerConexion();
 
@@ -131,7 +131,7 @@ namespace Controller
             }
         }
 
-        public void UpdateMultimedia(long id_Multimedia, string nombre_Archivo, string ruta_Archivo, string tamañonArchivo, int extension, DateOnly fecha_Adjunción)
+        public void ActualizarMultimedia(long id_Multimedia, string nombre_Archivo, string ruta_Archivo, string tamañonArchivo, int extension, DateOnly fecha_Adjunción)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try
@@ -154,7 +154,7 @@ namespace Controller
             }
 
         }
-        public DataTable ListAllMultimedia()
+        public DataTable ListarTodos_Multimedia()
         {
             try
             {
@@ -176,7 +176,7 @@ namespace Controller
                 throw new Exception("Error al mostrar todos los archivos multimedia del sistema: " + ex.Message);
             }
         }
-        public DataTable ListMultimedia_ByUser(long id_Usuario)
+        public DataTable ListarMultimedia_PorUsuario(long id_Usuario)
         {
             try
             {
@@ -196,7 +196,7 @@ namespace Controller
                 throw new Exception("Error al mostrar archivos multimedia por ID de usuario: " + ex.Message);
             }
         }
-        public DataTable search_ByIdRequest(long id_Solicitud)
+        public DataTable BuscarMultimedia_PorIdSolicitud(long id_Solicitud)
         {
             try
             {
@@ -219,7 +219,7 @@ namespace Controller
                 throw new Exception("Error al buscar archivos multimedia por ID de solicitud: " + ex.Message);
             }
         }
-        public int CountMultimediaByRequestId(long id_Solicitud)
+        public int ContarMultimedia_PorIdSolicitud(long id_Solicitud)
         {
             try
             {

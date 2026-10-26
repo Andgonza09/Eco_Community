@@ -68,7 +68,7 @@ namespace View
 
                 try
                 {
-                    long id_Usuario = new UsuarioController().Insert(userRegister, role.id_Roles);
+                    long id_Usuario = new UsuarioController().InsertarUsuario(userRegister, role.id_Roles);
                     userRegister.id_Usuario = id_Usuario;
 
                     var result = MessageBox.Show("Usuario registrado correctamente", "Registro exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);

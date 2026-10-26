@@ -86,7 +86,7 @@ namespace View
                 string nombreBarrio = txtNombreBarrio.Text.Trim();
                 int idDistrito = Convert.ToInt32(cmbDistrito.SelectedValue);
 
-                barrioController.Update(idBarrio, nombreBarrio, idDistrito);
+                barrioController.ActualizarBarrio(idBarrio, nombreBarrio, idDistrito);
 
                 MessageBox.Show("Barrio actualizado correctamente.");
 
@@ -127,8 +127,7 @@ namespace View
 
             try
             {
-                barrioController.Delete(idBarrio);
-
+                barrioController.Eliminar(idBarrio);
                 MessageBox.Show("Barrio eliminado correctamente.");
 
                 btnClear_Click(sender, e);
@@ -168,7 +167,7 @@ namespace View
                         id_Distrito = Convert.ToInt32(cmbDistrito.SelectedValue)
                     };
 
-                    barrioController.Insert(barrio);
+                    barrioController.InsertarBarrios(barrio);
 
                     MessageBox.Show("Barrio agregado correctamente.");
 
@@ -214,7 +213,7 @@ namespace View
                 }
 
                 BarrioController controller = new BarrioController();
-                DataTable resultado = controller.BuscarBarrioById(idBarrio);
+                DataTable resultado = controller.BuscarBarrio_PorId(idBarrio);
 
                 if (resultado.Rows.Count == 0)
                 {

@@ -20,7 +20,7 @@ namespace View
         {
             InitializeComponent();
             dgvMultimedia.AutoGenerateColumns = false;
-            dgvMultimedia.DataSource = new MultimediaController().ListAllMultimedia();
+            dgvMultimedia.DataSource = new MultimediaController().ListarTodos_Multimedia();
             dgvMultimedia.CellClick += dgvMultimedia_CellContentClick;
             this.Load += frmMultimedia_Load;
 
@@ -97,7 +97,7 @@ namespace View
         private void ListMultimedia()
         {
             MultimediaController controller = new MultimediaController();
-            dgvMultimedia.DataSource = controller.ListAllMultimedia();
+            dgvMultimedia.DataSource = controller.ListarTodos_Multimedia();
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -116,7 +116,7 @@ namespace View
                 }
 
                 MultimediaController controller = new MultimediaController();
-                DataTable resultado = controller.search_ByIdRequest((long.Parse(txtBuscar.Text)));
+                DataTable resultado = controller.BuscarMultimedia_PorIdSolicitud((long.Parse(txtBuscar.Text)));
 
                 if (resultado.Rows.Count == 0)
                 {
@@ -443,7 +443,7 @@ namespace View
 
                 MultimediaController multimedia = new MultimediaController();
 
-                multimedia.UpdateMultimedia(long.Parse(txtIdMultimedia.Text), txtArchivo.Text, txtRuta.Text, txtTamano.Text, idExtension, DateOnly.FromDateTime(dtpFechaAdjuncion.Value));
+                multimedia.ActualizarMultimedia(long.Parse(txtIdMultimedia.Text), txtArchivo.Text, txtRuta.Text, txtTamano.Text, idExtension, DateOnly.FromDateTime(dtpFechaAdjuncion.Value));
                 MessageBox.Show("Actualización exitosa.", "Cambios realizados", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListMultimedia();
             }
@@ -539,7 +539,7 @@ namespace View
 
                 long idSolicitud =long.Parse(txtSolicitud.Text);
                 long idMultimedia = long.Parse(txtIdMultimedia.Text);
-                int cantidadMultimedia = new MultimediaController().CountMultimediaByRequestId(idSolicitud);
+                int cantidadMultimedia = new MultimediaController().ContarMultimedia_PorIdSolicitud(idSolicitud);
 
 
                 // SI ES EL ÚLTIMO ARCHIVO
@@ -553,32 +553,32 @@ namespace View
 
 
                     // Obtenemos la información del sitio
-                    long idInformacionSitio = new SolicitudesController().ObtenerIdDelSitio_ByRequest(idSolicitud);
+                    long idInformacionSitio = new SolicitudesController().ObtenerIdDelSitio_PorIdSolicitud(idSolicitud);
 
 
                     // Eliminar detalles de clasificación
                     DetalleClasificacionSitioController detalleClasificacion = new DetalleClasificacionSitioController();
-                    detalleClasificacion.DeleteDetailsClasificacion(idInformacionSitio,detalleClasificacion.GetIds_CatalogoResiduosByInformacion(idInformacionSitio));
+                    detalleClasificacion.EliminarDetallesClasificacion(idInformacionSitio,detalleClasificacion.ObtenerIdsCatalogoResiduos_PorIdInformacionSitio(idInformacionSitio));
 
 
                     // Eliminar detalles del sitio
                     DetalleSitiosController detalleSitio = new DetalleSitiosController();
-                    detalleSitio.Delete(idInformacionSitio);
+                    detalleSitio.EliminarDetallesSitios_PorIdInformacionSitio(idInformacionSitio);
 
                     //  Eliminamos Multimedia
                     MultimediaController multimedia = new MultimediaController();
-                    multimedia.DeleteMultimedia_ByRequest(idSolicitud);
+                    multimedia.EliminarMultimedia_PorIdSolicitud(idSolicitud);
 
                     //  Eliminamos Solicitud
                     SolicitudesController solicitudes = new SolicitudesController();
-                    solicitudes.DeleteRequest(idSolicitud);
+                    solicitudes.EliminarSolicitudes(idSolicitud);
 
                     
 
                     // Finalmente la información del sitio
                     InformacionSitioEntidad informacionSitio = new InformacionSitioEntidad();
                     InformacionSitioController sitios = new InformacionSitioController();
-                    sitios.DeleteInformacion(informacionSitio, idInformacionSitio);
+                    sitios.EliminarInformacionSitio(informacionSitio, idInformacionSitio);
 
 
                     MessageBox.Show("El archivo multimedia y la solicitud " + "fueron eliminados exitosamente.",
@@ -595,7 +595,7 @@ namespace View
                     return;
 
                 MultimediaController multimediaNormal = new MultimediaController();
-                multimediaNormal.DeleteMultimediaById(idMultimedia);
+                multimediaNormal.EliminarMultimedia(idMultimedia);
 
                 MessageBox.Show("Archivo multimedia eliminado exitosamente.", "Eliminación exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ListMultimedia();

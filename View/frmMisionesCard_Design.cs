@@ -66,7 +66,7 @@ namespace View
 
             if (progressBar1.Value == 100)
             {
-                detalle_MisionController.Insert(detalle_Mision);
+                detalle_MisionController.InsertarDetalle_Mision(detalle_Mision);
                 lbCompletado.Text = "1/1";
                 lblPorcentaje.Text = progressBar1.Value.ToString() + "%";
             }

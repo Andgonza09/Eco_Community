@@ -13,13 +13,13 @@ namespace Controller
     public class TipoRecompensaController
     {
         Conexion conexion = new Conexion();
-        public void Insert(TipoRecompensaEntidad roles)
+        public void InsertarTipoRecompensa(TipoRecompensaEntidad tipoRecompensa)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             string sql = @"INSERT INTO TipoRecompensa(tipoRecompensa) VALUES (@tipoRecompensa)";
 
             SqlCommand cmd = new SqlCommand(sql, cx);
-            cmd.Parameters.AddWithValue(@"tipoRecompensa", roles.tipoRecompensa);
+            cmd.Parameters.AddWithValue(@"tipoRecompensa", tipoRecompensa.tipoRecompensa);
 
 
             cx.Open();
@@ -52,7 +52,7 @@ namespace Controller
             }
         }
 
-        public void Delete(int id_TipoRecompensa)
+        public void EliminarTipoRecompensa(int id_TipoRecompensa)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace Controller
 
         }
 
-        public void Update(int id_TipoRecompensa, string tipoRecompensa)
+        public void ActualizarTipoRecompensa(int id_TipoRecompensa, string tipoRecompensa)
         {
             SqlConnection cx = conexion.ObtenerConexion();
 
@@ -112,7 +112,7 @@ namespace Controller
             }
         }
 
-        public DataTable BuscarTipoRecompensaById(int id_TipoRecompensa)
+        public DataTable BuscarTipoRecompensa_PorId(int id_TipoRecompensa)
         {
             try
             {

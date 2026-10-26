@@ -60,7 +60,7 @@ namespace View
                 }
 
                 DistritoController controller = new DistritoController();
-                DataTable resultado = controller.BuscarDistritoById(idDistrito);
+                DataTable resultado = controller.BuscarDistrito_PorId(idDistrito);
 
                 if (resultado.Rows.Count == 0)
                 {
@@ -99,7 +99,7 @@ namespace View
                 };
 
                 // DistritoController controller = new DistritoController();
-                controller.Insert(distrito);
+                controller.InsertarDistritos(distrito);
 
                 MessageBox.Show("Registro agregado correctamente", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -131,7 +131,7 @@ namespace View
                 int idDistrito = Convert.ToInt32(txtIdDistrito.Text);
 
                 DistritoController controller = new DistritoController();
-                controller.Update(idDistrito, txtNombreDistrito.Text);
+                controller.ActualizarDistritos(idDistrito, txtNombreDistrito.Text);
 
                 MessageBox.Show("Registro actualizado correctamente", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -163,7 +163,7 @@ namespace View
 
 
                 SolicitudesController solicitudesController = new SolicitudesController();
-                DataTable dt = solicitudesController.ObtenerIdsSolicitud_AsociadosDistritos(idDistrito);
+                DataTable dt = solicitudesController.ObtenerIdsSolicitudes_AsociadasDistritos(idDistrito);
 
 
                 List<long> List_IdSolicitud = new List<long>();
@@ -181,36 +181,36 @@ namespace View
 
                 foreach (long id_Soli in List_IdSolicitud)
                 {
-                    long id_InformacionSitio = solicitudesController.ObtenerIdDelSitio_ByRequest(id_Soli);
+                    long id_InformacionSitio = solicitudesController.ObtenerIdDelSitio_PorIdSolicitud(id_Soli);
 
                     // Eliminación de los detalle del sitio
                     DetalleSitiosController detalleSitiosController = new DetalleSitiosController();
-                    detalleSitiosController.Delete(id_InformacionSitio);
+                    detalleSitiosController.EliminarDetallesSitios_PorIdInformacionSitio(id_InformacionSitio);
 
                     // Obtención del catálogo y eliminación de los detalles del catálogo de cada sitio.
                     DetalleClasificacionSitioController detalleClasificacionSitioController = new DetalleClasificacionSitioController();
-                    List<int> idsResiduos = detalleClasificacionSitioController.GetIds_CatalogoResiduosByInformacion(id_InformacionSitio);
-                    detalleClasificacionSitioController.DeleteDetailsClasificacion(id_InformacionSitio, idsResiduos);
+                    List<int> idsResiduos = detalleClasificacionSitioController.ObtenerIdsCatalogoResiduos_PorIdInformacionSitio(id_InformacionSitio);
+                    detalleClasificacionSitioController.EliminarDetallesClasificacion(id_InformacionSitio, idsResiduos);
 
                     // Eliminación de los archivos multimedia asociados a la solicitud
                     MultimediaController multimediaController = new MultimediaController();
-                    multimediaController.DeleteMultimedia_ByRequest(id_Soli);
+                    multimediaController.EliminarMultimedia_PorIdSolicitud(id_Soli);
 
                     // Eliminación de las solicitudes del sitio
-                    solicitudesController.DeleteRequest(id_Soli);
+                    solicitudesController.EliminarSolicitudes(id_Soli);
                 }
 
                 // Eliminación de la información de cada solicitud correspondiente 
                 InformacionSitioController informacionSitioController = new InformacionSitioController();
-                informacionSitioController.DeleteInformacion_ByDistritoId(idDistrito);
+                informacionSitioController.EliminarInformacionSitio_PorIdDistrito(idDistrito);
 
                 // Eliminación del barrio
                 BarrioController barrioController = new BarrioController();
-                barrioController.Delete_byDistritoId(idDistrito);
+                barrioController.EliminarBarrio_PorIdDistrito(idDistrito);
 
                 //Eliminación del distrito
                 DistritoController controller = new DistritoController();
-                controller.Delete(idDistrito);
+                controller.EliminarDistritos(idDistrito);
 
 
                 MessageBox.Show("Registro eliminado correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);

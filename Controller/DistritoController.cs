@@ -14,7 +14,7 @@ namespace Controller
     public class DistritoController
     {
         Conexion conexion = new Conexion();
-        public void Insert(DistritoEntidad distritos)
+        public void InsertarDistritos(DistritoEntidad distritos)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             string sql = @"INSERT INTO Distrito(nombre_Distrito) VALUES (@nombre_Distrito)";
@@ -71,7 +71,7 @@ namespace Controller
             }
         }
 
-        public void Delete(int id_Distrito)
+        public void EliminarDistritos(int id_Distrito)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace Controller
             }
         }
 
-        public void Update(int id_Distrito, string nombre_Distrito)
+        public void ActualizarDistritos(int id_Distrito, string nombre_Distrito)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace Controller
             }
         }
 
-        public DataTable BuscarDistritoById(int id_Distrito)
+        public DataTable BuscarDistrito_PorId(int id_Distrito)
         {
             try
             {

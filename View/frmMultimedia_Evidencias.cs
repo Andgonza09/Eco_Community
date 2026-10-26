@@ -27,7 +27,7 @@ namespace View
             flowLayoutPanel1.Controls.Clear();
 
             MultimediaController multimediaController = new MultimediaController();
-            DataTable dt = multimediaController.ListMultimedia_ByUser(_idUsuario);
+            DataTable dt = multimediaController.ListarMultimedia_PorUsuario(_idUsuario);
 
             foreach (DataRow fila in dt.Rows)
             {

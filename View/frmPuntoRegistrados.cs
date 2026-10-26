@@ -79,7 +79,7 @@ namespace View
         {
             InformacionSitioController controller = new InformacionSitioController();
 
-            var datos = controller.ViewAllPoints();
+            var datos = controller.ListarTodos_Puntos();
             var datosGrid = datos.Select(x => new
             {
                 Id = x.Item1.id_InformacionSitio,
@@ -160,7 +160,7 @@ namespace View
         private async Task LoadPointsToMap()
         {
             InformacionSitioEntidad siteInformation = new InformacionSitioEntidad();
-            List<(InformacionSitioEntidad Sitio, string NombreBarrio)> puntos = new InformacionSitioController().ViewAllPoints();
+            List<(InformacionSitioEntidad Sitio, string NombreBarrio)> puntos = new InformacionSitioController().ListarTodos_Puntos();
 
             var puntosMapa = puntos.Select(p => new
             {
@@ -254,10 +254,10 @@ namespace View
             try
             {
                 long id_InformacionSitio = long.Parse(txtIdPunto.Text);
-                new InformacionSitioController().GetID_InformacionSitio(id_InformacionSitio);
+                new InformacionSitioController().ObtenerIdInformacionSitio(id_InformacionSitio);
 
-                List<int> idS_CatalogoResiduos = new DetalleClasificacionSitioController().GetIds_CatalogoResiduosByInformacion(id_InformacionSitio);
-                new DetalleClasificacionSitioController().DeleteDetailsClasificacion(id_InformacionSitio, idS_CatalogoResiduos);
+                List<int> idS_CatalogoResiduos = new DetalleClasificacionSitioController().ObtenerIdsCatalogoResiduos_PorIdInformacionSitio(id_InformacionSitio);
+                new DetalleClasificacionSitioController().EliminarDetallesClasificacion(id_InformacionSitio, idS_CatalogoResiduos);
 
             }
             catch (Exception ex)
@@ -336,23 +336,23 @@ namespace View
             if (verificate == DialogResult.OK)
             {
                 // Validar la eliminación del valor de la tabla detalle de sitios (Información sitio y usuarios)
-                new DetalleSitiosController().Delete(informacionSitio.id_InformacionSitio);
+                new DetalleSitiosController().EliminarDetallesSitios_PorIdInformacionSitio(informacionSitio.id_InformacionSitio);
 
                 // Eliminación de clasificación de sitios (Información sitio y catálogo de residuos)
                 Delete_Details();
 
                 // Obtener el id de la solicitud asociado con el sitio
-                long id_Solicitud = new SolicitudesController().GetID_Solicitud(informacionSitio.id_InformacionSitio);
+                long id_Solicitud = new SolicitudesController().ObtenerIdSolicitud(informacionSitio.id_InformacionSitio);
 
                 // Eliminación de archivos asociados con la solicitud del usuario.
-                new MultimediaController().DeleteMultimedia_ByRequest(id_Solicitud);
+                new MultimediaController().EliminarMultimedia_PorIdSolicitud(id_Solicitud);
 
                 // Eliminación de solicitudes asociadas con el sitio 
-                new SolicitudesController().DeletebyInformacionSitio(informacionSitio.id_InformacionSitio);
+                new SolicitudesController().EliminarSolicitudes_PorIdInformacionSitio(informacionSitio.id_InformacionSitio);
 
 
                 // Eliminación de información del sitio 
-                new InformacionSitioController().DeleteInformacion(informacionSitio, informacionSitio.id_InformacionSitio);
+                new InformacionSitioController().EliminarInformacionSitio(informacionSitio, informacionSitio.id_InformacionSitio);
                 MessageBox.Show("Registro eliminado correctamente", "Eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 RefreshTable();
@@ -397,7 +397,7 @@ namespace View
                 var verificate = MessageBox.Show("¨¿Estás seguro que deseas actualizar este punto del mapa?", "Verificando información", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                 if (verificate == DialogResult.OK)
                 {
-                    new InformacionSitioController().UpdateCoordenadas(informacionSitio, informacionSitio.id_InformacionSitio);
+                    new InformacionSitioController().ActualizarCoordenadas_InformacionSitio(informacionSitio, informacionSitio.id_InformacionSitio);
                     MessageBox.Show("Cambios realizados correctamente", "Validación de información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RefreshTable();
                 }
@@ -451,7 +451,7 @@ namespace View
                 var verificate = MessageBox.Show("¨¿Estás seguro que deseas actualizar este punto del mapa?", "Verificando información", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                 if (verificate == DialogResult.OK)
                 {
-                    new InformacionSitioController().UpdateCoordenadas(informacionSitio, informacionSitio.id_InformacionSitio);
+                    new InformacionSitioController().ActualizarCoordenadas_InformacionSitio(informacionSitio, informacionSitio.id_InformacionSitio);
                     MessageBox.Show("Cambios realizados correctamente", "Validación de información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RefreshTable();
                     dgvPuntos.ClearSelection();
@@ -489,23 +489,23 @@ namespace View
             if (verificate == DialogResult.OK)
             {
                 // Validar la eliminación del valor de la tabla detalle de sitios (Información sitio y usuarios)
-                new DetalleSitiosController().Delete(informacionSitio.id_InformacionSitio);
+                new DetalleSitiosController().EliminarDetallesSitios_PorIdInformacionSitio(informacionSitio.id_InformacionSitio);
 
                 // Eliminación de clasificación de sitios (Información sitio y catálogo de residuos)
                 Delete_Details();
 
                 // Obtener el id de la solicitud asociado con el sitio
-                long id_Solicitud = new SolicitudesController().GetID_Solicitud(informacionSitio.id_InformacionSitio);
+                long id_Solicitud = new SolicitudesController().ObtenerIdSolicitud(informacionSitio.id_InformacionSitio);
 
                 // Eliminación de archivos asociados con la solicitud del usuario.
-                new MultimediaController().DeleteMultimedia_ByRequest(id_Solicitud);
+                new MultimediaController().EliminarMultimedia_PorIdSolicitud(id_Solicitud);
 
                 // Eliminación de solicitudes asociadas con el sitio 
-                new SolicitudesController().DeletebyInformacionSitio(informacionSitio.id_InformacionSitio);
+                new SolicitudesController().EliminarSolicitudes_PorIdInformacionSitio(informacionSitio.id_InformacionSitio);
 
 
                 // Eliminación de información del sitio 
-                new InformacionSitioController().DeleteInformacion(informacionSitio, informacionSitio.id_InformacionSitio);
+                new InformacionSitioController().EliminarInformacionSitio(informacionSitio, informacionSitio.id_InformacionSitio);
                 MessageBox.Show("Registro eliminado correctamente", "Eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 RefreshTable();

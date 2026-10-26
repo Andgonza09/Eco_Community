@@ -174,8 +174,8 @@ namespace View
             try
             {
 
-                bool Cantidad = controller.MissionExists(txtDescripcionMision.Text);
-                bool ExiteRecompensa = recompensaController.RewardExist(txtDescripcionRecompensa.Text);
+                bool Cantidad = controller.MisionExiste(txtDescripcionMision.Text);
+                bool ExiteRecompensa = recompensaController.RecompensaExiste(txtDescripcionRecompensa.Text);
 
                 if (Cantidad == true)
                 {
@@ -188,9 +188,9 @@ namespace View
                         MessageBox.Show("No se puede ingresar al sistema una misión sin puntaje", "Validación de información", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
-                    int id_Misión = controller.Insert(misiones);
+                    int id_Misión = controller.InsertarMisiones(misiones);
 
-                    recompensaController.Insert(recompensaEntidad, id_Misión, id_TipoRecompensa);
+                    recompensaController.InsertarRecompensa(recompensaEntidad, id_Misión, id_TipoRecompensa);
                     MessageBox.Show("Registro exitoso", "Misión y recompensa agregada", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RefreshTable();
                     dgvMisiones.ClearSelection();
@@ -216,9 +216,9 @@ namespace View
             {
                 // Eliminar solicitud
                 // Eliminamos el id de la tabla recompensa para evitar las dependencias de llaves foráneas de cada tabla
-                new RecompensaController().DeleteReward(id_MisionSeleccionada);
-                new Detalle_MisionController().DeleteByMission(id_MisionSeleccionada);
-                new MisionesController().DeleteMission(id_MisionSeleccionada);
+                new RecompensaController().EliminarRecompensa_PorIdMision(id_MisionSeleccionada);
+                new Detalle_MisionController().EliminarDetalleMision_PorIdMision(id_MisionSeleccionada);
+                new MisionesController().EliminarMisiones(id_MisionSeleccionada);
                 MessageBox.Show("Misión eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 RefreshTable();
@@ -280,8 +280,8 @@ namespace View
                 MisionesController controller = new MisionesController();
                 RecompensaController recompensaController = new RecompensaController();
 
-                controller.UpdateMission(mision);
-                recompensaController.UpdateReward(recompensa);
+                controller.ActualizarMisiones(mision);
+                recompensaController.ActualizarRecompensa(recompensa);
 
                 MessageBox.Show("Registro actualizado correctamente", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

@@ -132,7 +132,7 @@ namespace View
             SolicitudesController controller = new SolicitudesController();
 
             dataGridView1.DataSource =
-                controller.ListarSolicitudesPorBusqueda(_user.id_Usuario);
+                controller.ListarSolicitudesPorBusqueda_IdUsuario(_user.id_Usuario);
 
             if (dataGridView1.Columns.Contains("id_Solicitud"))
             {
@@ -170,7 +170,7 @@ namespace View
             // Recuperar el objeto BarrioEntidad
             BarrioController barrioController = new BarrioController();
 
-            selectedNeighborhood = barrioController.GetBarrioById(idBarrio);
+            selectedNeighborhood = barrioController.ObtenerIdBarrio(idBarrio);
 
             if (selectedNeighborhood == null)
             {
@@ -224,7 +224,7 @@ namespace View
 
             try
             {
-                return new InformacionSitioController().Insert(siteInformation, siteInformation.id_Barrio);
+                return new InformacionSitioController().InsertarInformacionSitio(siteInformation, siteInformation.id_Barrio);
             }
             catch
             {
@@ -245,7 +245,7 @@ namespace View
             }
 
             int idBarrio = Convert.ToInt32(cmbNeighborhood.SelectedValue);
-            BarrioEntidad selectedNeighborhood = new BarrioController().GetBarrioById(idBarrio);
+            BarrioEntidad selectedNeighborhood = new BarrioController().ObtenerIdBarrio(idBarrio);
 
             // Obtenemos el valor de la instancia actual del sitio 
             InformacionSitioEntidad siteInformation = new InformacionSitioEntidad
@@ -257,19 +257,19 @@ namespace View
 
             // Detalle Clasificación sitio.
             DetalleClasificacionSitioEntidad detailsInformation = new DetalleClasificacionSitioEntidad();
-            new DetalleClasificacionSitioController().Insert(id_InformacionSitio, idsSeleccionados);
+            new DetalleClasificacionSitioController().InsertarDetallesClasificacion(id_InformacionSitio, idsSeleccionados);
         }
         private void RegistrarDetalleUsuarioSitio(long idInformationSite, long id_Usuario)
         {
             DetalleSitiosEntidad detailsUserSite = new DetalleSitiosEntidad();
-            new DetalleSitiosController().Insert(detailsUserSite, idInformationSite, _user.id_Usuario);
+            new DetalleSitiosController().InsertarDetallesSitios(detailsUserSite, idInformationSite, _user.id_Usuario);
         }
         private long RegistrarSolicitud(long idInformationSite)
         {
             SolicitudesEntidad request = new SolicitudesEntidad();
             long idUser = _user.id_Usuario;
 
-            long id_Solicitud = new SolicitudesController().Insert(request, idUser, idInformationSite);
+            long id_Solicitud = new SolicitudesController().InsertarSolicitudes(request, idUser, idInformationSite);
             return id_Solicitud;
         }
         private string GuardarArchivoEnAplicacion(string rutaOriginal, long idSolicitud)
@@ -310,7 +310,7 @@ namespace View
                 multimedia.ruta_ArchivoMultimedia = GuardarArchivoEnAplicacion(listViewFile.Items[i].SubItems[3].Text, idRequest);
 
                 int idExtension = ObtenerIdExtension(multimedia.tipo_ArchivoMultimedia);
-                new MultimediaController().Insert(multimedia, idRequest, idExtension);
+                new MultimediaController().InsertarMultimedia(multimedia, idRequest, idExtension);
 
             }
 
@@ -497,7 +497,7 @@ namespace View
                 // Obtener el ID de la información del sitio
                 SolicitudesController solicitudController = new SolicitudesController();
 
-                long idInformacionSitio = solicitudController.ObtenerIdDelSitio_ByRequest(idSolicitudSeleccionada);
+                long idInformacionSitio = solicitudController.ObtenerIdDelSitio_PorIdSolicitud(idSolicitudSeleccionada);
 
                 if (idInformacionSitio <= 0)
                 {
@@ -508,7 +508,7 @@ namespace View
                 // Obtener información del sitio
                 InformacionSitioController informacionController = new InformacionSitioController();
 
-                InformacionSitioEntidad informacion = informacionController.GetInformacionById(idInformacionSitio);
+                InformacionSitioEntidad informacion = informacionController.ObtenerInformacionSitio_IdInformacionSitio(idInformacionSitio);
 
                 // Cargar tipo de sitio
                 cmbTypeSite.Text = informacion.tipoSitio;
@@ -518,7 +518,7 @@ namespace View
 
                 // Obtener el barrio
                 BarrioController barrioController = new BarrioController();
-                BarrioEntidad barrio = barrioController.GetBarrioById(informacion.id_Barrio);
+                BarrioEntidad barrio = barrioController.ObtenerIdBarrio(informacion.id_Barrio);
 
                 cmbDistrict.SelectedValue = barrio.id_Distrito;
                 CargarBarrios(barrio.id_Distrito);
@@ -527,7 +527,7 @@ namespace View
                 // Obtener los tipos de residuos
                 DetalleClasificacionSitioController detalleController = new DetalleClasificacionSitioController();
 
-                List<int> idsResiduos = detalleController.GetIds_CatalogoResiduosByInformacion(idInformacionSitio);
+                List<int> idsResiduos = detalleController.ObtenerIdsCatalogoResiduos_PorIdInformacionSitio(idInformacionSitio);
 
                 // Desmarcar todos los residuos
                 for (int i = 0; i < ckListTypeWaste.Items.Count; i++)
@@ -611,6 +611,9 @@ namespace View
                 idInformationSite
             );
 
+            
+
+
             // Registrar archivos multimedia
             RegistrarMultimedia(idRequest);
 
@@ -630,6 +633,12 @@ namespace View
 
             // Actualizar DataGridView
             ListarSolicitudeBusqueda();
+            
+
+            // Realizar persistencia de la información agregada al formulario
+           // string archivo = Path.Combine(Environment.user)
+
+
         }
         private void button9_Click(object sender, EventArgs e)
         {
@@ -687,7 +696,7 @@ namespace View
                     SolicitudesController solicitudController = new SolicitudesController();
 
                     long idInformacionSitio =
-                        solicitudController.ObtenerIdDelSitio_ByRequest(
+                        solicitudController.ObtenerIdDelSitio_PorIdSolicitud(
                             idSolicitudSeleccionada
                         );
 
@@ -706,7 +715,7 @@ namespace View
                     // Actualizar tipo de sitio, dirección y barrio
                     InformacionSitioController informacionController = new InformacionSitioController();
 
-                    bool informacionActualizada = informacionController.UpdateInformacion(idInformacionSitio, cmbTypeSite.Text, rchtxtAddress.Text, idBarrio);
+                    bool informacionActualizada = informacionController.ActualizarInformacionSitio(idInformacionSitio, cmbTypeSite.Text, rchtxtAddress.Text, idBarrio);
 
                     if (!informacionActualizada)
                     {
@@ -718,7 +727,7 @@ namespace View
                     // Actualizar tipos de residuos
                     DetalleClasificacionSitioController detalleController = new DetalleClasificacionSitioController();
 
-                    detalleController.Update(idInformacionSitio, idsSeleccionados);
+                    detalleController.ActualizarDetallesClasificacion(idInformacionSitio, idsSeleccionados);
 
                     MessageBox.Show("Solicitud actualizada correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information
                     );
@@ -766,26 +775,26 @@ namespace View
             try
             {
                 InformacionSitioEntidad informacionSitio = new InformacionSitioEntidad();
-                long id_InformacionSitio = new SolicitudesController().ObtenerIdDelSitio_ByRequest(idSolicitudSeleccionada);
+                long id_InformacionSitio = new SolicitudesController().ObtenerIdDelSitio_PorIdSolicitud(idSolicitudSeleccionada);
 
                 // Primero eliminamos los archivos multimedia relacionados
-                new MultimediaController().DeleteMultimedia_ByRequest(idSolicitudSeleccionada);
+                new MultimediaController().EliminarMultimedia_PorIdSolicitud(idSolicitudSeleccionada);
 
                 // Después eliminamos la solicitud
-                new SolicitudesController().DeleteRequest(idSolicitudSeleccionada);
+                new SolicitudesController().EliminarSolicitudes(idSolicitudSeleccionada);
 
                 // Eliminación de Detalles del sitio
-                new DetalleSitiosController().Delete(id_InformacionSitio);
+                new DetalleSitiosController().EliminarDetallesSitios_PorIdInformacionSitio(id_InformacionSitio);
 
                 // Eliminación de los detalles de clasificación del sitio.
                 DetalleClasificacionSitioController detalleClasificacionSitio = new DetalleClasificacionSitioController();
-                List<int> ListaResiduos = detalleClasificacionSitio.GetIds_CatalogoResiduosByInformacion(id_InformacionSitio);
+                List<int> ListaResiduos = detalleClasificacionSitio.ObtenerIdsCatalogoResiduos_PorIdInformacionSitio(id_InformacionSitio);
 
-                detalleClasificacionSitio.DeleteDetailsClasificacion(id_InformacionSitio, ListaResiduos);
+                detalleClasificacionSitio.EliminarDetallesClasificacion(id_InformacionSitio, ListaResiduos);
 
                 // Eliminación de la información del sitio 
                 InformacionSitioController informacionSitioController = new InformacionSitioController();
-                informacionSitioController.DeleteInformacion(informacionSitio, id_InformacionSitio);
+                informacionSitioController.EliminarInformacionSitio(informacionSitio, id_InformacionSitio);
 
                 MessageBox.Show("Solicitud eliminada correctamente.", "Confirmación de eliminación",
                     MessageBoxButtons.OK,
@@ -880,7 +889,7 @@ namespace View
                 // Obtener el ID de la información del sitio
                 SolicitudesController solicitudController = new SolicitudesController();
 
-                long idInformacionSitio = solicitudController.ObtenerIdDelSitio_ByRequest(idSolicitudSeleccionada);
+                long idInformacionSitio = solicitudController.ObtenerIdDelSitio_PorIdSolicitud(idSolicitudSeleccionada);
 
                 if (idInformacionSitio <= 0)
                     return;
@@ -888,7 +897,7 @@ namespace View
                 // Obtener información del sitio
                 InformacionSitioController informacionController = new InformacionSitioController();
 
-                InformacionSitioEntidad informacion = informacionController.GetInformacionById(idInformacionSitio);
+                InformacionSitioEntidad informacion = informacionController.ObtenerInformacionSitio_IdInformacionSitio(idInformacionSitio);
 
                 if (informacion == null)
                     return;
@@ -902,7 +911,7 @@ namespace View
                 // Obtener barrio
                 BarrioController barrioController = new BarrioController();
 
-                BarrioEntidad barrio = barrioController.GetBarrioById(informacion.id_Barrio);
+                BarrioEntidad barrio = barrioController.ObtenerIdBarrio(informacion.id_Barrio);
 
                 if (barrio != null)
                 {
@@ -918,7 +927,7 @@ namespace View
                     new DetalleClasificacionSitioController();
 
                 List<int> idsResiduos =
-                    detalleController.GetIds_CatalogoResiduosByInformacion(
+                    detalleController.ObtenerIdsCatalogoResiduos_PorIdInformacionSitio(
                         idInformacionSitio
                     );
 
@@ -1040,7 +1049,7 @@ namespace View
                 // Obtener el ID de la información del sitio
                 SolicitudesController solicitudController = new SolicitudesController();
 
-                long idInformacionSitio = solicitudController.ObtenerIdDelSitio_ByRequest(idSolicitudSeleccionada);
+                long idInformacionSitio = solicitudController.ObtenerIdDelSitio_PorIdSolicitud(idSolicitudSeleccionada);
 
                 if (idInformacionSitio <= 0)
                     return;
@@ -1048,7 +1057,7 @@ namespace View
                 // Obtener información del sitio
                 InformacionSitioController informacionController = new InformacionSitioController();
 
-                InformacionSitioEntidad informacion = informacionController.GetInformacionById(idInformacionSitio);
+                InformacionSitioEntidad informacion = informacionController.ObtenerInformacionSitio_IdInformacionSitio(idInformacionSitio);
 
                 if (informacion == null)
                     return;
@@ -1062,7 +1071,7 @@ namespace View
                 // Obtener barrio
                 BarrioController barrioController = new BarrioController();
 
-                BarrioEntidad barrio = barrioController.GetBarrioById(informacion.id_Barrio);
+                BarrioEntidad barrio = barrioController.ObtenerIdBarrio(informacion.id_Barrio);
 
                 if (barrio != null)
                 {
@@ -1078,7 +1087,7 @@ namespace View
                     new DetalleClasificacionSitioController();
 
                 List<int> idsResiduos =
-                    detalleController.GetIds_CatalogoResiduosByInformacion(
+                    detalleController.ObtenerIdsCatalogoResiduos_PorIdInformacionSitio(
                         idInformacionSitio
                     );
 

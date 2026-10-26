@@ -1,12 +1,12 @@
-﻿using Microsoft.Web.WebView2.Core;
+﻿using Controller;
+using Microsoft.Web.WebView2.Core;
 using Model.Eco_Community;
-using Controller;
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -60,51 +60,110 @@ namespace View
         }
         private async Task LoadPointsToMap()
         {
-            InformacionSitioEntidad siteInformation = new InformacionSitioEntidad();
-            List<(InformacionSitioEntidad Sitio, string NombreBarrio)> puntos = new InformacionSitioController().ViewAllPoints();
+            if (wv2Map.CoreWebView2 == null)
+                return;
+
+            // Obtener puntos desde SQL Server
+            var puntos = new InformacionSitioController().MostrarDetalles_PuntosRegistrados();
 
             var puntosMapa = puntos.Select(p => new
             {
-                p.Sitio.id_InformacionSitio,
-                p.Sitio.tipoSitio,
-                p.Sitio.direccion,
-                p.Sitio.id_Barrio,
-                p.Sitio.latitud,
-                p.Sitio.length
+                id_InformacionSitio = p.Item1.id_InformacionSitio,
+                tipoSitio = p.Item1.tipoSitio,
+                direccion = p.Item1.direccion,
+                barrio = p.Item2,
+                distrito = p.Item3,
+                nombre_Usuario = p.Item4,
+                tipoResiduos = p.Item5,
+                latitud = p.Item1.latitud,
+                longitud = p.Item1.length
+
             }).ToList();
 
             string json = JsonSerializer.Serialize(puntosMapa);
+            string script = @"
+            (function() {
+                try {
 
-            string script = $@"
-            var listaPuntos = {json};
+                    // Verificar que el mapa esté inicializado
+                    if (typeof mapa === 'undefined' || !(mapa instanceof L.Map))
+                        return 'ERROR: El mapa no está listo';
 
-            listaPuntos.forEach(function(punto) {{
+                    // Eliminar marcadores anteriores
+                    if (window.capaPuntosAmbientales) {
+                        mapa.removeLayer(window.capaPuntosAmbientales);
+                    }
 
-                var lat = Number(punto.latitud);
-                var lng = Number(punto.length);
+                    window.capaPuntosAmbientales = L.layerGroup().addTo(mapa);
 
-                if (isNaN(lat) || isNaN(lng)) {{
-                    console.log('Coordenadas inválidas:', punto);
-                    return;
-                }}
+                    const listaPuntos = __PUNTOS__;
+                    const limites = [];
+                    let agregados = 0;
 
-                var marker = L.marker([lat, lng]).addTo(mapa);
+                    listaPuntos.forEach(function(punto) {
 
-                var contenidoPopup = '';
-                contenidoPopup += '<b>Punto ambiental</b><br>';
-                contenidoPopup += '<b>ID:</b> ' + punto.id_InformacionSitio + '<br>';
-                contenidoPopup += '<b>Tipo:</b> ' + punto.tipoSitio + '<br>';
-                contenidoPopup += '<b>Dirección:</b> ' + punto.direccion + '<br>';
-                contenidoPopup += '<b>Barrio:</b> ' + punto.id_Barrio + '<br>';
-                contenidoPopup += '<b>Latitud:</b> ' + punto.latitud + '<br>';
-                contenidoPopup += '<b>Longitud:</b> ' + punto.length;
+                        var lat = Number(punto.latitud);
+                        var lng = Number(punto.longitud);
 
-                marker.bindPopup(contenidoPopup);
-            }});
+                        if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+                            console.log('Coordenadas inválidas:', punto);
+                            return;
+                        }
 
-            mapa.invalidateSize();";
+                        if (lat < -90 || lat > 90 || lng < -180 || lng > 180)
+                            return;
 
-            await wv2Map.CoreWebView2.ExecuteScriptAsync(script);
+                        if (lat === 0 && lng === 0)
+                            return;
+
+                        var marker = L.marker([lat, lng])
+                            .addTo(window.capaPuntosAmbientales);
+
+                        var contenidoPopup = '';
+                        contenidoPopup += '<b>Punto ambiental</b><br>';
+                        contenidoPopup += '<b> Usuario asociado:</b> ' + punto.nombre_Usuario + '<br>';
+                        contenidoPopup += '<b>Tipo de sitio:</b> ' + punto.tipoSitio + '<br>';
+                        contenidoPopup += '<b>Barrio:</b> ' + punto.barrio + '<br>';
+
+                        marker.bindPopup(contenidoPopup);
+
+                        marker.on('click', function() {
+                            if (window.chrome && window.chrome.webview) {
+                                window.chrome.webview.postMessage(punto);
+                            }
+                        });
+
+                        limites.push([lat, lng]);
+                        agregados++;
+                    });
+
+                    mapa.invalidateSize();
+
+                    // Centrar el mapa para mostrar todos los puntos
+                    if (limites.length > 0) {
+                        mapa.fitBounds(limites, {
+                            padding: [40, 40],
+                            maxZoom: 15
+                        });
+                    }
+
+                    return 'Marcadores agregados: ' + agregados +
+                           ' de ' + listaPuntos.length;
+
+                } catch (error) {
+                    return 'ERROR JAVASCRIPT: ' + error.message;
+                }
+            })();
+            ";
+
+            script = script.Replace("__PUNTOS__", json);
+
+            string respuesta =
+                await wv2Map.CoreWebView2.ExecuteScriptAsync(script);
+
+            MessageBox.Show(
+                JsonSerializer.Deserialize<string>(respuesta) ?? respuesta
+            );
         }
         private bool pointsLoaded = false;
         private async void wv2Map_NavigationCompleted(
@@ -128,12 +187,67 @@ namespace View
         {
 
         }
+        private void RecibirDatosMapa(object sender, CoreWebView2WebMessageReceivedEventArgs e)
+        {
+            try
+            {
+                using JsonDocument documento =
+                    JsonDocument.Parse(e.WebMessageAsJson);
+
+                JsonElement punto = documento.RootElement;
+
+                // Obtener información del punto seleccionado
+                long idSitio =
+                    punto.GetProperty("id_InformacionSitio").GetInt64();
+
+                string tipoSitio =
+                    punto.GetProperty("tipoSitio").GetString();
+
+                string barrio = punto.GetProperty("barrio").GetString();
+
+                string distrito = punto.GetProperty("distrito").GetString();
+
+                string direccion =
+                    punto.GetProperty("direccion").GetString();
+
+                decimal latitud =
+                    punto.GetProperty("latitud").GetDecimal();
+
+                decimal longitud =
+                    punto.GetProperty("longitud").GetDecimal();
+
+                string tipoResiduos = punto.GetProperty("tipoResiduos").GetString();
+
+                string nombre_Usuario = punto.GetProperty("nombre_Usuario").GetString();
+
+                txtTipoSitio.Text = tipoSitio;
+                txtBarrio.Text = barrio;
+                txtDistrito.Text = distrito;
+                rchDireccion.Text = direccion;
+                rchResiduos.Text = tipoResiduos;
+                txtUsuario.Text = nombre_Usuario;
+
+                txtLatitud.Text =
+                    latitud.ToString(CultureInfo.InvariantCulture);
+
+                txtLongitud.Text =
+                    longitud.ToString(CultureInfo.InvariantCulture);
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al seleccionar punto: " + ex.Message);
+            }
+        }
 
         private async void UserPointsRegisters_Load(object sender, EventArgs e)
         {
             try
             {
                 await wv2Map.EnsureCoreWebView2Async();
+                wv2Map.CoreWebView2.WebMessageReceived += RecibirDatosMapa;
 
                 // Permitir geolocalización
                 wv2Map.CoreWebView2.PermissionRequested += (sender, e) =>

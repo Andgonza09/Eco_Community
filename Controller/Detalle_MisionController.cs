@@ -12,7 +12,7 @@ namespace Controller
     public class Detalle_MisionController
     {
         Conexion conexion = new Conexion();
-        public void Insert(Detalle_MisionEntidad detalle_mision)
+        public void InsertarDetalle_Mision(Detalle_MisionEntidad detalle_mision)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             string sql = @"INSERT INTO Detalle_Mision(estado_Mision,id_Usuario,id_Mision) VALUES (@estado_Mision,@id_Usuario,@id_Mision)";
@@ -29,7 +29,7 @@ namespace Controller
             cx.Close();
 
         }
-        public void DeleteByUser(long id_Usuario)
+        public void EliminarDetalleMision_PorIdUsuario(long id_Usuario)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try
@@ -48,7 +48,7 @@ namespace Controller
                 throw new Exception("Error al realizar la eliminación del detalle de la misión: " + ex.Message);
             }
         }
-        public void DeleteByMission(int id_Mision)
+        public void EliminarDetalleMision_PorIdMision(int id_Mision)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try

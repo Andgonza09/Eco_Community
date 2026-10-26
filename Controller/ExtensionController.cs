@@ -13,7 +13,7 @@ namespace Controller
     public class ExtensionController
     {
         Conexion conexion = new Conexion();
-        public void Insert(ExtensionEntidad extension)
+        public void InsertarExtensiones(ExtensionEntidad extension)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             string sql = @"INSERT INTO Extension VALUES (@tipo_Extension)";
@@ -28,7 +28,7 @@ namespace Controller
 
             cx.Close();
         }
-        public void Delete(int id_Extension)
+        public void EliminarExtensiones(int id_Extension)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace Controller
             }
         }
 
-        public void Update(int id_Extension, string tipo_Extension)
+        public void ActualizarExtensiones(int id_Extension, string tipo_Extension)
         {
             try
             {
@@ -133,7 +133,7 @@ namespace Controller
             }
         }
 
-        public DataTable BuscarExtensionById(int id_Extension)
+        public DataTable BuscarExtension_PorId(int id_Extension)
         {
             try
             {

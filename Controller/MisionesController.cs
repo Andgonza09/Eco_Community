@@ -16,7 +16,7 @@ namespace Controller
     {
         Conexion conexion = new Conexion();
 
-        public int Insert(MisionesEntidad misiones)
+        public int InsertarMisiones(MisionesEntidad misiones)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try
@@ -72,7 +72,7 @@ namespace Controller
                 throw new Exception("Error al obtener la información del catálogo: " + ex.Message);
             }
         }
-        public bool MissionExists(string descripcion)
+        public bool MisionExiste(string descripcion)
         {
             // Este es mi archivo original 
             try
@@ -161,7 +161,7 @@ namespace Controller
         }
 
         //Actualizar la mision
-        public bool UpdateMission(MisionesEntidad mission)
+        public bool ActualizarMisiones(MisionesEntidad mission)
         {
             SqlConnection cx = conexion.ObtenerConexion();
 
@@ -193,7 +193,7 @@ namespace Controller
         }
 
         //Eliminar Mision
-        public bool DeleteMission(int idMision)
+        public bool EliminarMisiones(int idMision)
         {
             SqlConnection cx = conexion.ObtenerConexion();
 
@@ -248,27 +248,8 @@ namespace Controller
                 }
             }
         }
-        public void DeleteMisionByTipoRecompensa(int id_TipoRecompensa)
-        {
-            SqlConnection cx = conexion.ObtenerConexion();
-            try
-            {
-                string sql = @"DELETE M FROM Misiones AS M INNER JOIN Recompensa AS R ON M.id_Mision = R.id_Mision INNER JOIN 
-                TipoRecompensa AS T ON T.id_TipoRecompensa = R.id_TipoRecompensa WHERE T.id_TipoRecompensa = @id_Tipo";
-                SqlCommand cmd = new SqlCommand(sql, cx);
 
-                cmd.Parameters.AddWithValue("@id_Tipo", id_TipoRecompensa);
-                cx.Open();
-                cmd.ExecuteNonQuery();
-                cx.Close();
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al realizar la eliminación de la misión: " + ex.Message);
-            }
-        }
-        public int CountAllMission()
+        public int ContarTodas_Misiones()
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try

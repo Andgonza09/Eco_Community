@@ -12,7 +12,7 @@ namespace Controller
     public class RolesController
     {
         Conexion conexion = new Conexion();
-        public void Insert(RolesEntidad roles)
+        public void InsertarRoles(RolesEntidad roles)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             string sql = @"INSERT INTO Roles(tipo_Roles) VALUES (@tipo_Roles)";

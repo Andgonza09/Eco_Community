@@ -126,7 +126,7 @@ namespace View
 
                 dgvUsuarios.AutoGenerateColumns = false;
 
-                dgvUsuarios.DataSource = controller.BuscarUsuarioById(idUsuario);
+                dgvUsuarios.DataSource = controller.BuscarUsuarioPorId(idUsuario);
 
 
             }
@@ -191,7 +191,7 @@ namespace View
             if (resultado == DialogResult.OK)
             {
                 // Eliminación de usuario
-                new UsuarioController().Delete(id_UsuarioSeleccionado);
+                new UsuarioController().EliminarUsuario(id_UsuarioSeleccionado);
                 MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 RefreshTable();
@@ -236,7 +236,7 @@ namespace View
                 }
                 else
                 {
-                    controller.Insert(usuario, id_Roles);
+                    controller.InsertarUsuario(usuario, id_Roles);
                     MessageBox.Show("Registro exitoso", "Usuario agregado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RefreshTable();
                 }
@@ -263,29 +263,29 @@ namespace View
                     // --> Eliminación de FK y tablas relacionadas con la información del usuario
 
                     // Eliminación de la relación entre Usuario y la tabla Misión.
-                    new Detalle_MisionController().DeleteByUser(id_UsuarioSeleccionado);
+                    new Detalle_MisionController().EliminarDetalleMision_PorIdUsuario(id_UsuarioSeleccionado);
 
                     // Eliminación de la relación entre Usuario y la tabla Criterios de ubicación.
-                    new DetalleConsultaArchivoController().Delete(id_UsuarioSeleccionado);
+                    new DetalleConsultaArchivoController().EliminarDetalles_ConsultaArchivo(id_UsuarioSeleccionado);
 
                     // Eliminación de la relación entre Usuario y los detalles de sitios asociados.
-                    new DetalleSitiosController().DeleteUserInformation(id_UsuarioSeleccionado);
+                    new DetalleSitiosController().EliminarDetallesSitios_PorIdUsuario(id_UsuarioSeleccionado);
 
                     // Eliminación de la relación la tabla informacion sitio y detalles de clasificación de sitios
-                    new DetalleClasificacionSitioController().DeleteDetailsClasificacion_ByUser(id_UsuarioSeleccionado);
+                    new DetalleClasificacionSitioController().EliminarDetallesClasificacion_PorIdUsuario(id_UsuarioSeleccionado);
 
                     // Eliminación de Multimedia asociado con los usuarios del sistema
-                    new MultimediaController().DeleteMultimedia_PorUsuario(id_UsuarioSeleccionado);
+                    new MultimediaController().EliminarMultimedia_PorIdUsuario(id_UsuarioSeleccionado);
 
                     // Eliminación de las solicitudes asociadas con el usuario.
-                    new SolicitudesController().DeleteRequest_ByUser(id_UsuarioSeleccionado);
+                    new SolicitudesController().EliminarSolicitudes_PorIdUsuario(id_UsuarioSeleccionado);
                 
                     // Eliminación de los sitios asociados con los usuarios en el sistema.
-                    new InformacionSitioController().DeleteInformacionSitio_ByUser(id_UsuarioSeleccionado);
+                    new InformacionSitioController().EliminarInformacionSitio_PorIdUsuario(id_UsuarioSeleccionado);
 
 
                     // Eliminación total del usuario
-                    new UsuarioController().Delete(id_UsuarioSeleccionado);
+                    new UsuarioController().EliminarUsuario(id_UsuarioSeleccionado);
                     MessageBox.Show("Usuario eliminado correctamente del sistema", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     RefreshTable();
@@ -337,7 +337,7 @@ namespace View
                 }
                 else
                 {
-                    controller.Insert(usuario, id_Roles);
+                    controller.InsertarUsuario(usuario, id_Roles);
                     MessageBox.Show("Registro exitoso", "Usuario agregado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RefreshTable();
                     dgvUsuarios.ClearSelection();
@@ -409,7 +409,7 @@ namespace View
                 }
 
                 UsuarioController controller = new UsuarioController();
-                bool actualizado = controller.UpdateUser(idUsuario, username, password, email, id_Roles);
+                bool actualizado = controller.ActualizarUsuario(idUsuario, username, password, email, id_Roles);
 
                 MessageBox.Show("Usuario actualizado correctamente", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

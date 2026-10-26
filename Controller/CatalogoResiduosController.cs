@@ -14,7 +14,7 @@ namespace Controller
     public class CatalogoResiduosController
     {
         Conexion conexion = new Conexion();
-        public int Insert(CatalogoResiduosEntidad catalogoresiduos)
+        public int InsertarCatalogoResiduos(CatalogoResiduosEntidad catalogoresiduos)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             string sql = @"INSERT INTO CatalogoResiduos(tipoResiduo) OUTPUT INSERTED.id_CatalogoResiduos VALUES (@tipoResiduo)";
@@ -30,7 +30,7 @@ namespace Controller
             return id_Catalogo;
 
         }
-        public void Update(int id_Catalogo, string tipoResiduos)
+        public void ActualizarCatalogoResiduos(int id_Catalogo, string tipoResiduos)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try
@@ -52,7 +52,7 @@ namespace Controller
                 throw new Exception("Error al actualizar la información: " + ex.Message);
             }
         }
-        public void Delete(int id_Catalogo)
+        public void EliminarCatalogoResiduos(int id_Catalogo)
         {
             SqlConnection cx = conexion.ObtenerConexion();
 

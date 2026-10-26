@@ -66,7 +66,7 @@ namespace View
                     tipoResiduo = txtCatalogo.Text
                 };
 
-                controller.Insert(catalogo);
+                controller.InsertarCatalogoResiduos(catalogo);
                 MessageBox.Show("Registro agregado correctamente", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 ListarCatalogo();
@@ -97,7 +97,7 @@ namespace View
                 int idCatalogo = Convert.ToInt32(txtIdCatalogo.Text);
 
                 CatalogoResiduosController controller = new CatalogoResiduosController();
-                controller.Update(idCatalogo, txtCatalogo.Text);
+                controller.ActualizarCatalogoResiduos(idCatalogo, txtCatalogo.Text);
 
                 MessageBox.Show("Registro actualizado correctamente", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -125,15 +125,80 @@ namespace View
                 if (resultado != DialogResult.OK)
                     return;
 
-                int idCatalogo = Convert.ToInt32(txtIdCatalogo.Text);
 
-                CatalogoResiduosController controller = new CatalogoResiduosController();
-                controller.Delete(idCatalogo);
+                else
+                {
+                    // Obtención del id del tipo de residuo actual
+                    int idCatalogo = Convert.ToInt32(txtIdCatalogo.Text);
 
-                MessageBox.Show("Registro eliminado correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    SolicitudesController solicitudesController = new SolicitudesController();
 
-                ListarCatalogo();
-                bntClear_Click(sender, e);
+                    DetalleClasificacionSitioController detalleClasificacionSitio = new DetalleClasificacionSitioController();
+
+                    InformacionSitioController informacionSitioController = new InformacionSitioController();
+
+                    // Obtener solicitudes asociadas al residuo
+                    List<long> lista_Solicitudes = solicitudesController.ObtenerIdsSolicitudes_PorIDCatalogo(idCatalogo);
+
+                    // Obtener todos los sitios
+                    var lista_Sitios = informacionSitioController.ListarTodos_Puntos();
+
+                    foreach (var sitio in lista_Sitios)
+                    {
+                        long id_InformacionSitio = sitio.Item1.id_InformacionSitio;
+
+                        // Obtener residuos del sitio
+                        List<int> lista_Residuos = detalleClasificacionSitio.ObtenerIdsCatalogoResiduos_PorIdInformacionSitio(id_InformacionSitio);
+
+                        // Verificar si contiene el residuo seleccionado
+                        if (!lista_Residuos.Contains(idCatalogo))
+                            continue;
+
+                        // Eliminar únicamente el residuo seleccionado
+                        detalleClasificacionSitio.EliminarDetallesClasificacion(id_InformacionSitio, new List<int> { idCatalogo });
+                        lista_Residuos = detalleClasificacionSitio.ObtenerIdsCatalogoResiduos_PorIdInformacionSitio(id_InformacionSitio);
+
+                        // Si existen otros residuos, conservar el sitio
+                        if (lista_Residuos.Count > 0)
+                            continue;
+
+                        // Eliminar detalles del sitio
+                        DetalleSitiosController detallesSitiosController = new DetalleSitiosController();
+                        detallesSitiosController.EliminarDetallesSitios_PorIdInformacionSitio(id_InformacionSitio);
+
+                        // Recorrer solicitudes asociadas
+                        foreach (long id_Solicitud in lista_Solicitudes.Distinct())
+                        {
+                            long idSitio = solicitudesController.ObtenerIdDelSitio_PorIdSolicitud(id_Solicitud);
+
+                            if (idSitio == id_InformacionSitio)
+                            {
+                                // Eliminar multimedia de la solicitud
+                                MultimediaController multimediaController =
+                                    new MultimediaController();
+
+                                multimediaController.EliminarMultimedia_PorIdSolicitud(id_Solicitud);
+                            }
+                        }
+
+                        // Eliminar solicitudes del sitio
+                        solicitudesController.EliminarSolicitudes_PorIdInformacionSitio(id_InformacionSitio);
+
+                        // Eliminar información del sitio
+                        InformacionSitioEntidad informacionSitio = new InformacionSitioEntidad();
+                        informacionSitioController.EliminarInformacionSitio(informacionSitio, id_InformacionSitio);
+                    }
+
+                    // Eliminar residuo del catálogo
+                    CatalogoResiduosController catalogoController = new CatalogoResiduosController();
+                    catalogoController.EliminarCatalogoResiduos(idCatalogo);
+
+                    MessageBox.Show("Registro eliminado correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    ListarCatalogo();
+                    bntClear_Click(sender, e);
+                }
+                
             }
             catch (Exception ex)
             {

@@ -33,25 +33,28 @@ namespace View
         {
             flowLayoutPanel1.Controls.Clear();
 
-            var solicitudes =
-                new SolicitudesController().ViewRequestByUser(idUsuario);
+            DataTable solicitudes = new SolicitudesController().ListarSolicitudesPorBusqueda_IdUsuario(idUsuario);
 
-            if (solicitudes.Count == 0)
+            if (solicitudes.Rows.Count == 0)
             {
                 MessageBox.Show("No hay solicitudes ingresadas en el sistema", "Cantidad de solicitudes", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            foreach (var solicitud in solicitudes)
+            foreach (DataRow fila in solicitudes.Rows)
             {
                 frmSolicitudesCard_Design card = new frmSolicitudesCard_Design(_id_Usuario);
 
-                card.IdSolicitud = solicitud.Item1.id_Solicitud;
-                card.Estado = solicitud.Item1.estado_Solicitud;
-                card.TipoSitio = solicitud.Item2;
-                card.Direccion = solicitud.Item3;
-                card.FechaSolicitud = solicitud.Item1.fecha_Solicitud;
-                card.FechaResolucion = solicitud.Item1.fecha_Resolucion;
+                card.IdSolicitud = Convert.ToInt64(fila["id_Solicitud"]);
+                card.Estado = fila["estado_Solicitud"].ToString();
+                card.TipoSitio = fila["tipoSitio"].ToString();
+                card.Direccion = fila["direccion"].ToString();
+                card.FechaSolicitud = DateOnly.FromDateTime(Convert.ToDateTime(fila["fecha_Solicitud"]));
+                if (fila["fecha_Resolucion"] != DBNull.Value)
+                {
+                    card.FechaResolucion = DateOnly.FromDateTime(Convert.ToDateTime(fila["fecha_Resolucion"]));
+                }
+
 
                 card.Width = flowLayoutPanel1.ClientSize.Width - 30;
                 card.Margin = new Padding(5, 5, 5, 15);

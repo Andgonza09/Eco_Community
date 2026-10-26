@@ -280,7 +280,7 @@ namespace View
                 SolicitudesController solicitudesController = new SolicitudesController();
 
                 InformacionSitioEntidad informacionSitio = new InformacionSitioEntidad();
-                long id_InformacionSitio = solicitudesController.ObtenerIdDelSitio_ByRequest(id_Solicitud);
+                long id_InformacionSitio = solicitudesController.ObtenerIdDelSitio_PorIdSolicitud(id_Solicitud);
 
                 if (id_InformacionSitio <= 0)
                 {
@@ -289,23 +289,23 @@ namespace View
                 }
 
                 // Eliminamos el id de la tabla multimedia para evitar las dependencias de llaves foráneas de cada tabla
-                new MultimediaController().DeleteMultimedia_ByRequest(id_Solicitud);
+                new MultimediaController().EliminarMultimedia_PorIdSolicitud(id_Solicitud);
 
                 // Demás métodos de eliminación de información
-                solicitudesController.DeleteRequest(id_Solicitud);
+                solicitudesController.EliminarSolicitudes(id_Solicitud);
 
                 // Eliminación de Detalles del sitio
-                new DetalleSitiosController().Delete(id_InformacionSitio);
+                new DetalleSitiosController().EliminarDetallesSitios_PorIdInformacionSitio(id_InformacionSitio);
 
                 // Eliminación de los detalles de clasificación del sitio.
                 DetalleClasificacionSitioController detalleClasificacionSitio = new DetalleClasificacionSitioController();
-                List<int> ListaResiduos = detalleClasificacionSitio.GetIds_CatalogoResiduosByInformacion(id_InformacionSitio);
+                List<int> ListaResiduos = detalleClasificacionSitio.ObtenerIdsCatalogoResiduos_PorIdInformacionSitio(id_InformacionSitio);
 
-                detalleClasificacionSitio.DeleteDetailsClasificacion(id_InformacionSitio, ListaResiduos);
+                detalleClasificacionSitio.EliminarDetallesClasificacion(id_InformacionSitio, ListaResiduos);
 
                 // Eliminación de la información del sitio 
                 InformacionSitioController informacionSitioController = new InformacionSitioController();
-                informacionSitioController.DeleteInformacion(informacionSitio, id_InformacionSitio);
+                informacionSitioController.EliminarInformacionSitio(informacionSitio, id_InformacionSitio);
 
                 MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

@@ -34,8 +34,8 @@ namespace View
         private void btnAttachFile_Click(object sender, EventArgs e)
         {
             long id_Usuario = _currentUser.id_Usuario;
-            new DetalleConsultaArchivoController().Insert(id_Usuario);
-            new ArchivoCriteriosController().ChargeFile();
+            new DetalleConsultaArchivoController().InsertarDetalles_ConsultaArchivo(id_Usuario);
+            new ArchivoCriteriosController().CargarArchivo();
 
         }
 

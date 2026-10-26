@@ -21,22 +21,22 @@ namespace View
             //CountRequestApproved();
             //CountRequestEarrings();
 
-            int totalMisiones = new MisionesController().CountAllMission();
+            int totalMisiones = new MisionesController().ContarTodas_Misiones();
             label21.Text = totalMisiones.ToString();
 
-            int totalPuntos = new DetalleSitiosController().CountAllSitesAproved();
+            int totalPuntos = new DetalleSitiosController().ContarTodos_Sitios();
             label19.Text = totalPuntos.ToString();
 
-            int SolicitudesRechazadas = new SolicitudesController().CountAllRequesteRected();
+            int SolicitudesRechazadas = new SolicitudesController().ContarTodas_SolicitudesRechazadas();
             label14.Text = SolicitudesRechazadas.ToString();
 
-            int SolicitudesPendientes = new SolicitudesController().CountAllRequestEarrings();
+            int SolicitudesPendientes = new SolicitudesController().ContarTodas_SolicitudesPendientes();
             label8.Text = SolicitudesPendientes.ToString();
 
-            int SolicitudesAprobadas = new SolicitudesController().CountAllRequestAproved();
+            int SolicitudesAprobadas = new SolicitudesController().ContarTodas_SolicitudesAprobadas();
             label12.Text = SolicitudesAprobadas.ToString();
 
-            int totalUsuarios = new UsuarioController().CountAllUsers();
+            int totalUsuarios = new UsuarioController().ContarTodos_Usuarios();
             label17.Text = totalUsuarios.ToString();
 
            

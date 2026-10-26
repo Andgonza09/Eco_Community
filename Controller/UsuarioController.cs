@@ -16,7 +16,7 @@ namespace Controller
     public class UsuarioController
     {
         Conexion conexion = new Conexion();
-        public long Insert(UsuarioEntidad Usuario, int id_Rol)
+        public long InsertarUsuario(UsuarioEntidad Usuario, int id_Rol)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try
@@ -44,7 +44,7 @@ namespace Controller
 
 
         }
-        public void Delete(long id_Usuario)
+        public void EliminarUsuario(long id_Usuario)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try
@@ -64,7 +64,7 @@ namespace Controller
                 throw new Exception("Error al eliminar la información: " + ex.Message);
             }
         }
-        public bool UpdateUser(long id_Usuario,string newUsername, string newPassWord, string newEmail, int id_Roles)
+        public bool ActualizarUsuario(long id_Usuario,string newUsername, string newPassWord, string newEmail, int id_Roles)
         {
             int rowsAffected = 0; // Variable para almacenar el número de filas afectadas por la operación de actualización
             SqlConnection cx = conexion.ObtenerConexion();
@@ -152,7 +152,7 @@ namespace Controller
             return dt;
         }
 
-        public DataTable BuscarUsuarioById(long id_Usuario)
+        public DataTable BuscarUsuarioPorId(long id_Usuario)
         {
             SqlConnection cx = conexion.ObtenerConexion();
 
@@ -192,7 +192,7 @@ namespace Controller
                 throw new Exception("Error al agregar el usuario: " + ex.Message);
             }
         }
-        public int CountAllUsers()
+        public int ContarTodos_Usuarios()
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try

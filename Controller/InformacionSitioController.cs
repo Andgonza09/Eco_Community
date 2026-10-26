@@ -14,7 +14,7 @@ namespace Controller
     public class InformacionSitioController
     {
         Conexion conexion = new Conexion();
-        public long Insert(InformacionSitioEntidad informacionsitio, int id_Barrio)
+        public long InsertarInformacionSitio(InformacionSitioEntidad informacionsitio, int id_Barrio)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             string sql = @"INSERT INTO InformacionSitio(tipoSitio, direccion, id_Barrio, latitud, length) OUTPUT INSERTED.id_InformacionSitio VALUES (@tipoSitio, @direccion, @id_Barrio, @latitud, @length)";
@@ -35,7 +35,7 @@ namespace Controller
             return id_InformacionSitio;
 
         }
-        public void DeleteInformacion(InformacionSitioEntidad informacionSitio, long id_InformacionSitio)
+        public void EliminarInformacionSitio(InformacionSitioEntidad informacionSitio, long id_InformacionSitio)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try
@@ -56,7 +56,7 @@ namespace Controller
             }
         }
         
-        public void DeleteInformacion_ByDistritoId(int id_Distrito)
+        public void EliminarInformacionSitio_PorIdDistrito(int id_Distrito)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try
@@ -78,7 +78,7 @@ namespace Controller
                 throw new Exception("Error al eliminar este punto" + ex.Message);
             }
         }
-        public void DeleteInformacionSitio_ByUser(long id_Usuario)
+        public void EliminarInformacionSitio_PorIdUsuario(long id_Usuario)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try
@@ -100,7 +100,7 @@ namespace Controller
                 throw new Exception("Error al eliminar este punto" + ex.Message);
             }
         }
-        public long GetID_InformacionSitio(long id_InformacionSitio)
+        public long ObtenerIdInformacionSitio(long id_InformacionSitio)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try
@@ -126,7 +126,7 @@ namespace Controller
                 throw new Exception("Error al agregar la información: " + ex.Message);
             }
         }
-        public InformacionSitioEntidad GetInformacionById(long id_InformacionSitio)
+        public InformacionSitioEntidad ObtenerInformacionSitio_IdInformacionSitio(long id_InformacionSitio)
         {
             try
             {
@@ -169,7 +169,7 @@ namespace Controller
             }
         }
 
-        public bool UpdateCoordenadas(InformacionSitioEntidad informacionSitio, long id_InformacionSitio)
+        public bool ActualizarCoordenadas_InformacionSitio(InformacionSitioEntidad informacionSitio, long id_InformacionSitio)
          {
 
              SqlConnection cx = conexion.ObtenerConexion();
@@ -204,7 +204,7 @@ namespace Controller
          }
 
 
-        public bool UpdateInformacion(long id_InformacionSitio,string tipoSitio,string direccion,long id_Barrio)
+        public bool ActualizarInformacionSitio(long id_InformacionSitio,string tipoSitio,string direccion,long id_Barrio)
         {
             try
             {
@@ -242,7 +242,7 @@ namespace Controller
                 );
             }
         }
-        public List<(InformacionSitioEntidad, string)> ViewAllPoints()
+        public List<(InformacionSitioEntidad, string)> ListarTodos_Puntos()
         {
             List<(InformacionSitioEntidad Sitio, string NombreBarrio)> points = new List<(InformacionSitioEntidad Sitio, string NombreBarrio)>();
             SqlConnection cx = conexion.ObtenerConexion();
@@ -275,6 +275,43 @@ namespace Controller
 
                 };
                 points.Add((sitio, nombreBarrio));
+            }
+            cx.Close();
+            return points;
+        }
+
+     public List<(InformacionSitioEntidad, string, string, string, string)> MostrarDetalles_PuntosRegistrados()
+        {
+            SqlConnection cx = conexion.ObtenerConexion();
+            List<(InformacionSitioEntidad Sitio, string NombreBarrio, string nombreDistrito, string nombre_Usuario, string Residuos)> points = new List<(InformacionSitioEntidad Sitio, string NombreBarrio, string nombreDistrito,string nombre_Usuario, string Residuos)>();
+
+            string sql = @"SELECT 
+            i.id_InformacionSitio, i.tipoSitio, i.direccion, b.nombre_Barrio, D.nombre_Distrito, STRING_AGG(C.tipoResiduo, ', ') AS tipoResiduo, U.nombre_Usuario, i.latitud, i.length
+            FROM InformacionSitio i INNER JOIN Barrio b ON i.id_Barrio = b.id_Barrio INNER JOIN Distrito AS D ON D.id_Distrito = B.id_Distrito INNER JOIN
+            Solicitudes ON i.id_InformacionSitio = Solicitudes.id_InformacionSitio INNER JOIN Usuario AS U ON U.id_Usuario = Solicitudes.id_UsuarioEstandar
+            INNER JOIN DetalleClasificacionSitio AS DE ON De.id_InformacionSitio = I.id_InformacionSitio INNER JOIN CatalogoResiduos AS C ON C.id_CatalogoResiduos = DE.id_CatalogoResiduos
+            where Solicitudes.estado_Solicitud = 'Aprobada' GROUP BY I.id_InformacionSitio, I.tipoSitio, I.direccion, B.nombre_Barrio, D.nombre_Distrito, U.nombre_Usuario, I.latitud, I.length";
+
+            SqlCommand cmd = new SqlCommand(sql, cx);
+            cx.Open();
+            using SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                string nombreDistrito = reader.GetString(reader.GetOrdinal("nombre_Distrito"));
+                string nombreBarrio = reader.GetString(reader.GetOrdinal("nombre_Barrio"));
+                string tipoResiduos = reader.GetString(reader.GetOrdinal("tipoResiduo"));
+                string nombre_Usuario = reader.GetString(reader.GetOrdinal("nombre_Usuario"));
+
+                InformacionSitioEntidad sitio = new InformacionSitioEntidad()
+                {
+                    id_InformacionSitio = Convert.ToInt32(reader["id_InformacionSitio"]),
+                    tipoSitio = reader["tipoSitio"].ToString() ?? string.Empty,
+                    direccion = reader["direccion"].ToString() ?? string.Empty,
+                    latitud = reader["latitud"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["latitud"]), // Valores predeterminados para latitud y longitud si son nulos
+                    length = reader["length"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["length"]),
+                };
+                points.Add((sitio, nombreBarrio, nombreDistrito, nombre_Usuario, tipoResiduos));
             }
             cx.Close();
             return points;

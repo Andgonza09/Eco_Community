@@ -133,7 +133,7 @@ namespace View
             }
 
             SolicitudesController controller = new SolicitudesController();
-            DataTable resultado = controller.BuscarSolicitudPorId(id_Solicitud);
+            DataTable resultado = controller.BuscarSolicitud_PorIdSolicitud(id_Solicitud);
 
             if (resultado.Rows.Count == 0)
             {
@@ -247,26 +247,26 @@ namespace View
 
                 // Obtenemos la información del sitio
                 InformacionSitioEntidad informacionSitio = new InformacionSitioEntidad();
-                long idInformacionSitio = new SolicitudesController().ObtenerIdDelSitio_ByRequest(idSolicitudSeleccionada);
+                long idInformacionSitio = new SolicitudesController().ObtenerIdDelSitio_PorIdSolicitud(idSolicitudSeleccionada);
 
                 // Eliminar detalles de clasificación
                 DetalleClasificacionSitioController detalleClasificacion = new DetalleClasificacionSitioController();
-                detalleClasificacion.DeleteDetailsClasificacion(idInformacionSitio, detalleClasificacion.GetIds_CatalogoResiduosByInformacion(idInformacionSitio));
+                detalleClasificacion.EliminarDetallesClasificacion(idInformacionSitio, detalleClasificacion.ObtenerIdsCatalogoResiduos_PorIdInformacionSitio(idInformacionSitio));
 
                 // Eliminar detalles del sitio
                 DetalleSitiosController detalleSitio = new DetalleSitiosController();
-                detalleSitio.Delete(idInformacionSitio);
+                detalleSitio.EliminarDetallesSitios_PorIdInformacionSitio(idInformacionSitio);
 
                 // Eliminamos el id de la tabla multimedia para evitar las dependencias de llaves foráneas de cada tabla
-                new MultimediaController().DeleteMultimedia_ByRequest(idSolicitudSeleccionada);
+                new MultimediaController().EliminarMultimedia_PorIdSolicitud(idSolicitudSeleccionada);
                 
-                new SolicitudesController().DeleteRequest(idSolicitudSeleccionada);
+                new SolicitudesController().EliminarSolicitudes(idSolicitudSeleccionada);
                 MessageBox.Show("Solicitud eliminada correctamente", "Confirmación de eliminación", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
                 // Eliminación de informacion del sitio.
                 InformacionSitioController informacionSitioController = new InformacionSitioController();
-                informacionSitioController.DeleteInformacion(informacionSitio, idInformacionSitio);
+                informacionSitioController.EliminarInformacionSitio(informacionSitio, idInformacionSitio);
 
 
                 RefreshTable();
@@ -337,7 +337,7 @@ namespace View
                 }
 
                 SolicitudesController controller = new SolicitudesController();
-                controller.UpdateRequest(idSolicitud, newStateRequest);
+                controller.ActualizarSolicitudes(idSolicitud, newStateRequest);
 
                 MessageBox.Show("Registro actualizado correctamente", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

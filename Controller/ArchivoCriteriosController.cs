@@ -15,7 +15,7 @@ namespace Controller
     public class ArchivoCriteriosController
     {
         Conexion conexion = new Conexion();
-        public void Insert(ArchivoCriteriosEntidad archivocriterios)
+        public void InsertarArchivo(ArchivoCriteriosEntidad archivocriterios)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             string sql = @"INSERT INTO ArchivoCriterios(nombre_Archivo,ruta_Archivo) VALUES (@nombre_Archivo,@ruta_Archivo)";
@@ -30,7 +30,7 @@ namespace Controller
 
             cx.Close();
         }
-        public void ChargeFile()
+        public void CargarArchivo()
         {
             string pdfPath = Path.Combine(AppContext.BaseDirectory, "CriteriosUbicación\\criterios_ubicacion_puntos_ambientales.pdf");
             if (File.Exists(pdfPath))

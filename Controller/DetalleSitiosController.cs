@@ -15,7 +15,7 @@ namespace Controller
     {
         Conexion conexion = new Conexion();
 
-        public void Insert(DetalleSitiosEntidad detallesitios, long id_InformacionSitio, long id_Usuario)
+        public void InsertarDetallesSitios(DetalleSitiosEntidad detallesitios, long id_InformacionSitio, long id_Usuario)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             string sql = @"INSERT INTO DetalleSitios(id_InformacionSitio,id_Usuario) VALUES (@id_InformacionSitio,@id_Usuario)";
@@ -29,7 +29,7 @@ namespace Controller
             cx.Close();
 
         }
-        public void Delete(long id_InformacionSitio)
+        public void EliminarDetallesSitios_PorIdInformacionSitio(long id_InformacionSitio)
         {
             SqlConnection cx = conexion.ObtenerConexion();
 
@@ -43,7 +43,7 @@ namespace Controller
             cmd.ExecuteNonQuery();
             cx.Close();
         }
-        public void DeleteUserInformation(long id_Usuario)
+        public void EliminarDetallesSitios_PorIdUsuario(long id_Usuario)
         {
             SqlConnection cx = conexion.ObtenerConexion();
 
@@ -57,7 +57,7 @@ namespace Controller
             cmd.ExecuteNonQuery();
             cx.Close();
         }
-        public int CountSitesAproved(long id_Usuario)
+        public int ContarSitios_Aprobados(long id_Usuario)
         {
 
             SqlConnection cx = conexion.ObtenerConexion();
@@ -75,7 +75,7 @@ namespace Controller
 
             return totalSitiosAprobados;
         }
-        public int CountAllSitesAproved()
+        public int ContarTodos_Sitios()
         {
             SqlConnection cx = conexion.ObtenerConexion();
             string sql = @"SELECT COUNT(DISTINCT DetalleSitios.id_InformacionSitio) FROM DetalleSitios

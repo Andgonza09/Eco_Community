@@ -12,7 +12,7 @@ namespace Controller
     public class DetalleConsultaArchivoController
     {
         Conexion conexion = new Conexion();
-        public void Insert(long id_Usuario)
+        public void InsertarDetalles_ConsultaArchivo(long id_Usuario)
         {
             DetalleConsultaArchivoEntidad detalleConsultaArchivo = new DetalleConsultaArchivoEntidad();
 
@@ -30,7 +30,7 @@ namespace Controller
             cx.Close();
 
         }
-        public void Delete(long id_Usuario)
+        public void EliminarDetalles_ConsultaArchivo(long id_Usuario)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try

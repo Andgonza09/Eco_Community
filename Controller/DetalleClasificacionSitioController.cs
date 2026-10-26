@@ -12,7 +12,7 @@ namespace Controller
     public class DetalleClasificacionSitioController
     {
         Conexion conexion = new Conexion();
-        public void Insert(long id_InformacionSitio, List<int> idS_CatalogoResiduos)
+        public void InsertarDetallesClasificacion(long id_InformacionSitio, List<int> idS_CatalogoResiduos)
         {
             SqlConnection cx = conexion.ObtenerConexion();
 
@@ -38,7 +38,7 @@ namespace Controller
             }
 
         }
-        public List<int> GetIds_CatalogoResiduosByInformacion(long id_informacionSitio)
+        public List<int> ObtenerIdsCatalogoResiduos_PorIdInformacionSitio(long id_informacionSitio)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             List<int> idS_CatalogoResiduos = new List<int>();
@@ -66,7 +66,7 @@ namespace Controller
                 throw new Exception("Error al obtener la información del catálogo: " + ex.Message);
             }
         }
-        public void DeleteDetailsClasificacion_ByUser(long id_Usuario)
+        public void EliminarDetallesClasificacion_PorIdUsuario(long id_Usuario)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try
@@ -89,7 +89,7 @@ namespace Controller
                 throw new Exception("Error en la eliminación de datos: " + ex.Message);
             }
         }
-        public void DeleteDetailsClasificacion(long id_InformacionSitio, List<int> idS_CatalogoResiduos)
+        public void EliminarDetallesClasificacion(long id_InformacionSitio, List<int> idS_CatalogoResiduos)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try
@@ -113,7 +113,7 @@ namespace Controller
                 throw new Exception("Error en la eliminación de datos: " + ex.Message);
             }
         }
-        public void Update(long id_InformacionSitio, List<int> idS_CatalogoResiduos)
+        public void ActualizarDetallesClasificacion(long id_InformacionSitio, List<int> idS_CatalogoResiduos)
         {
             SqlConnection cx = conexion.ObtenerConexion();
 

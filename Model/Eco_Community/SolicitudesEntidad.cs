@@ -9,7 +9,7 @@ namespace Model.Eco_Community
 {
     public class SolicitudesEntidad // bien
     {
-      public  long id_Solicitud { get; set; }
+       public  long id_Solicitud { get; set; }
        public string estado_Solicitud {  get; set; }
        public DateOnly fecha_Solicitud { get; set; }
        public DateOnly? fecha_Resolucion { get; set; }

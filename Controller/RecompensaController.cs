@@ -15,8 +15,7 @@ namespace Controller
         Conexion conexion = new Conexion();
 
         private List<RecompensaEntidad> rewards = new List<RecompensaEntidad>();
-
-        public int Insert(RecompensaEntidad recompensa, int id_Mision, int id_TipoRecompensa)
+        public int InsertarRecompensa(RecompensaEntidad recompensa, int id_Mision, int id_TipoRecompensa)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             string sql = @"INSERT INTO Recompensa(descripcionRecompensa, id_Mision, id_TipoRecompensa) OUTPUT INSERTED.id_Recompensa VALUES (@descripcionRecompensa,@id_Mision,@id_TipoRecompensa)";
@@ -33,7 +32,7 @@ namespace Controller
 
             return id_Recompensa;
         }
-        public bool RewardExist(string descripcion_Recompensa)
+        public bool RecompensaExiste(string descripcion_Recompensa)
         {
             try
             {
@@ -55,7 +54,7 @@ namespace Controller
             }
         }
 
-        public bool UpdateReward(RecompensaEntidad recompensa)
+        public bool ActualizarRecompensa(RecompensaEntidad recompensa)
         {
             try
             {
@@ -81,7 +80,7 @@ namespace Controller
             }
         }
 
-        public bool DeleteReward(int id_Mision)
+        public bool EliminarRecompensa_PorIdMision(int id_Mision)
         {
             try
             {
@@ -103,7 +102,7 @@ namespace Controller
                 throw new Exception("Error al eliminar la recompensa: " + ex.Message);
             }
         }
-        public void DeleteByTipoRecompensaID(int id_TipoRecompensa)
+        public void EliminarTipoRecompensa_Asociado_A_Recompensa(int id_TipoRecompensa)
         {
             SqlConnection cx = conexion.ObtenerConexion();
             try
